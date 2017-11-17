@@ -21,6 +21,8 @@ private:
 	void update();
 	void draw();
 
+	static const int NOMBRE_DE_RETARDS_QUI_TRAVAILLENT_SUR_LE_PROJET = 2; //kev et jo
+
 	RenderWindow mainWin;
 	View view;
 	Event event;
