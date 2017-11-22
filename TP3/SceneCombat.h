@@ -1,6 +1,7 @@
 #pragma once
 #include "FondMobile.h"
 #include "Scene.h"
+#include "Vaisseau.h"
 
 namespace tp3
 {
@@ -18,6 +19,14 @@ namespace tp3
 
 	private:
 		int thrust;
+
+		Vaisseau vaisseauJoueur;
+		Vector2i mouvementJoueur;
+		Texture Player_up_down;
+		Texture Player_pivot;
+		Texture death;
+
+
 		FondMobile fond;
 		Font font;
 		Text testText;

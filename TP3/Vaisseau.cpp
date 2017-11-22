@@ -16,16 +16,12 @@ Vaisseau::~Vaisseau()
 void Vaisseau::mouvement(int thrust)
 {
 	move(-VITESSE - thrust, 0);
-
-	mouvement(thrust);
 }
 
 //MOUVEMENT CONTRÔLÉ PAR LE JOUEUR
 void Vaisseau::mouvementJoueur(Vector2i& mouvement)
 {
 	move(mouvement.x * VITESSE, mouvement.y * VITESSE);
-
-	mouvementJoueur(mouvement);
 }
 
 //ANIMATION DE LA DESCENTE DU VAISSEAU
@@ -76,6 +72,11 @@ void Vaisseau::centrer()
 
 void Vaisseau::pivoter()
 {
+	//DROITE
+	if (direction == 1)
+	{
+
+	}
 }
 
 void Vaisseau::initGraphiques()

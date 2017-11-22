@@ -26,6 +26,8 @@ namespace tp3
 		static const int LIMITE_HAUT = 0;
 		static const int RHYTME_ANIM = 10;
 
+		int direction = 1;
+
 		int image;
 		IntRect rectangleAnimation;
 	};
