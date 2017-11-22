@@ -1,4 +1,6 @@
 #pragma once
+#include "SceneTitre.h"
+#include "SceneCombat.h"
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
