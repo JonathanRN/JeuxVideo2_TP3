@@ -88,20 +88,33 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy2.cpp" />
+    <ClCompile Include="Enemy1.cpp" />
+    <ClCompile Include="Enemy3.cpp" />
     <ClCompile Include="FondMobile.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneCombat.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
+    <ClCompile Include="Sujet.cpp" />
     <ClCompile Include="Testeur.cpp" />
     <ClCompile Include="Vaisseau.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy2.h" />
+    <ClInclude Include="Enemy1.h" />
+    <ClInclude Include="Enemy3.h" />
     <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="IObservateur.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCombat.h" />
     <ClInclude Include="SceneTitre.h" />
+    <ClInclude Include="Sujet.h" />
     <ClInclude Include="Testeur.h" />
     <ClInclude Include="Vaisseau.h" />
     <ClInclude Include="VaisseauLogique.h" />

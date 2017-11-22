@@ -22,6 +22,24 @@
     <ClCompile Include="Vaisseau.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy1.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy2.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy3.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sujet.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -46,6 +64,27 @@
       <Filter>Entetes</Filter>
     </ClInclude>
     <ClInclude Include="VaisseauLogique.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy1.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy2.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy3.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="IObservateur.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sujet.h">
       <Filter>Entetes</Filter>
     </ClInclude>
   </ItemGroup>
