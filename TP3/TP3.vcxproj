@@ -88,14 +88,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FondMobile.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SceneCombat.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="Testeur.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneCombat.h" />
     <ClInclude Include="SceneTitre.h" />
     <ClInclude Include="Testeur.h" />
   </ItemGroup>
