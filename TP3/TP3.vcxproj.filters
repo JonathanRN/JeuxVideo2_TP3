@@ -27,7 +27,14 @@
     <ClCompile Include="SceneTitre.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="Vaisseau.cpp">
+=======
+    <ClCompile Include="FondMobile.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCombat.cpp">
+>>>>>>> 9b30e9f812b1014c5958cf76e3d3828269968e26
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +51,17 @@
     <ClInclude Include="SceneTitre.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="VaisseauLogique.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
     <ClInclude Include="Vaisseau.h">
+=======
+    <ClInclude Include="FondMobile.h">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCombat.h">
+>>>>>>> 9b30e9f812b1014c5958cf76e3d3828269968e26
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
