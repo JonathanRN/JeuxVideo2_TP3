@@ -64,7 +64,7 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /d /y "C:\LibrairiesProgrammation\SFML-2.4.2\bin\Debug\*.*" "..\Debug\"</Command>
-    </PostBuildEvent>	
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -85,15 +85,18 @@
     </Link>
     <PostBuildEvent>
       <Command>xcopy /d /y "C:\LibrairiesProgrammation\SFML-2.4.2\bin\Release\*.*" "..\Release\"</Command>
-    </PostBuildEvent>	
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="Testeur.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneTitre.h" />
     <ClInclude Include="Testeur.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
