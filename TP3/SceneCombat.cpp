@@ -29,20 +29,12 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-	if (!Player_up_down.loadFromFile("Ressources\\Player_up_down.png"))
-	{
-		return false;
-	}
-	if (!Player_pivot.loadFromFile("Ressources\\Player_pivot.png"))
-	{
-		return false;
-	}
-	if (!death.loadFromFile("Ressources\\death.png"))
+	if (!player.loadFromFile("Ressources\\Player.png"))
 	{
 		return false;
 	}
 
-	vaisseauJoueur.setTexture(Player_up_down);
+	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
 
@@ -86,6 +78,10 @@ void SceneCombat::getInputs()
 	{
 		mouvementJoueur.y = 1;
 		vaisseauJoueur.descendre();
+	}
+	else if (Keyboard::isKeyPressed(Keyboard::Space))
+	{
+		vaisseauJoueur.pivoter();
 	}
 	else
 	{

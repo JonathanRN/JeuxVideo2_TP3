@@ -4,6 +4,7 @@ using namespace tp3;
 
 Vaisseau::Vaisseau() : image(CENTRE)
 {
+	isPivoting = false;
 }
 
 
@@ -57,31 +58,54 @@ void Vaisseau::monter()
 //SI ON EST PAS EXACTEMENT AU CENTRE, ON RAMÈNE LE VAISSEAU AU CENTRE
 void Vaisseau::centrer()
 {
-	if (image == CENTRE)
-		return;
+	if (!isPivoting)
+	{
+		if (image == CENTRE)
+			return;
 
-	if (image < CENTRE)
-	{
-		descendre();
-	}
-	else if (image > CENTRE)
-	{
-		monter();
+		if (image < CENTRE)
+		{
+			descendre();
+		}
+		else if (image > CENTRE)
+		{
+			monter();
+		}
 	}
 }
 
 void Vaisseau::pivoter()
 {
+	if (!isPivoting)
+	{
+		image = 50;
+	}
+	isPivoting = true;
 	//DROITE
 	if (direction == 1)
 	{
+		image++;
 
+			if (image % RHYTME_ANIM == 0)
+			{
+				rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
+				setTextureRect(rectangleAnimation);
+			}
+	}
+	//GAUCHE
+	else if (direction == -1)
+	{
+
+	}
+	if (image == 79)
+	{
+		isPivoting = false;
 	}
 }
 
 void Vaisseau::initGraphiques()
 {
-	rectangleAnimation.width = (getTextureRect().width / 5) - OFFSET;
+	rectangleAnimation.width = (getTextureRect().width / 11) - OFFSET;
 	rectangleAnimation.height = getTextureRect().height;
 	rectangleAnimation.top = 0;
 	rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);

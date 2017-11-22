@@ -22,9 +22,7 @@ namespace tp3
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
-		Texture Player_up_down;
-		Texture Player_pivot;
-		Texture death;
+		Texture player;
 
 
 		FondMobile fond;
