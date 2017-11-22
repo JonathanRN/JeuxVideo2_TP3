@@ -17,7 +17,7 @@ namespace tp3
 	private:
 		const int LARGEUR = 1280;
 		const int HAUTEUR = 720;
-
+		int yolo;
 		bool init();
 
 		RenderWindow mainWin;
