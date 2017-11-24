@@ -36,7 +36,7 @@ Scene::scenes SceneCombat::run()
 
 bool SceneCombat::init(RenderWindow * const window)
 {
-	if (!fond.setTexture("Ressources\\spaceBackground.jpg"))
+	if (!fond.setTexture("Ressources\\background.jpg"))
 	{
 		return false;
 	}
