@@ -97,6 +97,8 @@
     <ClCompile Include="FondMobile.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Projectile_normal.cpp" />
     <ClCompile Include="SceneCombat.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="Sujet.cpp" />
@@ -113,6 +115,8 @@
     <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IObservateur.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Projectile_normal.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCombat.h" />
     <ClInclude Include="SceneTitre.h" />
