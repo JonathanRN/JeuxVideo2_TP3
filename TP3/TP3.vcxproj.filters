@@ -40,6 +40,7 @@
     <ClCompile Include="Sujet.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Bonus.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -87,6 +88,7 @@
     <ClInclude Include="Sujet.h">
       <Filter>Entetes</Filter>
     </ClInclude>
+    <ClInclude Include="Bonus.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
