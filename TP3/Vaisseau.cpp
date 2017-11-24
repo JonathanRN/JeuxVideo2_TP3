@@ -78,28 +78,24 @@ void Vaisseau::pivoter()
 {
 	if (!isPivoting)
 	{
-		image = 50;
+		image = LIMITE_GAUCHE_PIVOT;
+		isPivoting = true;
 	}
-	isPivoting = true;
-	//DROITE
-	if (direction == 1)
-	{
-		image++;
 
-			if (image % RHYTME_ANIM == 0)
-			{
-				rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
-				setTextureRect(rectangleAnimation);
-			}
-	}
-	//GAUCHE
-	else if (direction == -1)
-	{
+	image++;
 
+	if (image % RHYTME_ANIM == 0)
+	{
+		rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
+		setTextureRect(rectangleAnimation);
 	}
-	if (image == 79)
+	
+
+	if (image == LIMITE_DROITE_PIVOT)
 	{
 		isPivoting = false;
+		image = CENTRE;
+		setScale(getScale().x * -1, getScale().y);
 	}
 }
 
