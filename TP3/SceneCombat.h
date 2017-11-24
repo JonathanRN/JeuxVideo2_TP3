@@ -20,6 +20,8 @@ namespace tp3
 	private:
 		int thrust;
 
+		Clock clock;
+
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture player;

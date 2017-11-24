@@ -81,7 +81,11 @@ void SceneCombat::getInputs()
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::Space))
 	{
-		vaisseauJoueur.pivoter();
+		if (clock.getElapsedTime().asSeconds() >= 2)
+		{
+			vaisseauJoueur.pivoter();
+			clock.restart();
+		}
 	}
 	else
 	{
