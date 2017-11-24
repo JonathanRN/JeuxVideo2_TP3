@@ -10,4 +10,3 @@ namespace tp3
 		~Enemy();
 	};
 }
-

@@ -82,14 +82,15 @@ void Vaisseau::pivoter()
 		isPivoting = true;
 	}
 
-	image++;
-
-	if (image % RHYTME_ANIM == 0)
+	while (image != LIMITE_DROITE_PIVOT)
 	{
-		rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
-		setTextureRect(rectangleAnimation);
+		image++;
+		if (image % RHYTME_ANIM == 0)
+		{
+			rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
+			setTextureRect(rectangleAnimation);
+		}
 	}
-	
 
 	if (image == LIMITE_DROITE_PIVOT)
 	{
