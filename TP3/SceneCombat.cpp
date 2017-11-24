@@ -4,6 +4,10 @@ using namespace tp3;
 
 SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(0), mouvementJoueur(0, 0)
 {
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		projectiles[i] = nullptr;
+	}
 }
 
 
@@ -19,13 +23,24 @@ Scene::scenes SceneCombat::run()
 		update();
 		draw();
 	}
-
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			delete projectiles[i];
+		}
+	}
+	
 	return transitionVersScene;
 }
 
 bool SceneCombat::init(RenderWindow * const window)
 {
 	if (!fond.setTexture("Ressources\\background.jpg"))
+	{
+		return false;
+	}
+	if (!projectileT[0].loadFromFile("Ressources\\Projectile_normal.png"))
 	{
 		return false;
 	}
@@ -87,6 +102,10 @@ void SceneCombat::getInputs()
 			clock.restart();
 		}
 	}
+	else if (Keyboard::isKeyPressed(Keyboard::X))
+	{
+		ajouterProjectile(vaisseauJoueur.getPosition());
+	}
 	else
 	{
 		mouvementJoueur.y = 0;
@@ -98,13 +117,43 @@ void SceneCombat::update()
 {
 	fond.move(thrust);
 	vaisseauJoueur.mouvementJoueur(mouvementJoueur);
+	for (size_t i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			projectiles[i]->anim();
+			projectiles[i]->move(projectiles[i]->vitesse, 0);
+		}
+		
+	}
 }
 
 void SceneCombat::draw()
 {
 	mainWin->clear();
 	fond.draw(mainWin);
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			mainWin->draw(*projectiles[i]);
+		}
+	}
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(testText);
 	mainWin->display();
+}
+
+void tp3::SceneCombat::ajouterProjectile(Vector2f position)
+{
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] == nullptr)
+		{
+			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 5, projectileT[0]);
+			projectiles[i]->initGraphiques();
+			projectiles[i]->activer();
+			return;
+		}
+	}
 }

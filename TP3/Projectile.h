@@ -1,0 +1,24 @@
+#pragma once
+#include <SFML/Graphics.hpp>
+using namespace sf;
+namespace tp3
+{
+	class Projectile : public Sprite
+	{
+	public:
+		Projectile(const Vector2f& position, const Color& couleur, const int animationMaximale);
+		~Projectile();
+		float vitesse;
+		virtual void initGraphiques() = 0;
+		virtual void anim() = 0;
+		void activer();
+	protected:
+		static const int RHYTME_ANIM = 10;
+		int animation;
+		const int ANIMATION_MAXIMALE;
+		bool actif;
+		int image;
+		IntRect rectangleAnimation;
+	};
+}
+
