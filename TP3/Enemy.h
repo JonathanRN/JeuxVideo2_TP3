@@ -18,6 +18,7 @@ namespace tp3
 		virtual void action(Vaisseau& cible) = 0;
 
 		int dommage;
+		int ptsVie;
 
 	protected:
 		const int VITESSE = 3;
