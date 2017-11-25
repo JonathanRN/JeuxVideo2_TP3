@@ -6,7 +6,7 @@ namespace tp3
 	{
 	public:
 		Projectile_normal(Vector2f position, float vitesse,Texture& texture);
-		void anim();
+		void anim(int direction);
 	    void initGraphiques();
 		~Projectile_normal();
 	private:
