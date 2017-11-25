@@ -75,10 +75,10 @@ void SceneCombat::getInputs()
 	//Tirer
 	if (Keyboard::isKeyPressed(Keyboard::X))
 	{
-		if (clock.getElapsedTime().asMilliseconds() >= 100)
+		if (clock_tirer.getElapsedTime().asMilliseconds() >= 100)
 		{
 			ajouterProjectile(vaisseauJoueur.getPosition());
-			clock.restart();
+			clock_tirer.restart();
 		}
 	}
 
@@ -107,20 +107,22 @@ void SceneCombat::getInputs()
 		mouvementJoueur.y = 1;
 		vaisseauJoueur.descendre();
 	}
-	//Pivoter
 	else
 	{
-		if (Keyboard::isKeyPressed(Keyboard::Space))
-		{
-			if (clock.getElapsedTime().asSeconds() >= 2)
-			{
-				vaisseauJoueur.pivoter();
-				clock.restart();
-			}
-		}
 		mouvementJoueur.y = 0;
 		vaisseauJoueur.centrer();
 	}
+
+	//Pivoter
+	if (Keyboard::isKeyPressed(Keyboard::Space))
+	{
+		if (clock_pivoter.getElapsedTime().asSeconds() >= 2)
+		{
+			vaisseauJoueur.pivoter();
+			clock_pivoter.restart();
+		}
+	}
+		
 }
 
 void SceneCombat::update()

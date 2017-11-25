@@ -27,7 +27,8 @@ namespace tp3
 		static const int NBR_PROJ = 100;
 		int thrust;
 
-		Clock clock;
+		Clock clock_tirer;
+		Clock clock_pivoter;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
