@@ -1,6 +1,5 @@
 #pragma once
 #include "Enemy.h"
-#include "Vaisseau.h"
 
 namespace tp3
 {

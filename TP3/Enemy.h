@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <time.h>
+#include "Vaisseau.h"
+
 using namespace sf;
 
 namespace tp3
@@ -13,8 +15,11 @@ namespace tp3
 		Color choixCouleur();
 		Enemy(Vector2f position, Texture &texture);
 		~Enemy();
+		virtual void action(Vaisseau& cible) = 0;
+
+		int dommage;
 
 	protected:
-		const int VITESSE = 5;
+		const int VITESSE = 3;
 	};
 }
