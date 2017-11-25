@@ -5,8 +5,9 @@ namespace tp3
 	class Enemy1 : public Enemy
 	{
 	public:
-		Enemy1();
+		Enemy1(Vector2f position);
 		~Enemy1();
+		void action();
 	};
 }
 
