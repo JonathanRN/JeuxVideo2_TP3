@@ -13,7 +13,7 @@ namespace tp3
 		virtual void anim() = 0;
 		void activer();
 	protected:
-		static const int RHYTME_ANIM = 10;
+		static const int RHYTME_ANIM = 4;
 		int animation;
 		const int ANIMATION_MAXIMALE;
 		bool actif;

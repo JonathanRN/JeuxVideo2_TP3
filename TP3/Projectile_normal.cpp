@@ -7,7 +7,7 @@ Projectile_normal::Projectile_normal(Vector2f position, float vitesse,Texture& t
 	setPosition(position);
 	this->vitesse = vitesse;
 	setTexture(texture);
-	setScale(getScale().x * 0.5, getScale().y *0.5);
+	setScale(getScale().x * 0.5,getScale().y *0.5);
 	rectangleAnimation.left = 0;
 	rectangleAnimation.top = 0;
 }
@@ -17,14 +17,17 @@ void Projectile_normal::anim()
 	if (actif && animation < ANIMATION_MAXIMALE)
 	{
 		animation++;
-
 		if (animation % RHYTME_ANIM == 0)
 		{
-			rectangleAnimation.top += image;
-			setTextureRect(rectangleAnimation);
+			if (rectangleAnimation.top < 350)
+			{
+				rectangleAnimation.top += image;
+				setTextureRect(rectangleAnimation);
+			}
 		}
 
 	}
+
 
 
 }

@@ -40,9 +40,15 @@
     <ClCompile Include="Sujet.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Bonus.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="Projectile_normal.cpp" />
+    <ClCompile Include="Projectile_normal.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Bonus.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -90,9 +96,15 @@
     <ClInclude Include="Sujet.h">
       <Filter>Entetes</Filter>
     </ClInclude>
-    <ClInclude Include="Bonus.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="Projectile_normal.h" />
+    <ClInclude Include="Projectile.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Bonus.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile_normal.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

@@ -150,7 +150,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 	{
 		if (projectiles[i] == nullptr)
 		{
-			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 5, projectileT[0]);
+			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20, projectileT[0]);
 			projectiles[i]->initGraphiques();
 			projectiles[i]->activer();
 			return;
