@@ -1,8 +1,13 @@
 #pragma once
-class Bonus
+#include <SFML/Graphics.hpp>
+using namespace sf;
+namespace tp3
 {
-public:
-	Bonus();
-	~Bonus();
-};
+	class Bonus : public Sprite
+	{
+	public:
+		Bonus();
+		~Bonus();
+	};
+}
 

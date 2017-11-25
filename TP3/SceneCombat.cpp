@@ -44,10 +44,19 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!bonusT[0].loadFromFile("Ressources\\Bonus_shield.png"))
+	{
+		return false;
+	}
 	if (!player.loadFromFile("Ressources\\Player.png"))
 	{
 		return false;
 	}
+	if (!shield.loadFromFile("Ressources\\Shield.png"))
+	{
+		return false;
+	}
+	
 
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);

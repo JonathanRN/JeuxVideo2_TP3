@@ -5,6 +5,9 @@
 #include "Vaisseau.h"
 #include "Projectile.h"
 #include "Projectile_normal.h"
+#include "Bonus.h"
+#include "BonusShield.h"
+#include "Shield.h"
 
 using namespace std;
 namespace tp3
@@ -25,6 +28,7 @@ namespace tp3
 
 	private:
 		static const int NBR_PROJ = 100;
+		static const int NBR_BONUS = 5;
 		int thrust;
 
 		Clock clock_tirer;
@@ -34,8 +38,12 @@ namespace tp3
 		Vector2i mouvementJoueur;
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
+		Bonus* bonus[NBR_BONUS];
 		Texture projectileT[5];
-
+		Texture shield;
+		Texture bonusT[5];
+		
+		vector<Shield*> shields;
 		FondMobile fond;
 	
 		Text testText;

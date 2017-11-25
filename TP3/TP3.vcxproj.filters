@@ -49,6 +49,8 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="BonusShield.cpp" />
+    <ClCompile Include="Shield.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -105,6 +107,8 @@
     <ClInclude Include="Projectile_normal.h">
       <Filter>Entetes</Filter>
     </ClInclude>
+    <ClInclude Include="BonusShield.h" />
+    <ClInclude Include="Shield.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

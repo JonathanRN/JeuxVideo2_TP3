@@ -101,6 +101,8 @@
     <ClCompile Include="Projectile_normal.cpp" />
     <ClCompile Include="SceneCombat.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
+    <ClCompile Include="BonusShield.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="Sujet.cpp" />
     <ClCompile Include="Testeur.cpp" />
     <ClCompile Include="Vaisseau.cpp" />
@@ -120,6 +122,8 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCombat.h" />
     <ClInclude Include="SceneTitre.h" />
+    <ClInclude Include="BonusShield.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="Sujet.h" />
     <ClInclude Include="Testeur.h" />
     <ClInclude Include="Vaisseau.h" />
