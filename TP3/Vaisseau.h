@@ -19,7 +19,7 @@ namespace tp3
 		void pivoter();
 		int direction = 1;
 		virtual void initGraphiques();
-
+		int ptsVie = 10;
 	private:
 		static const int OFFSET = 0;
 		static const int CENTRE = 24;
@@ -28,6 +28,7 @@ namespace tp3
 		static const int LIMITE_BAS = 49;
 		static const int LIMITE_HAUT = 0;
 		static const int RHYTME_ANIM = 10;
+
 
 		
 		bool isPivoting;
