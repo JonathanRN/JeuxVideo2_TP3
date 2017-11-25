@@ -6,7 +6,7 @@ namespace tp3
 	class Bonus : public Sprite
 	{
 	public:
-		Bonus();
+		Bonus(Vector2f position,Texture& texture);
 		~Bonus();
 	};
 }
