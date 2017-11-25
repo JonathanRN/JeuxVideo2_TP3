@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Projectile_normal::Projectile_normal(Vector2f position, float vitesse,Texture& texture): Projectile(position,Color::Blue,100)
+Projectile_normal::Projectile_normal(Vector2f position, float vitesse,Texture& texture): Projectile(position,Color::Cyan,100)
 {
 	setPosition(position);
 	this->vitesse = vitesse;

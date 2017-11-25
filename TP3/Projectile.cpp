@@ -10,7 +10,7 @@ tp3::Projectile::Projectile(const Vector2f& position, const Color& couleur, cons
 	animation(0), actif(false)
 {
 	setPosition(position);
-	//setColor(couleur);
+	setColor(couleur);
 }
 
 Projectile::~Projectile()
