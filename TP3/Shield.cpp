@@ -24,6 +24,8 @@ Color tp3::Shield::choixCouleur()
 }
 Shield::Shield(Vector2f position, Texture& texture)
 {
+	srand(time(NULL));
+	ptsShield = rand() % 3 + 1;
 	setPosition(position);
 	setTexture(texture);
 	setOrigin(texture.getSize().x/2, texture.getSize().y/2);
