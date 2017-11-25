@@ -27,9 +27,6 @@ void Projectile_normal::anim()
 		}
 
 	}
-
-
-
 }
 
 void Projectile_normal::initGraphiques()

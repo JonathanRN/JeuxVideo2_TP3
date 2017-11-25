@@ -71,6 +71,18 @@ void SceneCombat::getInputs()
 			transitionVersScene = Scene::scenes::SORTIE;
 		}
 	}
+
+	//Tirer
+	if (Keyboard::isKeyPressed(Keyboard::X))
+	{
+		if (clock.getElapsedTime().asMilliseconds() >= 100)
+		{
+			ajouterProjectile(vaisseauJoueur.getPosition());
+			clock.restart();
+		}
+	}
+
+	//Mouvements gauche et droite
 	if (Keyboard::isKeyPressed(Keyboard::Left))
 	{
 		mouvementJoueur.x = -1;
@@ -84,6 +96,7 @@ void SceneCombat::getInputs()
 		mouvementJoueur.x = 0;
 	}
 
+	//Mouvement haut et bas
 	if (Keyboard::isKeyPressed(Keyboard::Up))
 	{
 		mouvementJoueur.y = -1;
@@ -94,24 +107,17 @@ void SceneCombat::getInputs()
 		mouvementJoueur.y = 1;
 		vaisseauJoueur.descendre();
 	}
-	else if (Keyboard::isKeyPressed(Keyboard::Space))
-	{
-		if (clock.getElapsedTime().asSeconds() >= 2)
-		{
-			vaisseauJoueur.pivoter();
-			clock.restart();
-		}
-	}
-	else if (Keyboard::isKeyPressed(Keyboard::X))
-	{
-		if (clock.getElapsedTime().asMilliseconds() >= 100)
-		{
-			ajouterProjectile(vaisseauJoueur.getPosition());
-			clock.restart();
-		}
-	}
+	//Pivoter
 	else
 	{
+		if (Keyboard::isKeyPressed(Keyboard::Space))
+		{
+			if (clock.getElapsedTime().asSeconds() >= 2)
+			{
+				vaisseauJoueur.pivoter();
+				clock.restart();
+			}
+		}
 		mouvementJoueur.y = 0;
 		vaisseauJoueur.centrer();
 	}
