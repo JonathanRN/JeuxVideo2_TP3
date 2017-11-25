@@ -15,18 +15,19 @@ Color tp3::Enemy::choixCouleur()
 		couleur = Color::Red;
 		break;
 	case 1:
-		couleur = Color::Yellow;
+		couleur = Color::Magenta;
 		break;
 	case 2:
-		couleur = Color::Green;
+		couleur = Color::Yellow;
 		break;
 	}
 	return couleur;
 }
 
-Enemy::Enemy(Vector2f position)
+Enemy::Enemy(Vector2f position, Texture &texture)
 {
 	setPosition(position);
+	setTexture(texture);
 	setColor(choixCouleur());
 }
 

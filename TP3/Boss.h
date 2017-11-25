@@ -5,7 +5,7 @@ namespace tp3
 	class Boss : public Enemy
 	{
 	public:
-		Boss(Vector2f position);
+		Boss(Vector2f position, Texture &texture);
 		~Boss();
 	};
 }

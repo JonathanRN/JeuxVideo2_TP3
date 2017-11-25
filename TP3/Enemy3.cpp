@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Enemy3::Enemy3(Vector2f position) :Enemy(position)
+Enemy3::Enemy3(Vector2f position, Texture &texture) :Enemy(position, texture)
 {
 }
 

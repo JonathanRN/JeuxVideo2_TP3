@@ -8,6 +8,8 @@
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "Shield.h"
+#include "Enemy.h"
+#include "Enemy1.h"
 
 using namespace std;
 namespace tp3
@@ -36,6 +38,9 @@ namespace tp3
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
+		Texture ennemisT[3];
+		vector<Enemy*> ennemis;
+
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
 		Bonus* bonus[NBR_BONUS];

@@ -30,6 +30,7 @@ Scene::scenes SceneCombat::run()
 			delete projectiles[i];
 		}
 	}
+	delete ennemis[0];
 	
 	return transitionVersScene;
 }
@@ -56,11 +57,17 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!ennemisT[0].loadFromFile("Ressources\\enemy1.png"))
+	{
+		return false;
+	}
 	
 
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
+
+	ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0]));
 
 	this->mainWin = window;
 	isRunning = true;
@@ -138,6 +145,8 @@ void SceneCombat::update()
 {
 	fond.move(thrust);
 	vaisseauJoueur.mouvementJoueur(mouvementJoueur);
+
+	//Projectiles
 	for (size_t i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectiles[i] != nullptr)
@@ -150,8 +159,9 @@ void SceneCombat::update()
 				projectiles[i] = nullptr;
 			}
 		}
-		
 	}
+
+
 }
 
 void SceneCombat::draw()
@@ -165,6 +175,7 @@ void SceneCombat::draw()
 			mainWin->draw(*projectiles[i]);
 		}
 	}
+	mainWin->draw(*ennemis.at(0));
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(testText);
 	mainWin->display();
