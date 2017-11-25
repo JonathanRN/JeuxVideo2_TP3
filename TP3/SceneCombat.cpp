@@ -135,6 +135,11 @@ void SceneCombat::update()
 		{
 			projectiles[i]->anim(vaisseauJoueur.direction);
 			projectiles[i]->move(projectiles[i]->vitesse, 0);
+			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
+			{
+				delete projectiles[i];
+				projectiles[i] = nullptr;
+			}
 		}
 		
 	}
