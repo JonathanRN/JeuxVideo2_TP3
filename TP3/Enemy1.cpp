@@ -4,7 +4,6 @@ using namespace tp3;
 
 Enemy1::Enemy1(Vector2f position, Texture &texture):Enemy(position, texture)
 {
-	setScale(getScale().x / 3, getScale().y / 3);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommage = 3;
 	ptsVie = 2;
