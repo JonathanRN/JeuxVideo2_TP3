@@ -6,7 +6,8 @@ namespace tp3
 	class Shield : public Sprite
 	{
 	public:
-		Shield();
+		Shield(Vector2f position, Texture& texture);
+		Color choixCouleur();
 		~Shield();
 		int ptsShield;
 	private:

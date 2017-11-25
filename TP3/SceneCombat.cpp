@@ -8,6 +8,10 @@ SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mou
 	{
 		projectiles[i] = nullptr;
 	}
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		bonus[i] = nullptr;
+	}
 }
 
 
@@ -29,6 +33,17 @@ Scene::scenes SceneCombat::run()
 		{
 			delete projectiles[i];
 		}
+	}
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			delete bonus[i];
+		}
+	}
+	for (int i = 0; i < shields.size(); i++)
+	{
+		delete shields[i];
 	}
 	
 	return transitionVersScene;
@@ -61,7 +76,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
-
+	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 	this->mainWin = window;
 	isRunning = true;
 	return true;
@@ -138,6 +153,10 @@ void SceneCombat::update()
 {
 	fond.move(thrust);
 	vaisseauJoueur.mouvementJoueur(mouvementJoueur);
+	if (shields.size() > 0)
+	{
+		shields[0]->setPosition(vaisseauJoueur.getPosition());
+	}
 	for (size_t i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectiles[i] != nullptr)
@@ -150,8 +169,20 @@ void SceneCombat::update()
 				projectiles[i] = nullptr;
 			}
 		}
-		
 	}
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
+			{
+				delete bonus[i];
+				bonus[i] = nullptr;
+				shields.push_back(new Shield(vaisseauJoueur.getPosition(),shield));
+			}
+		}
+	}
+	
 }
 
 void SceneCombat::draw()
@@ -164,6 +195,17 @@ void SceneCombat::draw()
 		{
 			mainWin->draw(*projectiles[i]);
 		}
+	}
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			mainWin->draw(*bonus[i]);
+		}
+	}
+	for (int i = 0; i < shields.size(); i++)
+	{
+		mainWin->draw(*shields[i]);
 	}
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(testText);

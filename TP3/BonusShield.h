@@ -5,7 +5,7 @@ namespace tp3
 	class BonusShield : public Bonus
 	{
 	public:
-		BonusShield();
+		BonusShield(Vector2f position,Texture& texture);
 		~BonusShield();
 	private:
 

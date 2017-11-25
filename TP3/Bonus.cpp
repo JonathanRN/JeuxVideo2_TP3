@@ -2,8 +2,10 @@
 using namespace tp3;
 
 
-Bonus::Bonus()
+Bonus::Bonus(Vector2f position,Texture& texture)
 {
+	setPosition(position);
+	setTexture(texture);
 }
 
 
