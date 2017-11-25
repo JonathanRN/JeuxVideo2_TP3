@@ -104,7 +104,11 @@ void SceneCombat::getInputs()
 	}
 	else if (Keyboard::isKeyPressed(Keyboard::X))
 	{
-		ajouterProjectile(vaisseauJoueur.getPosition());
+		if (clock.getElapsedTime().asMilliseconds() >= 100)
+		{
+			ajouterProjectile(vaisseauJoueur.getPosition());
+			clock.restart();
+		}
 	}
 	else
 	{
