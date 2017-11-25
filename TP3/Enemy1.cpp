@@ -11,7 +11,7 @@ Enemy1::~Enemy1()
 {
 }
 
-void tp3::Enemy1::action()
+void tp3::Enemy1::action(Vaisseau& cible)
 {
-
+	
 }
