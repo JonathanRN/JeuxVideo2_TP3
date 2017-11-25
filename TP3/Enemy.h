@@ -21,6 +21,6 @@ namespace tp3
 		int ptsVie;
 
 	protected:
-		const int VITESSE = 3;
+		int vitesse;
 	};
 }

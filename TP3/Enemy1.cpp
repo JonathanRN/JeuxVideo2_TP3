@@ -4,9 +4,11 @@ using namespace tp3;
 
 Enemy1::Enemy1(Vector2f position, Texture &texture):Enemy(position, texture)
 {
+	setScale(getScale().x * 0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommage = 3;
-	ptsVie = 2;
+	vitesse = 6;
+	ptsVie = 3;
 }
 
 
@@ -33,5 +35,5 @@ void Enemy1::action(Vaisseau& cible)
 	// Rotation du sprite
 	setRotation(angle*180 / M_PI);
 
-	setPosition(enemyX + (cos(angle) * VITESSE), enemyY + (sin(angle) * VITESSE));
+	setPosition(enemyX + (cos(angle) * vitesse), enemyY + (sin(angle) * vitesse));
 }

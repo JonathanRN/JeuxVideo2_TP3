@@ -211,7 +211,32 @@ void SceneCombat::update()
 			ennemis.erase(ennemis.begin() + i);
 		}
 	}
-	
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			for (int j = 0; j < ennemis.size(); j++)
+			{
+				if (ennemis[j]->getGlobalBounds().intersects(projectiles[i]->getGlobalBounds()))
+				{
+					
+					if(ennemis[j] != nullptr)
+					{
+						ennemis[j]->ptsVie--;
+					}
+					delete projectiles[i];
+					projectiles[i] = nullptr;
+				}
+			}
+		}
+	}
+	for (int i = 0; i < ennemis.size(); i++)
+	{
+		if (ennemis[i]->ptsVie <= 0)
+		{
+			ennemis.erase(ennemis.begin() + i);
+		}
+	}
 
 }
 
