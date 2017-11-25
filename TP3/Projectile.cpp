@@ -22,10 +22,7 @@ void tp3::Projectile::initGraphiques()
 	
 }
 
-void tp3::Projectile::anim()
-{
-	
-}
+
 
 void tp3::Projectile::activer()
 {

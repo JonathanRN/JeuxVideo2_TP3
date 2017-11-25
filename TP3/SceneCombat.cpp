@@ -131,7 +131,7 @@ void SceneCombat::update()
 	{
 		if (projectiles[i] != nullptr)
 		{
-			projectiles[i]->anim();
+			projectiles[i]->anim(vaisseauJoueur.direction);
 			projectiles[i]->move(projectiles[i]->vitesse, 0);
 		}
 		
@@ -160,7 +160,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 	{
 		if (projectiles[i] == nullptr)
 		{
-			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20, projectileT[0]);
+			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0]);
 			projectiles[i]->initGraphiques();
 			projectiles[i]->activer();
 			return;

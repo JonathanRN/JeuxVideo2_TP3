@@ -97,6 +97,7 @@ void Vaisseau::pivoter()
 		isPivoting = false;
 		image = CENTRE;
 		setScale(getScale().x * -1, getScale().y);
+		direction *= -1;
 	}
 }
 

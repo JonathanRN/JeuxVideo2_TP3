@@ -17,7 +17,7 @@ namespace tp3
 		void descendre();
 		void centrer();
 		void pivoter();
-
+		int direction = 1;
 		virtual void initGraphiques();
 
 	private:
@@ -29,7 +29,7 @@ namespace tp3
 		static const int LIMITE_HAUT = 0;
 		static const int RHYTME_ANIM = 10;
 
-		int direction = 1;
+		
 		bool isPivoting;
 
 		int image;

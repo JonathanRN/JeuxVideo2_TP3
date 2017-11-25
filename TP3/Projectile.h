@@ -10,7 +10,7 @@ namespace tp3
 		~Projectile();
 		float vitesse;
 		virtual void initGraphiques() = 0;
-		virtual void anim() = 0;
+		virtual void anim(int direction) = 0;
 		void activer();
 	protected:
 		static const int RHYTME_ANIM = 4;
