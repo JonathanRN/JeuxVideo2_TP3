@@ -37,7 +37,7 @@ namespace tp3
 		Texture projectileT[5];
 
 		FondMobile fond;
-		Font font;
+	
 		Text testText;
 	};
 }

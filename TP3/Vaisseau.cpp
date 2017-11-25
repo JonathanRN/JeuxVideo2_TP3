@@ -88,13 +88,13 @@ void Vaisseau::pivoter()
 		if (image % RHYTME_ANIM == 0)
 		{
 			rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
-			setTextureRect(rectangleAnimation);
+ 			setTextureRect(rectangleAnimation);
 		}
 	}
 
 	if (image == LIMITE_DROITE_PIVOT)
 	{
-		isPivoting = false;
+ 		isPivoting = false;
 		image = CENTRE;
 		setScale(getScale().x * -1, getScale().y);
 		direction *= -1;
