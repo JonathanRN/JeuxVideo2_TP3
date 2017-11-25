@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Boss::Boss()
+Boss::Boss(Vector2f position) :Enemy(position)
 {
 }
 

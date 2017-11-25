@@ -1,5 +1,7 @@
 #pragma once
 #include "Enemy.h"
+#include "Vaisseau.h"
+
 namespace tp3
 {
 	class Enemy1 : public Enemy
@@ -7,7 +9,7 @@ namespace tp3
 	public:
 		Enemy1(Vector2f position);
 		~Enemy1();
-		void action();
+		void action(Vaisseau& cible);
 	};
 }
 

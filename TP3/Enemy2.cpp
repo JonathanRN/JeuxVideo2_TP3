@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Enemy2::Enemy2()
+Enemy2::Enemy2(Vector2f position) :Enemy(position)
 {
 }
 
