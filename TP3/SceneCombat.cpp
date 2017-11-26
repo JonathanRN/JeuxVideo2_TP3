@@ -97,6 +97,7 @@ bool SceneCombat::init(RenderWindow * const window)
 
 	ennemis[0] = new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur());
 	ennemis[1] = new Enemy2({ LARGEUR_ECRAN - 100, 300 }, ennemisT[1], choixCouleur());
+	ennemis[2] = new Enemy2({ 100, 300 }, ennemisT[1], choixCouleur());
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 
@@ -325,6 +326,7 @@ void tp3::SceneCombat::gererEnnemis()
 		if (ennemis[i] != nullptr)
 		{
 			ennemis[i]->action(vaisseauJoueur);
+
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
 			{
