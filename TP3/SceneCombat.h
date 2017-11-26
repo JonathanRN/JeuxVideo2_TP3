@@ -10,6 +10,7 @@
 #include "Shield.h"
 #include "Enemy.h"
 #include "Enemy1.h"
+#include "Enemy2.h"
 
 using namespace std;
 namespace tp3
@@ -27,8 +28,14 @@ namespace tp3
 		void draw();
 		void ajouterProjectile(Vector2f position);
 
-
 	private:
+		void collisionProjectilesEnnemis();
+		void collisionVaisseauEnnemis();
+		void gererBoucliers();
+		void gererProjectiles();
+		void gererEnnemis();
+		void gererBonus();
+
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
 		int thrust;

@@ -4,9 +4,11 @@ using namespace tp3;
 
 Enemy1::Enemy1(Vector2f position, Texture &texture):Enemy(position, texture)
 {
+	setColor(choixCouleur());
 	setScale(getScale().x * 0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
-	dommage = 3;
+	dommageCollision = 3;
+	dommageTir = 0;
 	vitesse = 6;
 	ptsVie = 3;
 }

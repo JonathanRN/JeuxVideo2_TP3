@@ -12,15 +12,17 @@ namespace tp3
 	class Enemy : public Sprite
 	{
 	public:
-		Color choixCouleur();
 		Enemy(Vector2f position, Texture &texture);
 		~Enemy();
 		virtual void action(Vaisseau& cible) = 0;
 
-		int dommage;
+		int dommageCollision;
+		int dommageTir;
 		int ptsVie;
 
 	protected:
+		Color choixCouleur();
 		int vitesse;
+		int direction;
 	};
 }

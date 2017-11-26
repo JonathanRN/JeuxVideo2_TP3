@@ -7,6 +7,9 @@ namespace tp3
 	public:
 		Enemy2(Vector2f position, Texture &texture);
 		~Enemy2();
+
+	private:
+		void action(Vaisseau &cible);
 	};
 }
 

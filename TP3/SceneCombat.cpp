@@ -70,17 +70,21 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-	if (!ennemisT[0].loadFromFile("Ressources\\enemy1.png"))
+	if (!ennemisT[0].loadFromFile("Ressources\\enemy3.png"))
+	{
+		return false;
+	}
+	if (!ennemisT[1].loadFromFile("Ressources\\enemy2.png"))
 	{
 		return false;
 	}
 	
-
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
 
 	ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0]));
+	//ennemis.push_back(new Enemy1({ LARGEUR_ECRAN - 100, 200 }, ennemisT[1]));
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 
@@ -160,84 +164,12 @@ void SceneCombat::update()
 {
 	fond.move(thrust);
 	vaisseauJoueur.mouvementJoueur(mouvementJoueur);
-
-	//Projectiles
-
-	if (shields.size() > 0)
-	{
-		shields[0]->setPosition(vaisseauJoueur.getPosition());
-	}
-
-	for (size_t i = 0; i < NBR_PROJ; i++)
-	{
-		if (projectiles[i] != nullptr)
-		{
-			projectiles[i]->anim(vaisseauJoueur.direction);
-			projectiles[i]->move(projectiles[i]->vitesse, 0);
-			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
-			{
-				delete projectiles[i];
-				projectiles[i] = nullptr;
-			}
-		}
-	}
-
-	if (ennemis.size() > 0)
-	{
-		if(ennemis[0] != nullptr)
-		ennemis[0]->action(vaisseauJoueur);
-	}
-
-
-
-	for (int i = 0; i < NBR_BONUS; i++)
-	{
-		if (bonus[i] != nullptr)
-		{
-			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
-			{
-				delete bonus[i];
-				bonus[i] = nullptr;
-				shields.push_back(new Shield(vaisseauJoueur.getPosition(),shield));
-
-			}
-		}
-	}
-	for (int i = 0; i < ennemis.size(); i++)
-	{
-		if (vaisseauJoueur.getGlobalBounds().intersects(ennemis[i]->getGlobalBounds()))
-		{
-			vaisseauJoueur.ptsVie -= ennemis[i]->dommage;
-			ennemis.erase(ennemis.begin() + i);
-		}
-	}
-	for (int i = 0; i < NBR_PROJ; i++)
-	{
-		if (projectiles[i] != nullptr)
-		{
-			for (int j = 0; j < ennemis.size(); j++)
-			{
-				if (ennemis[j]->getGlobalBounds().intersects(projectiles[i]->getGlobalBounds()))
-				{
-					
-					if(ennemis[j] != nullptr)
-					{
-						ennemis[j]->ptsVie--;
-					}
-					delete projectiles[i];
-					projectiles[i] = nullptr;
-				}
-			}
-		}
-	}
-	for (int i = 0; i < ennemis.size(); i++)
-	{
-		if (ennemis[i]->ptsVie <= 0)
-		{
-			ennemis.erase(ennemis.begin() + i);
-		}
-	}
-
+	collisionProjectilesEnnemis();
+	collisionVaisseauEnnemis();
+	gererBonus();
+	gererBoucliers();
+	gererEnnemis();
+	gererProjectiles();
 }
 
 void SceneCombat::draw()
@@ -287,6 +219,99 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			projectiles[i]->initGraphiques();
 			projectiles[i]->activer();
 			return;
+		}
+	}
+}
+
+void tp3::SceneCombat::collisionProjectilesEnnemis()
+{
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			for (int j = 0; j < ennemis.size(); j++)
+			{
+				if (ennemis[j] != nullptr)
+				{
+					if (ennemis[j]->getGlobalBounds().intersects(projectiles[i]->getGlobalBounds()))
+					{
+						ennemis[j]->ptsVie--;
+						delete projectiles[i];
+						projectiles[i] = nullptr;
+					}
+				}
+			}
+		}
+	}
+}
+
+void tp3::SceneCombat::collisionVaisseauEnnemis()
+{
+	for (int i = 0; i < ennemis.size(); i++)
+	{
+		if (vaisseauJoueur.getGlobalBounds().intersects(ennemis[i]->getGlobalBounds()))
+		{
+			vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
+			ennemis.erase(ennemis.begin() + i);
+		}
+	}
+}
+
+void tp3::SceneCombat::gererBoucliers()
+{
+	if (shields.size() > 0)
+	{
+		shields[0]->setPosition(vaisseauJoueur.getPosition());
+	}
+}
+
+void tp3::SceneCombat::gererProjectiles()
+{
+	for (size_t i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			projectiles[i]->anim(vaisseauJoueur.direction);
+			projectiles[i]->move(projectiles[i]->vitesse, 0);
+			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
+			{
+				delete projectiles[i];
+				projectiles[i] = nullptr;
+			}
+		}
+	}
+}
+
+void tp3::SceneCombat::gererEnnemis()
+{
+	for (int i = 0; i < ennemis.size(); i++)
+	{
+		if (ennemis[i] != nullptr)
+		{
+			ennemis[i]->action(vaisseauJoueur);
+		}
+		//Si la vie est a 0, detruit l'ennemi
+		if (ennemis[i]->ptsVie <= 0)
+		{
+			ennemis.erase(ennemis.begin() + i);
+		}
+	}
+}
+
+void tp3::SceneCombat::gererBonus()
+{
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
+			{
+				delete bonus[i];
+				bonus[i] = nullptr;
+				//Cree un bouclier
+				shields.push_back(new Shield(vaisseauJoueur.getPosition(), shield));
+
+			}
 		}
 	}
 }
