@@ -16,7 +16,7 @@ namespace tp3
 		Enemy(Vector2f position, Texture &texture, Color color);
 		~Enemy();
 		void animExplosion();
-		virtual void action(Vaisseau& cible) = 0;
+		virtual void action(Vaisseau& cible);
 
 		int dommageCollision;
 		int dommageTir;
@@ -25,7 +25,6 @@ namespace tp3
 
 	protected:
 		int vitesse;
-		
 
 		static const int RHYTME_ANIM = 4;
 		int animation;
