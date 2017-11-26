@@ -54,7 +54,7 @@ namespace tp3
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
-		Projectile* projectilesEnemy[NBR_PROJ];
+		Projectile_Enemy* projectilesEnemy[NBR_PROJ];
 		Bonus* bonus[NBR_BONUS];
 		Texture projectileT[5];
 		Texture projectileEnemy;
