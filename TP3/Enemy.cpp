@@ -42,3 +42,7 @@ void Enemy::animExplosion()
 		}
 	}
 }
+
+void tp3::Enemy::action(Vaisseau & cible)
+{
+}

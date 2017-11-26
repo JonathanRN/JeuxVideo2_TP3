@@ -1,5 +1,7 @@
 #pragma once
 #include "Enemy.h"
+#include "Projectile_Enemy.h"
+
 namespace tp3
 {
 	class Enemy2 : public Enemy

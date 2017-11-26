@@ -39,11 +39,17 @@ namespace tp3
 		void gererProjectiles();
 		void gererEnnemis();
 		void gererBonus();
+		void nbEnnemis();
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
 		static const int NBR_ENEMY = 10;
 		int thrust;
+
+		int nbEnemy1 = 0;
+		int nbEnemy2 = 0;
+		int nbEnemy3 = 0;
+		int nbEnemy4 = 0;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;

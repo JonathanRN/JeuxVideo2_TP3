@@ -365,6 +365,7 @@ void tp3::SceneCombat::gererProjectiles()
 
 void tp3::SceneCombat::gererEnnemis()
 {
+	nbEnnemis();
 	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
@@ -372,13 +373,16 @@ void tp3::SceneCombat::gererEnnemis()
 			ennemis[i]->action(vaisseauJoueur);
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 300)
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400)
 				{
-					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(),ennemis[i]->direction);
-					clock_tire_enemy2.restart();
+					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction);
+					if (i == nbEnemy2)
+					{
+						clock_tire_enemy2.restart();
+					}
 				}
+
 			}
-			
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
 			{
@@ -405,4 +409,30 @@ void tp3::SceneCombat::gererBonus()
 			}
 		}
 	}
+}
+
+void SceneCombat::nbEnnemis()
+{
+	int temp1=0, temp2=0, temp3=0, temp4=0;
+	for (int i = 0; i < NBR_ENEMY; i++)
+	{
+		if (ennemis[i] != nullptr)
+		{
+			if (typeid(*ennemis[i]) == typeid(Enemy1))
+			{
+				temp1++;
+			}
+			else if (typeid(*ennemis[i]) == typeid(Enemy2))
+			{
+				temp2++;
+			}
+			if (typeid(*ennemis[i]) == typeid(Enemy3))
+			{
+				temp3++;
+			}
+		}
+	}
+	nbEnemy1 = temp1;
+	nbEnemy2 = temp2;
+	nbEnemy3 = temp3;
 }
