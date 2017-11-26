@@ -360,10 +360,17 @@ void tp3::SceneCombat::gererEnnemis()
 
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 100)
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 200)
 				{
-					projectilesEnemy[i] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 20 * -vaisseauJoueur.direction, projectileEnemy,ennemis[i]->getColor());
-					projectilesEnemy[i]->activer();
+					for (int j = 0; j < NBR_PROJ; j++)
+					{
+						if (projectilesEnemy[j] == nullptr)
+						{
+							projectilesEnemy[j] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 5, projectileEnemy, ennemis[i]->getColor());
+							projectilesEnemy[j]->activer();
+							clock_tire_enemy2.restart();
+						}
+					}
 				}
 			}
 			//Si la vie est a 0, detruit l'ennemi
