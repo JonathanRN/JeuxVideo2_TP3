@@ -2,10 +2,8 @@
 using namespace tp3;
 
 
-Enemy2::Enemy2(Vector2f position, Texture &texture) :Enemy(position, texture)
 Enemy2::Enemy2(Vector2f position, Texture &texture, Color color) :Enemy(position, texture, color)
 {
-	setColor(choixCouleur());
 	setScale(getScale().x * -0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 4;
@@ -21,7 +19,7 @@ Enemy2::~Enemy2()
 
 void Enemy2::action(Vaisseau &cible)
 {
-	float distance0 = sqrt(pow(cibleX - enemyX, 2) + pow(cibleY - enemyY, 2));
+	//float distance0 = sqrt(pow(cibleX - enemyX, 2) + pow(cibleY - enemyY, 2));
 
 
 }
