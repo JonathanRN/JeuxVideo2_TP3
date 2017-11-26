@@ -26,6 +26,7 @@ namespace tp3
 		void getInputs();
 		void update();
 		void draw();
+		Color choixCouleur();
 		void ajouterProjectile(Vector2f position);
 
 	private:
