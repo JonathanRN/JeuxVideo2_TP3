@@ -256,6 +256,22 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 	}
 }
 
+void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color)
+{
+	for (int j = 0; j < NBR_PROJ; j++)
+	{
+		if (projectilesEnemy[j] == nullptr)
+		{
+			if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 200)
+			{
+				projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 5, projectileEnemy, color);
+				projectilesEnemy[j]->activer();
+				return;
+			}
+		}
+	}
+}
+
 Color SceneCombat::choixCouleur()
 {
 	Color couleur;
@@ -357,22 +373,15 @@ void tp3::SceneCombat::gererEnnemis()
 		if (ennemis[i] != nullptr)
 		{
 			ennemis[i]->action(vaisseauJoueur);
-
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 200)
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 300)
 				{
-					for (int j = 0; j < NBR_PROJ; j++)
-					{
-						if (projectilesEnemy[j] == nullptr)
-						{
-							projectilesEnemy[j] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 5, projectileEnemy, ennemis[i]->getColor());
-							projectilesEnemy[j]->activer();
-							clock_tire_enemy2.restart();
-						}
-					}
+					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor());
+					clock_tire_enemy2.restart();
 				}
 			}
+			
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
 			{
