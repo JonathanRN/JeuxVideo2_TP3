@@ -46,7 +46,7 @@ namespace tp3
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture ennemisT[3];
-		vector<Enemy*> ennemis;
+		Enemy* ennemis[10];
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
