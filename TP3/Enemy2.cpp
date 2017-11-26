@@ -19,5 +19,7 @@ Enemy2::~Enemy2()
 
 void Enemy2::action(Vaisseau &cible)
 {
-	
+	float distance0 = sqrt(pow(cibleX - enemyX, 2) + pow(cibleY - enemyY, 2));
+
+
 }
