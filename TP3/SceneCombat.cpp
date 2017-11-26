@@ -262,7 +262,7 @@ void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int d
 	{
 		if (projectilesEnemy[j] == nullptr)
 		{
-			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 5 * -direction, projectileEnemy, color);
+			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 10 * -direction, projectileEnemy, color);
 			projectilesEnemy[j]->activer();
 			return;
 		}
