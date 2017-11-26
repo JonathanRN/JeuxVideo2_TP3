@@ -3,6 +3,7 @@ using namespace tp3;
 
 
 Enemy2::Enemy2(Vector2f position, Texture &texture) :Enemy(position, texture)
+Enemy2::Enemy2(Vector2f position, Texture &texture, Color color) :Enemy(position, texture, color)
 {
 	setColor(choixCouleur());
 	setScale(getScale().x * -0.8, getScale().y * 0.8);

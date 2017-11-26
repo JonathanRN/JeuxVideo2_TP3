@@ -61,6 +61,7 @@ Scene::scenes SceneCombat::run()
 
 bool SceneCombat::init(RenderWindow * const window)
 {
+	srand(time(NULL));
 	if (!fond.setTexture("Ressources\\background.jpg"))
 	{
 		return false;
@@ -94,8 +95,8 @@ bool SceneCombat::init(RenderWindow * const window)
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
 
-	ennemis[0] = new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0]);
-	ennemis[1] = new Enemy2({ LARGEUR_ECRAN - 100, 300 }, ennemisT[1]);
+	ennemis[0] = new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur());
+	ennemis[1] = new Enemy2({ LARGEUR_ECRAN - 100, 300 }, ennemisT[1], choixCouleur());
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 
@@ -231,6 +232,27 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			return;
 		}
 	}
+}
+
+Color SceneCombat::choixCouleur()
+{
+	Color couleur;
+	static int choix;
+	choix = rand() % 3;
+
+	switch (choix)
+	{
+	case 0:
+		couleur = Color::Red;
+		break;
+	case 1:
+		couleur = Color::Magenta;
+		break;
+	case 2:
+		couleur = Color::Yellow;
+		break;
+	}
+	return couleur;
 }
 
 void tp3::SceneCombat::collisionProjectilesEnnemis()
