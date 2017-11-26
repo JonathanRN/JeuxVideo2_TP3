@@ -40,6 +40,9 @@ Scene::scenes SceneCombat::run()
 		if (projectiles[i] != nullptr)
 		{
 			delete projectiles[i];
+		}
+		if (projectilesEnemy[i] != nullptr)
+		{
 			delete projectilesEnemy[i];
 		}
 	}
@@ -204,6 +207,9 @@ void SceneCombat::draw()
 		if (projectiles[i] != nullptr)
 		{
 			mainWin->draw(*projectiles[i]);
+		}
+		if (projectilesEnemy[i] != nullptr)
+		{
 			mainWin->draw(*projectilesEnemy[i]);
 		}
 	}
@@ -326,7 +332,12 @@ void tp3::SceneCombat::gererProjectiles()
 				delete projectiles[i];
 				projectiles[i] = nullptr;
 			}
-			if (projectilesEnemy[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
+			
+		}
+		if (projectilesEnemy[i] != nullptr)
+		{
+			projectilesEnemy[i]->move(projectilesEnemy[i]->vitesse, 0);
+			if (projectilesEnemy[i]->getPosition().x > LARGEUR_ECRAN || projectilesEnemy[i]->getPosition().x < 0)
 			{
 				delete projectilesEnemy[i];
 				projectilesEnemy[i] = nullptr;
@@ -355,7 +366,6 @@ void tp3::SceneCombat::gererEnnemis()
 				{
 					projectilesEnemy[i] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 20 * -vaisseauJoueur.direction, projectileEnemy,ennemis[i]->getColor());
 					projectilesEnemy[i]->activer();
-					return;
 				}
 			}
 		}
