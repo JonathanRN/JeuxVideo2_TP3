@@ -1,6 +1,6 @@
 #include "Enemy2.h"
-using namespace tp3;
 
+using namespace tp3;
 
 Enemy2::Enemy2(Vector2f position, Texture &texture, Color color) :Enemy(position, texture, color)
 {
@@ -20,17 +20,17 @@ Enemy2::~Enemy2()
 void Enemy2::action(Vaisseau &cible)
 {
 	float enemyX = getPosition().x;
-	float distance0 = enemyX - 0;
-	float distanceLargeur = 1280 - enemyX;
+	float centreX = 1280 / 2;
+	float centreY = 720 / 2;
+	float distanceAuCentre = centreX - enemyX;
 
-	if (distance0 < distanceLargeur)
+	if (centreX - enemyX > 0)
 	{
 		direction = 1;
 	}
-	else
+	else if (centreX - enemyX < 0)
 	{
 		direction = -1;
 	}
-
-
+	setScale(getScale().x * direction, getScale().y);
 }
