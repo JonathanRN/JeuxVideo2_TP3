@@ -30,7 +30,7 @@ namespace tp3
 		void draw();
 		Color choixCouleur();
 		void ajouterProjectile(Vector2f position);
-		void ajouterProjectileEnnemis(Vector2f position, Color color);
+		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction);
 
 	private:
 		void collisionProjectilesEnnemis();

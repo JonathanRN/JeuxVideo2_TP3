@@ -21,10 +21,11 @@ namespace tp3
 		int dommageCollision;
 		int dommageTir;
 		int ptsVie;
+		int direction;
 
 	protected:
 		int vitesse;
-		int direction;
+		
 
 		static const int RHYTME_ANIM = 4;
 		int animation;

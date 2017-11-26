@@ -256,18 +256,15 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 	}
 }
 
-void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color)
+void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int direction)
 {
 	for (int j = 0; j < NBR_PROJ; j++)
 	{
 		if (projectilesEnemy[j] == nullptr)
 		{
-			if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 200)
-			{
-				projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 5, projectileEnemy, color);
-				projectilesEnemy[j]->activer();
-				return;
-			}
+			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 5 * -direction, projectileEnemy, color);
+			projectilesEnemy[j]->activer();
+			return;
 		}
 	}
 }
@@ -377,7 +374,7 @@ void tp3::SceneCombat::gererEnnemis()
 			{
 				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 300)
 				{
-					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor());
+					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(),ennemis[i]->direction);
 					clock_tire_enemy2.restart();
 				}
 			}
