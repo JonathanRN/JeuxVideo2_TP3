@@ -12,6 +12,7 @@
 #include "Enemy.h"
 #include "Enemy1.h"
 #include "Enemy2.h"
+#include "Enemy3.h"
 
 using namespace std;
 namespace tp3

@@ -8,9 +8,10 @@ Enemy2::Enemy2(Vector2f position, Texture &texture, Color color):Enemy(position,
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 4;
 	dommageTir = 1;
-	vitesse = 4;
+	vitesse = 3;
 	ptsVie = 5;
 	direction = 1;
+	directionY = 1;
 }
 
 
@@ -36,14 +37,15 @@ void Enemy2::action(Vaisseau &cible)
 		direction = 1;
 		setScale(getScale().x * -1, getScale().y);
 	}
-
-	/*if (enemyY < 0)
+	
+	//Fais bouger les ennemis selon les limites de l'ecran
+	if (enemyY - getTexture()->getSize().y / 2 < 0)
 	{
 		directionY = 1;
 	}
-	else if (enemyY > 1280)
+	else if (enemyY + getTexture()->getSize().y/2 > 720)
 	{
 		directionY = -1;
 	}
-	move(0, directionY * vitesse);*/
+	move(0, directionY * vitesse);
 }

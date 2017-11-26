@@ -12,8 +12,10 @@ namespace tp3
 	class Enemy : public Sprite
 	{
 	public:
+		void initExplosion();
 		Enemy(Vector2f position, Texture &texture, Color color);
 		~Enemy();
+		void animExplosion();
 		virtual void action(Vaisseau& cible) = 0;
 
 		int dommageCollision;
@@ -23,5 +25,12 @@ namespace tp3
 	protected:
 		int vitesse;
 		int direction;
+
+		static const int RHYTME_ANIM = 4;
+		int animation;
+		const int ANIMATION_MAXIMALE = 100; //A MODIFER, NOMBRE DANIMS * 10
+		bool actif;
+		int image;
+		IntRect rectangleAnimation;
 	};
 }

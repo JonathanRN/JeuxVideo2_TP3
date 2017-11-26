@@ -102,6 +102,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!ennemisT[2].loadFromFile("Ressources\\enemy3.png"))
+	{
+		return false;
+	}
 	
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
@@ -110,7 +114,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	ennemis[0] = new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur());
 	ennemis[1] = new Enemy2({ LARGEUR_ECRAN - 100, 300 }, ennemisT[1], choixCouleur());
 	ennemis[2] = new Enemy2({ 100, 300 }, ennemisT[1], choixCouleur());
-	ennemis[3] = new Enemy2({ 237, 600 }, ennemisT[1], choixCouleur());
+	ennemis[3] = new Enemy3({ 237, 600 }, ennemisT[2], choixCouleur());
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 

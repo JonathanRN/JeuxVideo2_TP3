@@ -7,5 +7,9 @@ namespace tp3
 	public:
 		Enemy3(Vector2f position, Texture &texture, Color color);
 		~Enemy3();
+
+	private:
+		void action(Vaisseau &cible);
+		int directionY;
 	};
 }
