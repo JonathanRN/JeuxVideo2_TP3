@@ -10,6 +10,7 @@ namespace tp3
 
 	private:
 		void action(Vaisseau &cible);
+		int directionY;
 	};
 }
 
