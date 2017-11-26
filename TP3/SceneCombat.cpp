@@ -354,12 +354,6 @@ void tp3::SceneCombat::gererEnnemis()
 		{
 			ennemis[i]->action(vaisseauJoueur);
 
-			//Si la vie est a 0, detruit l'ennemi
-			if (ennemis[i]->ptsVie <= 0)
-			{
-				delete ennemis[i];
-				ennemis[i] = nullptr;
-			}
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
 				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 100)
@@ -367,6 +361,12 @@ void tp3::SceneCombat::gererEnnemis()
 					projectilesEnemy[i] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 20 * -vaisseauJoueur.direction, projectileEnemy,ennemis[i]->getColor());
 					projectilesEnemy[i]->activer();
 				}
+			}
+			//Si la vie est a 0, detruit l'ennemi
+			if (ennemis[i]->ptsVie <= 0)
+			{
+				delete ennemis[i];
+				ennemis[i] = nullptr;
 			}
 		}
 	}
