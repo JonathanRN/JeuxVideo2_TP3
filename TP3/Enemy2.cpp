@@ -19,7 +19,18 @@ Enemy2::~Enemy2()
 
 void Enemy2::action(Vaisseau &cible)
 {
-	//float distance0 = sqrt(pow(cibleX - enemyX, 2) + pow(cibleY - enemyY, 2));
+	float enemyX = getPosition().x;
+	float distance0 = enemyX - 0;
+	float distanceLargeur = 1280 - enemyX;
+
+	if (distance0 < distanceLargeur)
+	{
+		direction = 1;
+	}
+	else
+	{
+		direction = -1;
+	}
 
 
 }

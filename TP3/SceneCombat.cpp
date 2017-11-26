@@ -12,7 +12,7 @@ SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mou
 	{
 		bonus[i] = nullptr;
 	}
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		ennemis[i] = nullptr;
 	}
@@ -45,7 +45,7 @@ Scene::scenes SceneCombat::run()
 			delete bonus[i];
 		}
 	}
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -195,7 +195,7 @@ void SceneCombat::draw()
 			mainWin->draw(*projectiles[i]);
 		}
 	}
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -257,7 +257,7 @@ Color SceneCombat::choixCouleur()
 
 void tp3::SceneCombat::collisionProjectilesEnnemis()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -279,7 +279,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 
 void tp3::SceneCombat::collisionVaisseauEnnemis()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -320,7 +320,7 @@ void tp3::SceneCombat::gererProjectiles()
 
 void tp3::SceneCombat::gererEnnemis()
 {
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NBR_ENEMY; i++)
 	{
 		if (ennemis[i] != nullptr)
 		{

@@ -39,6 +39,7 @@ namespace tp3
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
+		static const int NBR_ENEMY = 10;
 		int thrust;
 
 		Clock clock_tirer;
@@ -47,7 +48,7 @@ namespace tp3
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture ennemisT[3];
-		Enemy* ennemis[10];
+		Enemy* ennemis[NBR_ENEMY];
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
