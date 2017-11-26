@@ -5,6 +5,7 @@
 #include "Vaisseau.h"
 #include "Projectile.h"
 #include "Projectile_normal.h"
+#include "Projectile_Enemy.h"
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "Shield.h"
@@ -44,6 +45,7 @@ namespace tp3
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
+		Clock clock_tire_enemy2;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
@@ -52,8 +54,10 @@ namespace tp3
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
+		Projectile* projectilesEnemy[NBR_PROJ];
 		Bonus* bonus[NBR_BONUS];
 		Texture projectileT[5];
+		Texture projectileEnemy;
 		Texture shield;
 		Texture bonusT[5];
 		

@@ -8,6 +8,10 @@ SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mou
 	{
 		projectiles[i] = nullptr;
 	}
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		projectilesEnemy[i] = nullptr;
+	}
 	for (int i = 0; i < NBR_BONUS; i++)
 	{
 		bonus[i] = nullptr;
@@ -36,6 +40,7 @@ Scene::scenes SceneCombat::run()
 		if (projectiles[i] != nullptr)
 		{
 			delete projectiles[i];
+			delete projectilesEnemy[i];
 		}
 	}
 	for (int i = 0; i < NBR_BONUS; i++)
@@ -67,6 +72,10 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!projectileT[0].loadFromFile("Ressources\\Projectile_normal.png"))
+	{
+		return false;
+	}
+	if (!projectileEnemy.loadFromFile("Ressources\\Projectile_enemy2.png"))
 	{
 		return false;
 	}
@@ -194,6 +203,7 @@ void SceneCombat::draw()
 		if (projectiles[i] != nullptr)
 		{
 			mainWin->draw(*projectiles[i]);
+			mainWin->draw(*projectilesEnemy[i]);
 		}
 	}
 	for (int i = 0; i < NBR_ENEMY; i++)
@@ -315,6 +325,11 @@ void tp3::SceneCombat::gererProjectiles()
 				delete projectiles[i];
 				projectiles[i] = nullptr;
 			}
+			if (projectilesEnemy[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
+			{
+				delete projectilesEnemy[i];
+				projectilesEnemy[i] = nullptr;
+			}
 		}
 	}
 }
@@ -332,6 +347,15 @@ void tp3::SceneCombat::gererEnnemis()
 			{
 				delete ennemis[i];
 				ennemis[i] = nullptr;
+			}
+			if (typeid(*ennemis[i]) == typeid(Enemy2))
+			{
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 100)
+				{
+					projectilesEnemy[i] = new Projectile_Enemy(Vector2f(ennemis[i]->getPosition().x, ennemis[i]->getPosition().y), 20 * -vaisseauJoueur.direction, projectileEnemy,ennemis[i]->getColor());
+					projectilesEnemy[i]->activer();
+					return;
+				}
 			}
 		}
 	}

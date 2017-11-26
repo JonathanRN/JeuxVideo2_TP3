@@ -6,6 +6,8 @@ namespace tp3
 	{
 	public:
 		Projectile_Enemy(Vector2f position, float vitesse, Texture& texture,Color color);
+		void anim(int direction);
+		void initGraphiques();
 		~Projectile_Enemy();
 	};
 }
