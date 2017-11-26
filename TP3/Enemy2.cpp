@@ -5,7 +5,10 @@ using namespace tp3;
 Enemy2::Enemy2(Vector2f position, Texture &texture, Color color) :Enemy(position, texture, color)
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	setColor(choixCouleur());
+=======
+>>>>>>> 784e1cb25bdb16ba1a3c51f492129c5134dd1b94
 	setScale(getScale().x * -0.8, getScale().y * 0.8);
 =======
 	setScale(getScale().x * 0.8, getScale().y * 0.8);
@@ -24,5 +27,7 @@ Enemy2::~Enemy2()
 
 void Enemy2::action(Vaisseau &cible)
 {
-	
+	//float distance0 = sqrt(pow(cibleX - enemyX, 2) + pow(cibleY - enemyY, 2));
+
+
 }
