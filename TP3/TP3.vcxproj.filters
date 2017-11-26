@@ -49,8 +49,15 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="BonusShield.cpp" />
-    <ClCompile Include="Shield.cpp" />
+    <ClCompile Include="BonusShield.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile_Enemy.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Shield.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -107,8 +114,15 @@
     <ClInclude Include="Projectile_normal.h">
       <Filter>Entetes</Filter>
     </ClInclude>
-    <ClInclude Include="BonusShield.h" />
-    <ClInclude Include="Shield.h" />
+    <ClInclude Include="BonusShield.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile_Enemy.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Shield.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
