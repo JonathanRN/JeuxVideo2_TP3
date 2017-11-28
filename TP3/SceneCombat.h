@@ -13,6 +13,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Enemy3.h"
+#include "Pile.h"
 
 using namespace std;
 namespace tp3
@@ -69,7 +70,7 @@ namespace tp3
 		Texture shield;
 		Texture bonusT[5];
 		
-		vector<Shield*> shields;
+		Pile<Shield*> shields;
 		FondMobile fond;
 	
 		Text testText;

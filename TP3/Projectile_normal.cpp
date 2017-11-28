@@ -24,7 +24,6 @@ void Projectile_normal::anim(int direction)
 				setScale(0.5 *direction, getScale().y);
 				rectangleAnimation.top += image;
 				setTextureRect(rectangleAnimation);
-
 			}
 		}
 

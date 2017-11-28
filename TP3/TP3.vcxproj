@@ -118,6 +118,7 @@
     <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IObservateur.h" />
+    <ClInclude Include="Pile.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Projectile_Enemy.h" />
     <ClInclude Include="Projectile_normal.h" />

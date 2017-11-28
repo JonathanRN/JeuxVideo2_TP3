@@ -60,10 +60,9 @@ Scene::scenes SceneCombat::run()
 			delete ennemis[i];
 		}
 	}
-	for (int i = 0; i < shields.size(); i++)
-	{
-		delete shields[i];
-	}	
+	
+	
+	
 	return transitionVersScene;
 }
 
@@ -231,11 +230,12 @@ void SceneCombat::draw()
 		{
 			mainWin->draw(*bonus[i]);
 		}
-	}
-	for (int i = 0; i < shields.size(); i++)
+	}	
+	if (shields.size() > 0)
 	{
-		mainWin->draw(*shields[i]);
+		mainWin->draw(*shields.top());
 	}
+	
 
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(testText);
@@ -262,7 +262,7 @@ void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int d
 	{
 		if (projectilesEnemy[j] == nullptr)
 		{
-			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 10 * -direction, projectileEnemy, color);
+			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 20 * -direction, projectileEnemy, color,direction);
 			projectilesEnemy[j]->activer();
 			return;
 		}
@@ -332,7 +332,7 @@ void tp3::SceneCombat::gererBoucliers()
 {
 	if (shields.size() > 0)
 	{
-		shields[0]->setPosition(vaisseauJoueur.getPosition());
+		shields.top()->setPosition(vaisseauJoueur.getPosition());
 	}
 }
 
@@ -404,7 +404,7 @@ void tp3::SceneCombat::gererBonus()
 				delete bonus[i];
 				bonus[i] = nullptr;
 				//Cree un bouclier
-				shields.push_back(new Shield(vaisseauJoueur.getPosition(), shield));
+				shields.push(new Shield(vaisseauJoueur.getPosition(), shield));
 
 			}
 		}
