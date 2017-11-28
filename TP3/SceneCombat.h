@@ -69,6 +69,7 @@ namespace tp3
 		Texture projectileEnemy;
 		Texture shield;
 		Texture bonusT[5];
+		Texture explosion;
 		
 		Pile<Shield*> shields;
 		FondMobile fond;
