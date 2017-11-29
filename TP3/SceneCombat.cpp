@@ -56,15 +56,23 @@ Scene::scenes SceneCombat::run()
 			delete ennemis[i];
 		}
 	}
-	
-	
-	
+	for (int i = 0; i < ennemisSuivants.size(); i++)
+	{
+		if (ennemisSuivants[i] != nullptr)
+		{
+			delete ennemisSuivants[i];
+		}
+	}
 	return transitionVersScene;
 }
 
 bool SceneCombat::init(RenderWindow * const window)
 {
 	srand(time(NULL));
+	if (!font.loadFromFile("Ressources\\Font\\font.ttf"))
+	{
+		return false;
+	}
 	if (!fond.setTexture("Ressources\\background.jpg"))
 	{
 		return false;
@@ -107,16 +115,20 @@ bool SceneCombat::init(RenderWindow * const window)
 	vaisseauJoueur.initGraphiques();
 
 	ennemisSuivants.reserve(NBR_ENEMY);
-
-	ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
-	ennemis.push_back(new Enemy2({ LARGEUR_ECRAN + 300, 300 }, ennemisT[1], choixCouleur()));
-	ennemis.push_back(new Enemy2({ -200, 300 }, ennemisT[1], choixCouleur()));
-	ennemis.push_back(new Enemy3({ -237, 600 }, ennemisT[2], choixCouleur()));
+	niveauActif = 0;
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 	bonus[1] = new BonusShield(Vector2f(300, 300), bonusT[0]);
 	bonus[0]->ajouterObservateur(&vaisseauJoueur);
 	bonus[1]->ajouterObservateur(&vaisseauJoueur);
+
+	//Text de niveau a l'ecran
+	textNiveau.setFont(font);
+	textNiveau.setPosition(LARGEUR_ECRAN / 2 - 300, HAUTEUR_ECRAN / 2 - 150);
+	textNiveau.setCharacterSize(150);
+	textNiveau.setFillColor(Color::White);
+	textNiveau.setScale(0, textNiveau.getScale().y);
+
 	this->mainWin = window;
 	isRunning = true;
 	return true;
@@ -199,6 +211,7 @@ void SceneCombat::update()
 	gererBoucliers();
 	gererEnnemis();
 	gererProjectiles();
+	animText();
 }
 
 void SceneCombat::draw()
@@ -238,7 +251,7 @@ void SceneCombat::draw()
 	
 
 	mainWin->draw(vaisseauJoueur);
-	mainWin->draw(testText);
+	mainWin->draw(textNiveau);
 	mainWin->display();
 }
 
@@ -392,6 +405,20 @@ void tp3::SceneCombat::gererProjectiles()
 
 void tp3::SceneCombat::gererEnnemis()
 {
+	// Fais spawn les ennemis
+	if (ennemisSuivants.empty())
+	{
+		niveauActif++;
+		chargerNiveau(niveauActif);
+		textAfficheTerminer = false;
+	}
+	else if (spawnEnemy.getElapsedTime().asSeconds() > 2)
+	{
+		ennemis.push_back(ennemisSuivants.pop_front());
+		spawnEnemy.restart();
+	}
+	////////////////////////
+
 	nbEnnemis();
 	for (int i = 0; i < ennemis.size(); i++)
 	{
@@ -465,14 +492,60 @@ void SceneCombat::nbEnnemis()
 	nbEnemy3 = temp3;
 }
 
-void SceneCombat::chargerNiveau(const int index)
+void SceneCombat::chargerNiveau(const int niveau)
 {
-	if (index == 1)
+	text.str("");
+	text << "NIVEAU " << niveau;
+	textNiveau.setString(text.str());
+
+	if (textAfficheTerminer)
 	{
-		/*ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
-		ennemis.push_back(new Enemy2({ LARGEUR_ECRAN + 300, 300 }, ennemisT[1], choixCouleur()));
-		ennemis.push_back(new Enemy2({ -200, 300 }, ennemisT[1], choixCouleur()));
-		ennemis.push_back(new Enemy3({ -237, 600 }, ennemisT[2], choixCouleur()));*/
-		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
+		if (niveau == 1)
+		{
+			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 180 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 360 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ -100, 180 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ -100, 360 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 540 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ -100, 540 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 720 }, ennemisT[0], choixCouleur()));
+			ennemisSuivants.push_back(new Enemy1({ -100, 720 }, ennemisT[0], choixCouleur()));
+		}
+		else if (niveau == 2)
+		{
+			ennemisSuivants.push_back(new Enemy3({ LARGEUR_ECRAN + 100, 180 }, ennemisT[2], choixCouleur()));
+		}
+	}
+}
+
+void SceneCombat::animText()
+{
+	static float compteur = 0;
+	
+	if (!textAfficheTerminer)
+	{
+		if (textNiveau.getScale().x < 1)
+		{
+			textAfficheTerminer = false;
+			textNiveau.setScale(compteur, textNiveau.getScale().y);
+			compteur += 0.05f;
+			animationText.restart();
+		}
+		if (animationText.getElapsedTime().asSeconds() > 1)
+		{
+			if (textNiveau.getScale().x >= 1 && textNiveau.getScale().y > 0)
+			{
+				textNiveau.setScale(textNiveau.getScale().x, compteur);
+				compteur -= 0.05f;
+			}
+		}
+	}
+
+	if (textNiveau.getScale().x >= 1 && textNiveau.getScale().y <= 0)
+	{
+		animationText.restart();
+		textNiveau.setScale(0, 1);
+		compteur = 0;
+		textAfficheTerminer = true;
 	}
 }

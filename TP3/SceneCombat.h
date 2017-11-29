@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <sstream>
 #include "FondMobile.h"
 #include "Scene.h"
 #include "Vaisseau.h"
@@ -42,12 +43,15 @@ namespace tp3
 		void gererEnnemis();
 		void gererBonus();
 		void nbEnnemis();
-		void chargerNiveau(const int index);
+		void chargerNiveau(const int niveau);
+		void animText();
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
 		static const int NBR_ENEMY = 10;
 		int thrust;
+
+		int niveauActif;
 
 		int nbEnemy1 = 0;
 		int nbEnemy2 = 0;
@@ -57,6 +61,8 @@ namespace tp3
 		Clock clock_tirer;
 		Clock clock_pivoter;
 		Clock clock_tire_enemy2;
+		Clock spawnEnemy;
+		Clock animationText;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
@@ -77,7 +83,10 @@ namespace tp3
 
 		FondMobile fond;
 	
-		Text testText;
+		Font font;
+		Text textNiveau;
+		std::ostringstream text;
+		bool textAfficheTerminer;
 	};
 }
 
