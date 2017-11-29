@@ -25,6 +25,15 @@ void Vaisseau::mouvementJoueur(Vector2i& mouvement)
 	move(mouvement.x * VITESSE, mouvement.y * VITESSE);
 }
 
+void Vaisseau::notifier(Sujet * sujet)
+{
+	if (typeid(*sujet) == typeid(BonusShield))
+	{
+		shields.push(new Shield(getPosition(), shield));
+	}
+
+}
+
 //ANIMATION DE LA DESCENTE DU VAISSEAU
 void Vaisseau::descendre()
 {

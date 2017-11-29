@@ -85,7 +85,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-	if (!shield.loadFromFile("Ressources\\Shield.png"))
+	if (!vaisseauJoueur.shield.loadFromFile("Ressources\\Shield.png"))
 	{
 		return false;
 	}
@@ -114,7 +114,9 @@ bool SceneCombat::init(RenderWindow * const window)
 	ennemis.push_back(new Enemy3({ -237, 600 }, ennemisT[2], choixCouleur()));
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
-
+	bonus[1] = new BonusShield(Vector2f(300, 300), bonusT[0]);
+	bonus[0]->ajouterObservateur(&vaisseauJoueur);
+	bonus[1]->ajouterObservateur(&vaisseauJoueur);
 	this->mainWin = window;
 	isRunning = true;
 	return true;
@@ -229,9 +231,9 @@ void SceneCombat::draw()
 			mainWin->draw(*bonus[i]);
 		}
 	}	
-	if (shields.size() > 0)
+	if (vaisseauJoueur.shields.size() > 0)
 	{
-		mainWin->draw(*shields.top());
+		mainWin->draw(*vaisseauJoueur.shields.top());
 	}
 	
 
@@ -308,6 +310,24 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 			}
 		}
 	}
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectilesEnemy[i] != nullptr)
+		{
+			if (projectilesEnemy[i]->getGlobalBounds().intersects(vaisseauJoueur.getGlobalBounds()))
+			{
+				if (vaisseauJoueur.shields.size() > 0)
+				{
+					if (vaisseauJoueur.shields.top()->getColor() != projectilesEnemy[i]->getColor())
+					{
+						vaisseauJoueur.shields.top()->ptsShield--;
+					}
+				}
+				delete projectilesEnemy[i];
+				projectilesEnemy[i] = nullptr;
+			}
+		}
+	}
 }
 
 void tp3::SceneCombat::collisionVaisseauEnnemis()
@@ -328,10 +348,19 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 
 void tp3::SceneCombat::gererBoucliers()
 {
-	if (shields.size() > 0)
+	if (vaisseauJoueur.shields.size() > 0)
 	{
-		shields.top()->setPosition(vaisseauJoueur.getPosition());
+		if (vaisseauJoueur.shields.top()->ptsShield <= 0)
+		{
+			vaisseauJoueur.shields.pop();
+			cout << "shield miel" << endl;
+		}
+		if (vaisseauJoueur.shields.size() > 0)
+		{
+			vaisseauJoueur.shields.top()->setPosition(vaisseauJoueur.getPosition());
+		}
 	}
+	
 }
 
 void tp3::SceneCombat::gererProjectiles()
@@ -399,10 +428,11 @@ void tp3::SceneCombat::gererBonus()
 		{
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
+				bonus[i]->notifierTousLesObservateurs();
 				delete bonus[i];
 				bonus[i] = nullptr;
 				//Cree un bouclier
-				shields.push(new Shield(vaisseauJoueur.getPosition(), shield));
+				//vaisseauJoueur.shields.push(new Shield(vaisseauJoueur.getPosition(), vaisseauJoueur.shield));
 
 			}
 		}

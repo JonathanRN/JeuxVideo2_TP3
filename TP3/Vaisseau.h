@@ -2,17 +2,21 @@
 #include "VaisseauLogique.h"
 #include <vector>
 #include <iostream>
-
+#include "Bonus.h"
+#include "BonusShield.h"
+#include "Shield.h"
+#include "Pile.h"
+#include "IObservateur.h"
 namespace tp3
 {
-	class Vaisseau : public VaisseauLogique
+	class Vaisseau : public VaisseauLogique , public IObservateur
 	{
 	public:
 		Vaisseau();
 		virtual ~Vaisseau();
 		virtual void mouvement(int thrust);
 		virtual void mouvementJoueur(Vector2i& mouvement);
-
+		void notifier(Sujet* sujet);
 		void monter();
 		void descendre();
 		void centrer();
@@ -20,6 +24,8 @@ namespace tp3
 		int direction = 1;
 		virtual void initGraphiques();
 		int ptsVie = 10;
+		Texture shield;
+		Pile<Shield*> shields;
 	private:
 		static const int OFFSET = 0;
 		static const int CENTRE = 24;
