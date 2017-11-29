@@ -73,9 +73,13 @@ namespace tp3
 		Texture bonusT[5];
 		Texture explosion;
 		
+<<<<<<< HEAD
 		Pile<Shield*> shields;
 		File<Enemy*> ennemisSuivants;
 
+=======
+		
+>>>>>>> 2b7f757ce758f6b480e472abb5ac2b6d4c393fa7
 		FondMobile fond;
 	
 		Text testText;
