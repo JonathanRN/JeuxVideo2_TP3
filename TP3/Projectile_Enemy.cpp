@@ -6,7 +6,7 @@ Projectile_Enemy::Projectile_Enemy(Vector2f position, float vitesse, Texture& te
 {
 	setTexture(texture);
 	this->vitesse = vitesse;
-	setScale(getScale().x * (0.1 *direction), getScale().y *(0.1 *direction));
+	setScale(getScale().x * (0.05 *direction), getScale().y *(0.05 *direction));
 	setOrigin(texture.getSize().x/2, texture.getSize().y / 2);
 
 }
