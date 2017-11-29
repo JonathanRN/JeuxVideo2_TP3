@@ -16,10 +16,6 @@ SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mou
 	{
 		bonus[i] = nullptr;
 	}
-	for (int i = 0; i < NBR_ENEMY; i++)
-	{
-		ennemis[i] = nullptr;
-	}
 }
 
 
@@ -53,7 +49,7 @@ Scene::scenes SceneCombat::run()
 			delete bonus[i];
 		}
 	}
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -110,10 +106,12 @@ bool SceneCombat::init(RenderWindow * const window)
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
 
-	ennemis[0] = new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur());
-	ennemis[1] = new Enemy2({ LARGEUR_ECRAN - 100, 300 }, ennemisT[1], choixCouleur());
-	ennemis[2] = new Enemy2({ 100, 300 }, ennemisT[1], choixCouleur());
-	ennemis[3] = new Enemy3({ 237, 600 }, ennemisT[2], choixCouleur());
+	ennemisSuivants.reserve(NBR_ENEMY);
+
+	ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
+	ennemis.push_back(new Enemy2({ LARGEUR_ECRAN + 300, 300 }, ennemisT[1], choixCouleur()));
+	ennemis.push_back(new Enemy2({ -200, 300 }, ennemisT[1], choixCouleur()));
+	ennemis.push_back(new Enemy3({ -237, 600 }, ennemisT[2], choixCouleur()));
 
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 
@@ -216,7 +214,7 @@ void SceneCombat::draw()
 			mainWin->draw(*projectilesEnemy[i]);
 		}
 	}
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -292,7 +290,7 @@ Color SceneCombat::choixCouleur()
 
 void tp3::SceneCombat::collisionProjectilesEnnemis()
 {
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -314,7 +312,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 
 void tp3::SceneCombat::collisionVaisseauEnnemis()
 {
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -366,14 +364,14 @@ void tp3::SceneCombat::gererProjectiles()
 void tp3::SceneCombat::gererEnnemis()
 {
 	nbEnnemis();
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
 			ennemis[i]->action(vaisseauJoueur);
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400)
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady)
 				{
 					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction);
 					if (i == nbEnemy2)
@@ -414,7 +412,7 @@ void tp3::SceneCombat::gererBonus()
 void SceneCombat::nbEnnemis()
 {
 	int temp1=0, temp2=0, temp3=0, temp4=0;
-	for (int i = 0; i < NBR_ENEMY; i++)
+	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
@@ -435,4 +433,16 @@ void SceneCombat::nbEnnemis()
 	nbEnemy1 = temp1;
 	nbEnemy2 = temp2;
 	nbEnemy3 = temp3;
+}
+
+void SceneCombat::chargerNiveau(const int index)
+{
+	if (index == 1)
+	{
+		/*ennemis.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
+		ennemis.push_back(new Enemy2({ LARGEUR_ECRAN + 300, 300 }, ennemisT[1], choixCouleur()));
+		ennemis.push_back(new Enemy2({ -200, 300 }, ennemisT[1], choixCouleur()));
+		ennemis.push_back(new Enemy3({ -237, 600 }, ennemisT[2], choixCouleur()));*/
+		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 100 }, ennemisT[0], choixCouleur()));
+	}
 }

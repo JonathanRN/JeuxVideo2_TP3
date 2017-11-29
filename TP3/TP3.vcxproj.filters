@@ -126,6 +126,9 @@
     <ClInclude Include="Pile.h">
       <Filter>Entetes</Filter>
     </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

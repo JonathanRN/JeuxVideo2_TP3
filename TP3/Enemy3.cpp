@@ -12,6 +12,8 @@ Enemy3::Enemy3(Vector2f position, Texture &texture, Color color) :Enemy(position
 	ptsVie = 20;
 	direction = 1;
 	directionY = 1;
+	isReady = false;
+	posX = 200;
 }
 
 
@@ -38,14 +40,30 @@ void Enemy3::action(Vaisseau &cible)
 		setScale(getScale().x * -1, getScale().y);
 	}
 
-	//Fais bouger les ennemis selon les limites de l'ecran
-	if (enemyY - getTexture()->getSize().y / 2 < 0)
+	if (!isReady)
 	{
-		directionY = 1;
+		move(-direction*vitesse, 0);
+		if (direction == -1 && getPosition().x > posX)
+		{
+			isReady = true;
+		}
+		else if (direction == 1 && getPosition().x < LARGEUR - posX)
+		{
+			isReady = true;
+		}
 	}
-	else if (enemyY + getTexture()->getSize().y / 2 > 720)
+
+	if (isReady)
 	{
-		directionY = -1;
+		//Fais bouger les ennemis selon les limites de l'ecran
+		if (enemyY - getTexture()->getSize().y / 2 < 0)
+		{
+			directionY = 1;
+		}
+		else if (enemyY + getTexture()->getSize().y / 2 > 720)
+		{
+			directionY = -1;
+		}
+		move(0, directionY * vitesse);
 	}
-	move(0, directionY * vitesse);
 }

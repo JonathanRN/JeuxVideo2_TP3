@@ -14,6 +14,7 @@
 #include "Enemy2.h"
 #include "Enemy3.h"
 #include "Pile.h"
+#include "File.h"
 
 using namespace std;
 namespace tp3
@@ -41,6 +42,7 @@ namespace tp3
 		void gererEnnemis();
 		void gererBonus();
 		void nbEnnemis();
+		void chargerNiveau(const int index);
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
@@ -59,7 +61,7 @@ namespace tp3
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture ennemisT[3];
-		Enemy* ennemis[NBR_ENEMY];
+		std::vector<Enemy*> ennemis;
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];
@@ -72,6 +74,8 @@ namespace tp3
 		Texture explosion;
 		
 		Pile<Shield*> shields;
+		File<Enemy*> ennemisSuivants;
+
 		FondMobile fond;
 	
 		Text testText;

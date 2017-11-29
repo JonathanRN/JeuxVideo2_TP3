@@ -1,42 +1,39 @@
 #pragma once
-#include <vector>
-#include <iostream>
 
 template <class T>
 class File
 {
+public:
+	File<T>::File();
+	File<T>::~File();
+
+	bool File<T>::empty();
+	bool File<T>::full();
+	size_t File<T>::size();
+	size_t File<T>::capacity();
+	void File<T>::reserve(const size_t new_cap);
+
+	T File<T>::front();
+	T File<T>::back();
+
+	void File<T>::clear();
+	void File<T>::push_back(const T& value);
+	T File<T>::pop_back();
+	void File<T>::push_front(const T& value);
+	T File<T>::pop_front();
+	void File<T>::resize(const size_t new_size);
+
+	T File<T>::operator[](const size_t index);
+
 private:
 	T* tab;
-	File<T>(const File&) = delete;
 	size_t cap;
-	size_t size;
+	size_t nbElem;
 	size_t head;
-	
-public:
-	File();
-	File(const File<T>& other);
-	~File();
-
-	bool empty();
-	size_t size();
-	size_t capacity();
-	void reserve(size_t new_cap);
-
-	T front();
-	T back();
-
-	void clear();
-	void push_back(const T& value);
-	T pop_back();
-	void push_front(const T& value);
-	T pop_front();
-	void resize(size_t new_size);
-
-	T operator[](const size_t index);
 };
 
 template <class T>
-File<T>::File() : tab(nullptr), size(0), cap(0), head(0)
+File<T>::File() : tab(nullptr), nbElem(0), cap(0), head(0)
 {
 
 }
@@ -50,7 +47,7 @@ File<T>::~File()
 template <class T>
 size_t File<T>::size()
 {
-	return size;
+	return nbElem;
 }
 
 template <class T>
@@ -62,7 +59,13 @@ size_t File<T>::capacity()
 template <class T>
 bool File<T>::empty()
 {
-	return size == 0;
+	return nbElem == 0;
+}
+
+template <class T>
+bool File<T>::full()
+{
+	return nbElem == cap;
 }
 
 template <class T>
@@ -72,16 +75,17 @@ T File<T>::front()
 }
 
 template <class T>
-bool File<T>::back()
+T File<T>::back()
 {
-	return tab[size - 1];
+	return tab[nbElem - 1];
 }
 
 template <class T>
-File<T>::clear()
+void File<T>::clear()
 {
-	size = 0;
+	nbElem = 0;
 	cap = 0;
+	head = 0;
 	delete[] tab;
 	tab = nullptr;
 }
@@ -89,19 +93,19 @@ File<T>::clear()
 template <class T>
 void File<T>::push_back(const T& value)
 {
-	if (size != cap)
+	if (nbElem != cap)
 	{
-		tab[(head + size) % cap] = value;
-		size++;
+		tab[(head + nbElem) % cap] = value;
+		nbElem++;
 	}
 }
 
 template<class T>
 T File<T>::pop_back()
 {
-	T temp = tab[(size + head) % cap];
-	tab[(size+head)%cap] = NULL;
-	size--;
+	T temp = tab[(nbElem + head) % cap];
+	tab[(nbElem +head)%cap] = nullptr;
+	nbElem--;
 	return temp;
 }
 
@@ -109,11 +113,11 @@ template <class T>
 void File<T>::push_front(const T& value)
 {
 	// A REVOIR
-	if (size != cap)
+	if (nbElem != cap)
 	{
 		if (head == 0)
 		{
-			tab[abs((head - size) % cap)] = value;
+			tab[abs((head - nbElem) % cap)] = value;
 		}
 		else
 		{
@@ -127,9 +131,9 @@ template <class T>
 T File<T>::pop_front()
 {
 	T temp = tab[head];
-	tab[head] = NULL;
+	tab[head] = nullptr;
 	head = (head + 1) % cap;
-	size--;
+	nbElem--;
 	return temp;
 }
 
@@ -139,15 +143,15 @@ void File<T>::reserve(size_t new_cap)
 	if (cap < new_cap)
 	{
 		auto tmp = tab;
-		tab = new int[new_cap];
+		tab = new T[new_cap];
 
 		size_t i = 0;
 
-		for (; i < size; ++i)
+		for (; i < nbElem; ++i)
 			tab[i] = tmp[i];
 		
 		for (; i < new_cap; ++i)
-			tab[i] = int();
+			tab[i] = nullptr;
 
 		cap = new_cap;
 	}
@@ -158,16 +162,10 @@ void File<T>::resize(size_t new_size)
 {
 	reserve(new_size);
 
-	for (size_t i = new_size - 1; i < size; ++i)
-		tab[i] = int();
+	for (size_t i = new_size - 1; i < nbElem; ++i)
+		tab[i] = nullptr;
 
-	size = new_size;
-}
-
-template<class T>
-File<T>::File(const File<T>& other)
-{
-	*this = other;
+	nbElem = new_size;
 }
 
 template<class T>

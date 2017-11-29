@@ -22,10 +22,13 @@ namespace tp3
 		int dommageTir;
 		int ptsVie;
 		int direction;
+		bool isReady;
 
 	protected:
+		const int LARGEUR = 1280;
+		const int HAUTEUR = 720;
 		int vitesse;
-
+		int posX; //Position X avant de commencer l'action
 		static const int RHYTME_ANIM = 4;
 		int animation;
 		const int ANIMATION_MAXIMALE = 100; //A MODIFER, NOMBRE DANIMS * 10
