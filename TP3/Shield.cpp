@@ -4,7 +4,6 @@ using namespace tp3;
 Color tp3::Shield::choixCouleur()
 {
 	Color couleur;
-	srand(time(NULL));
 	static int choix;
 	choix = rand() % 3;
 

@@ -67,11 +67,11 @@ namespace tp3
 		Bonus* bonus[NBR_BONUS];
 		Texture projectileT[5];
 		Texture projectileEnemy;
-		Texture shield;
+		
 		Texture bonusT[5];
 		Texture explosion;
 		
-		Pile<Shield*> shields;
+		
 		FondMobile fond;
 	
 		Text testText;
