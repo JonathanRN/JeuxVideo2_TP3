@@ -1,6 +1,10 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include <SFML/Graphics.hpp>
+#include "IObservateur.h"
+#include <iostream>
+#include "Bonus.h"
+#include "Bombe.h"
 #include <random>
 #include <time.h>
 #include "Vaisseau.h"
@@ -9,7 +13,7 @@ using namespace sf;
 
 namespace tp3
 {
-	class Enemy : public Sprite
+	class Enemy : public Sprite , public IObservateur
 	{
 	public:
 		void initExplosion();
@@ -17,6 +21,7 @@ namespace tp3
 		~Enemy();
 		void animExplosion();
 		virtual void action(Vaisseau& cible);
+		void notifier(Sujet* sujet);
 
 		int dommageCollision;
 		int dommageTir;

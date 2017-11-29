@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Bonus.h"
 #include "BonusShield.h"
+#include "Bombe.h"
 #include "Shield.h"
 #include "Pile.h"
 #include "IObservateur.h"

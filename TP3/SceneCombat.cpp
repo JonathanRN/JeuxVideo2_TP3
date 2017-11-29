@@ -117,6 +117,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	ennemisSuivants.reserve(NBR_ENEMY);
 	niveauActif = 0;
 
+<<<<<<< HEAD
 	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
 	bonus[1] = new BonusShield(Vector2f(300, 300), bonusT[0]);
 	bonus[0]->ajouterObservateur(&vaisseauJoueur);
@@ -128,6 +129,9 @@ bool SceneCombat::init(RenderWindow * const window)
 	textNiveau.setCharacterSize(150);
 	textNiveau.setFillColor(Color::White);
 	textNiveau.setScale(0, textNiveau.getScale().y);
+=======
+
+>>>>>>> 0aa5e766c5c8733492dd7bed622be8c259ace989
 
 	this->mainWin = window;
 	isRunning = true;
@@ -269,6 +273,36 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 	}
 }
 
+void SceneCombat::ajouterBonus(Vector2f position)
+{
+	for (int i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] == nullptr)
+		{
+			int choixBonus = rand() % 2;
+			if (choixBonus == 0)
+			{
+				bonus[i] = new BonusShield(position, bonusT[0]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				return;
+			}
+			if (choixBonus == 1)
+			{
+				bonus[i] = new Bombe(position, ennemisT[2]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				for (size_t i = 0; i < ennemis.size(); i++)
+				{
+					/*if (ennemis[i] != nullptr)
+					{
+						bonus[i]->ajouterObservateur(ennemis[i]);
+					}*/
+				}
+				return;
+			}
+		}
+	}
+}
+
 void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int direction)
 {
 	for (int j = 0; j < NBR_PROJ; j++)
@@ -301,6 +335,17 @@ Color SceneCombat::choixCouleur()
 		break;
 	}
 	return couleur;
+}
+
+void tp3::SceneCombat::retObservateur(Enemy* observateur)
+{
+	for (size_t i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			bonus[i]->retirerObservateur(observateur);
+		}
+	}
 }
 
 void tp3::SceneCombat::collisionProjectilesEnnemis()
@@ -352,6 +397,7 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 			if (vaisseauJoueur.getGlobalBounds().intersects(ennemis[i]->getGlobalBounds()))
 			{
 				vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
+				retObservateur(ennemis[i]);
 				delete ennemis[i];
 				ennemis[i] = nullptr;
 			}
@@ -440,6 +486,13 @@ void tp3::SceneCombat::gererEnnemis()
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
 			{
+				//Spawn bonus quand il meurt
+				int spwnBonus = rand() % 100;
+				if (spwnBonus <= 90)
+				{
+					ajouterBonus(ennemis[i]->getPosition());
+				}
+				retObservateur(ennemis[i]);
 				delete ennemis[i];
 				ennemis[i] = nullptr;
 			}
