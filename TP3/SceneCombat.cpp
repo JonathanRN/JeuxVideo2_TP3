@@ -117,21 +117,12 @@ bool SceneCombat::init(RenderWindow * const window)
 	ennemisSuivants.reserve(NBR_ENEMY);
 	niveauActif = 0;
 
-<<<<<<< HEAD
-	bonus[0] = new BonusShield(Vector2f(200,200), bonusT[0]);
-	bonus[1] = new BonusShield(Vector2f(300, 300), bonusT[0]);
-	bonus[0]->ajouterObservateur(&vaisseauJoueur);
-	bonus[1]->ajouterObservateur(&vaisseauJoueur);
-
 	//Text de niveau a l'ecran
 	textNiveau.setFont(font);
 	textNiveau.setPosition(LARGEUR_ECRAN / 2 - 300, HAUTEUR_ECRAN / 2 - 150);
 	textNiveau.setCharacterSize(150);
 	textNiveau.setFillColor(Color::White);
 	textNiveau.setScale(0, textNiveau.getScale().y);
-=======
-
->>>>>>> 0aa5e766c5c8733492dd7bed622be8c259ace989
 
 	this->mainWin = window;
 	isRunning = true;
