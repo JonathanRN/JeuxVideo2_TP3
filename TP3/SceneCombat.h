@@ -31,7 +31,9 @@ namespace tp3
 		void update();
 		void draw();
 		Color choixCouleur();
+		void retObservateur(Enemy* observateur);
 		void ajouterProjectile(Vector2f position);
+		void ajouterBonus(Vector2f position);
 		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction);
 
 	private:

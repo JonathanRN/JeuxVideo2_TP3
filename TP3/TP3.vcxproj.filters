@@ -43,13 +43,7 @@
     <ClCompile Include="Projectile_normal.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="Bonus.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
     <ClCompile Include="Projectile.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="BonusShield.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
     <ClCompile Include="Projectile_Enemy.cpp">
@@ -57,6 +51,15 @@
     </ClCompile>
     <ClCompile Include="Shield.cpp">
       <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Bonus.cpp">
+      <Filter>Sources\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="BonusShield.cpp">
+      <Filter>Sources\Bonus</Filter>
+    </ClCompile>
+    <ClCompile Include="Bombe.cpp">
+      <Filter>Sources\Bonus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -108,13 +111,7 @@
     <ClInclude Include="Projectile.h">
       <Filter>Entetes</Filter>
     </ClInclude>
-    <ClInclude Include="Bonus.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
     <ClInclude Include="Projectile_normal.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusShield.h">
       <Filter>Entetes</Filter>
     </ClInclude>
     <ClInclude Include="Projectile_Enemy.h">
@@ -129,6 +126,15 @@
     <ClInclude Include="File.h">
       <Filter>Entetes</Filter>
     </ClInclude>
+    <ClInclude Include="Bonus.h">
+      <Filter>Entetes\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusShield.h">
+      <Filter>Entetes\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Bombe.h">
+      <Filter>Entetes\Bonus</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -136,6 +142,12 @@
     </Filter>
     <Filter Include="Entetes">
       <UniqueIdentifier>{f7abfbf9-5134-4c77-8415-f0484796c055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entetes\Bonus">
+      <UniqueIdentifier>{9b722798-eac9-4d5b-ad41-a535f54fa804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Bonus">
+      <UniqueIdentifier>{b055a983-8e0c-4b8e-92bc-b82d111505da}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
