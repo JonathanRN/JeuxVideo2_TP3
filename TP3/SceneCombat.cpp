@@ -281,13 +281,6 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			{
 				bonus[i] = new Bombe(position, ennemisT[2]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
-				for (size_t i = 0; i < ennemis.size(); i++)
-				{
-					/*if (ennemis[i] != nullptr)
-					{
-						bonus[i]->ajouterObservateur(ennemis[i]);
-					}*/
-				}
 				return;
 			}
 		}
@@ -451,7 +444,15 @@ void tp3::SceneCombat::gererEnnemis()
 	}
 	else if (spawnEnemy.getElapsedTime().asSeconds() > 2)
 	{
-		ennemis.push_back(ennemisSuivants.pop_front());
+		Enemy *temp = ennemisSuivants.pop_front();
+		ennemis.push_back(temp);
+		for (size_t i = 0; i < NBR_BONUS; i++)
+		{
+			if (bonus[i] != nullptr)
+			{
+				bonus[i]->ajouterObservateur(temp);
+			}
+		}
 		spawnEnemy.restart();
 	}
 	////////////////////////
@@ -502,8 +503,6 @@ void tp3::SceneCombat::gererBonus()
 				bonus[i]->notifierTousLesObservateurs();
 				delete bonus[i];
 				bonus[i] = nullptr;
-				//Cree un bouclier
-				//vaisseauJoueur.shields.push(new Shield(vaisseauJoueur.getPosition(), vaisseauJoueur.shield));
 
 			}
 		}

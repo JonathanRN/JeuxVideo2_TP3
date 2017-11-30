@@ -6,6 +6,7 @@ namespace tp3
 	{
 	public:
 		Bombe(Vector2f position, Texture& texture);
+		Color choixCouleur();
 		~Bombe();
 	};
 }

@@ -52,8 +52,11 @@ void tp3::Enemy::notifier(Sujet * sujet)
 	if (typeid(*sujet) == typeid(Bombe))
 	{
 		Bombe* bombe = dynamic_cast<Bombe*>(sujet);
-		int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
-		ptsVie -= (750 - distance) / 20;
-		std::cout << "Ouch esti" << std::endl;
+		if (bombe->getColor() == getColor())
+		{
+			int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
+			ptsVie -= (750 - distance) / 20;
+			std::cout << "Ouch esti" << std::endl;
+		}
 	}
 }
