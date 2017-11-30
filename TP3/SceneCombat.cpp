@@ -204,9 +204,9 @@ void SceneCombat::update()
 	collisionVaisseauEnnemis();
 	gererBonus();
 	gererBoucliers();
+	animText();
 	gererEnnemis();
 	gererProjectiles();
-	animText();
 }
 
 void SceneCombat::draw()
@@ -442,8 +442,9 @@ void tp3::SceneCombat::gererProjectiles()
 
 void tp3::SceneCombat::gererEnnemis()
 {
+	int nbEnemy = nbEnemy1 + nbEnemy2 + nbEnemy3;
 	// Fais spawn les ennemis
-	if (ennemisSuivants.empty())
+	if (ennemisSuivants.empty() && nbEnemy <= 0 && textAfficheTerminer)
 	{
 		niveauActif++;
 		chargerNiveau(niveauActif);
@@ -451,8 +452,11 @@ void tp3::SceneCombat::gererEnnemis()
 	}
 	else if (spawnEnemy.getElapsedTime().asSeconds() > 2)
 	{
-		ennemis.push_back(ennemisSuivants.pop_front());
-		spawnEnemy.restart();
+		if (ennemisSuivants.size() > 0)
+		{
+			ennemis.push_back(ennemisSuivants.pop_front());
+			spawnEnemy.restart();
+		}
 	}
 	////////////////////////
 
@@ -542,23 +546,20 @@ void SceneCombat::chargerNiveau(const int niveau)
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 
-	if (textAfficheTerminer)
+	if (niveau == 1)
 	{
-		if (niveau == 1)
-		{
-			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 180 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 360 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ -100, 180 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ -100, 360 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 540 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ -100, 540 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 720 }, ennemisT[0], choixCouleur()));
-			ennemisSuivants.push_back(new Enemy1({ -100, 720 }, ennemisT[0], choixCouleur()));
-		}
-		else if (niveau == 2)
-		{
-			ennemisSuivants.push_back(new Enemy3({ LARGEUR_ECRAN + 100, 180 }, ennemisT[2], choixCouleur()));
-		}
+		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 180 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 360 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ -100, 180 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ -100, 360 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 540 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ -100, 540 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 720 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy1({ -100, 720 }, ennemisT[0], choixCouleur()));
+	}
+	else if (niveau == 2)
+	{
+		ennemisSuivants.push_back(new Enemy3({ LARGEUR_ECRAN + 100, 180 }, ennemisT[2], choixCouleur()));
 	}
 }
 
@@ -570,12 +571,11 @@ void SceneCombat::animText()
 	{
 		if (textNiveau.getScale().x < 1)
 		{
-			textAfficheTerminer = false;
 			textNiveau.setScale(compteur, textNiveau.getScale().y);
 			compteur += 0.05f;
 			animationText.restart();
 		}
-		if (animationText.getElapsedTime().asSeconds() > 1)
+		if (animationText.getElapsedTime().asMilliseconds() > 1500)
 		{
 			if (textNiveau.getScale().x >= 1 && textNiveau.getScale().y > 0)
 			{
@@ -583,13 +583,12 @@ void SceneCombat::animText()
 				compteur -= 0.05f;
 			}
 		}
-	}
-
-	if (textNiveau.getScale().x >= 1 && textNiveau.getScale().y <= 0)
-	{
-		animationText.restart();
-		textNiveau.setScale(0, 1);
-		compteur = 0;
-		textAfficheTerminer = true;
+		if (textNiveau.getScale().x >= 1 && textNiveau.getScale().y <= 0)
+		{
+			animationText.restart();
+			textNiveau.setScale(0, 1);
+			compteur = 0;
+			textAfficheTerminer = true;
+		}
 	}
 }

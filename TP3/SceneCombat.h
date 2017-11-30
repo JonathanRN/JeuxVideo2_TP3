@@ -16,6 +16,7 @@
 #include "Enemy3.h"
 #include "Pile.h"
 #include "File.h"
+#include "FabriqueEnemy1.h"
 
 using namespace std;
 namespace tp3
@@ -82,6 +83,7 @@ namespace tp3
 		Texture explosion;
 		
 		File<Enemy*> ennemisSuivants;
+		FabriqueEnemy* fabriqueEnemy1 = new FabriqueEnemy1();
 
 		FondMobile fond;
 	

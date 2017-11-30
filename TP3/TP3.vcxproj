@@ -117,6 +117,8 @@
     <ClInclude Include="Enemy2.h" />
     <ClInclude Include="Enemy1.h" />
     <ClInclude Include="Enemy3.h" />
+    <ClInclude Include="FabriqueEnemy.h" />
+    <ClInclude Include="FabriqueEnemy1.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />

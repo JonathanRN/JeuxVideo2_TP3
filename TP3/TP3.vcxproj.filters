@@ -135,6 +135,8 @@
     <ClInclude Include="Bombe.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
+    <ClInclude Include="FabriqueEnemy.h" />
+    <ClInclude Include="FabriqueEnemy1.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
