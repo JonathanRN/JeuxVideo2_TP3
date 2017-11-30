@@ -63,6 +63,7 @@ Scene::scenes SceneCombat::run()
 			delete ennemisSuivants[i];
 		}
 	}
+	delete fabriqueEnemy1;
 	return transitionVersScene;
 }
 
