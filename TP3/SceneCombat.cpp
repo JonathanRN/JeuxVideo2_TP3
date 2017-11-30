@@ -445,24 +445,19 @@ void tp3::SceneCombat::gererEnnemis()
 	}
 	else if (spawnEnemy.getElapsedTime().asSeconds() > 2)
 	{
-<<<<<<< HEAD
-		Enemy *temp = ennemisSuivants.pop_front();
-		ennemis.push_back(temp);
-		for (size_t i = 0; i < NBR_BONUS; i++)
-		{
-			if (bonus[i] != nullptr)
-			{
-				bonus[i]->ajouterObservateur(temp);
-			}
-		}
-		spawnEnemy.restart();
-=======
 		if (ennemisSuivants.size() > 0)
 		{
-			ennemis.push_back(ennemisSuivants.pop_front());
+			Enemy *temp = ennemisSuivants.pop_front();
+			ennemis.push_back(temp);
+			for (size_t i = 0; i < NBR_BONUS; i++)
+			{
+				if (bonus[i] != nullptr)
+				{
+					bonus[i]->ajouterObservateur(temp);
+				}
+			}
 			spawnEnemy.restart();
 		}
->>>>>>> e681305406460ae381a579c0b2fd78eba114290a
 	}
 	////////////////////////
 
