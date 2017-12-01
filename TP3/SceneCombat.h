@@ -70,6 +70,8 @@ namespace tp3
 		Clock clock_tire_enemy2;
 		Clock spawnEnemy;
 		Clock animationText;
+		Clock tempsBombeElectro;
+		Clock tempsBombeElectroEnnemis;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;

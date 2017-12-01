@@ -124,12 +124,6 @@
     <ClInclude Include="Shield.h">
       <Filter>Entetes</Filter>
     </ClInclude>
-    <ClInclude Include="Pile.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
     <ClInclude Include="Bonus.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
@@ -145,6 +139,12 @@
     <ClInclude Include="BombeElectro.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Entetes\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Pile.h">
+      <Filter>Entetes\Structures</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
@@ -158,6 +158,9 @@
     </Filter>
     <Filter Include="Sources\Bonus">
       <UniqueIdentifier>{b055a983-8e0c-4b8e-92bc-b82d111505da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entetes\Structures">
+      <UniqueIdentifier>{4f20153d-4d1d-4824-bc7c-eca07a2d9283}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

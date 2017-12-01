@@ -181,7 +181,7 @@ void SceneCombat::getInputs()
 	//Tirer
 	if (Keyboard::isKeyPressed(Keyboard::X))
 	{
-		if (clock_tirer.getElapsedTime().asMilliseconds() >= 100)
+		if (clock_tirer.getElapsedTime().asMilliseconds() >= 100 && vaisseauJoueur.canShoot == true)
 		{
 			ajouterProjectile(vaisseauJoueur.getPosition());
 			clock_tirer.restart();
@@ -242,6 +242,11 @@ void SceneCombat::update()
 	animText();
 	gererEnnemis();
 	gererProjectiles();
+	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
+	{
+		vaisseauJoueur.canShoot = true;
+	}
+
 }
 
 void SceneCombat::draw()
@@ -521,10 +526,14 @@ void tp3::SceneCombat::gererEnnemis()
 	{
 		if (ennemis[i] != nullptr)
 		{
+			if (tempsBombeElectroEnnemis.getElapsedTime().asSeconds() > 2)
+			{
+				ennemis[i]->canShoot = true;
+			}
 			ennemis[i]->action(vaisseauJoueur);
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady)
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady && ennemis[i]->canShoot)
 				{
 					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction);
 					if (i == nbEnemy2)
@@ -560,11 +569,35 @@ void tp3::SceneCombat::gererBonus()
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
 				bonus[i]->notifierTousLesObservateurs();
+				if (typeid(*bonus[i]) == typeid(BombeElectro))
+				{
+					tempsBombeElectroEnnemis.restart();
+				}
 				delete bonus[i];
 				bonus[i] = nullptr;
 
 			}
+			else if (typeid(*bonus[i]) == typeid(BombeElectro))
+			{
+				for (size_t j = 0; j < ennemis.size(); j++)
+				{
+					if (ennemis[j] != nullptr)
+					{
+						if (bonus[i] != nullptr)
+						{
+							if (ennemis[j]->getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
+							{
+								tempsBombeElectro.restart();
+								bonus[i]->notifierTousLesObservateurs();
+								delete bonus[i];
+								bonus[i] = nullptr;
+							}
+						}
+					}
+				}
+			}
 		}
+		
 	}
 }
 
