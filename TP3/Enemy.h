@@ -27,6 +27,7 @@ namespace tp3
 		int dommageTir;
 		int ptsVie;
 		int direction;
+		bool canShoot = true;
 		bool isReady;
 
 	protected:

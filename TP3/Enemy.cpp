@@ -59,4 +59,9 @@ void tp3::Enemy::notifier(Sujet * sujet)
 			std::cout << "Ouch esti" << std::endl;
 		}
 	}
+	if (typeid(*sujet) == typeid(BombeElectro))
+	{
+		canShoot = false;
+	}
+	
 }
