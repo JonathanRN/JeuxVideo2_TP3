@@ -31,6 +31,29 @@ void Vaisseau::notifier(Sujet * sujet)
 	{
 		shields.push(new Shield(getPosition(), shield));
 	}
+	if (typeid(*sujet) == typeid(Bombe))
+	{
+		Bombe* bombe = dynamic_cast<Bombe*>(sujet);
+		if (!shields.empty())
+		{
+			if (bombe->getColor() != shields.top()->getColor())
+			{
+				int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
+				ptsVie -= (750 - distance) / 20;
+				std::cout << "Ouch esti" << std::endl;
+			}
+		}
+		else
+		{
+			int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
+			ptsVie -= (750 - distance) / 20;
+			std::cout << "Ouch esti" << std::endl;
+		}
+	}
+	if (typeid(*sujet) == typeid(BombeElectro))
+	{
+		canShoot = false;
+	}
 
 }
 

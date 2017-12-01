@@ -270,7 +270,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 2;
+			int choixBonus = rand() % 3;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -280,6 +280,12 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			if (choixBonus == 1)
 			{
 				bonus[i] = new Bombe(position, ennemisT[2]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				return;
+			}
+			if (choixBonus == 2)
+			{
+				bonus[i] = new BombeElectro(position, ennemisT[1]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				return;
 			}
