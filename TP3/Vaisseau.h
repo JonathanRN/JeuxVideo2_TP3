@@ -5,6 +5,7 @@
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "Bombe.h"
+#include "BombeElectro.h"
 #include "Shield.h"
 #include "Pile.h"
 #include "IObservateur.h"
@@ -27,6 +28,7 @@ namespace tp3
 		int ptsVie = 10;
 		Texture shield;
 		Pile<Shield*> shields;
+		bool canShoot = true;
 	private:
 		static const int OFFSET = 0;
 		static const int CENTRE = 24;
