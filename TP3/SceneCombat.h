@@ -17,6 +17,7 @@
 #include "Pile.h"
 #include "File.h"
 #include "FabriqueEnemy1.h"
+#include "Portail.h"
 
 using namespace std;
 namespace tp3
@@ -84,6 +85,13 @@ namespace tp3
 		
 		File<Enemy*> ennemisSuivants;
 		FabriqueEnemy* fabriqueEnemy1 = new FabriqueEnemy1();
+		FabriqueEnemy* fabriqueEnemy2 = new FabriqueEnemy1();
+		FabriqueEnemy* fabriqueEnemy3 = new FabriqueEnemy1();
+		FabriqueEnemy* fabriqueEnemy4 = new FabriqueEnemy1();
+		FabriqueEnemy* fabriqueEnemy5 = new FabriqueEnemy1();
+		FabriqueEnemy* fabriqueEnemy6 = new FabriqueEnemy1();
+		Texture portailT;
+		Portail* portail;
 
 		FondMobile fond;
 	

@@ -3,9 +3,9 @@
 
 namespace tp3
 {
-	class FabriqueEnemy
+	class FabriqueEnemy : public Sprite
 	{
 	public:
-		virtual Enemy* fabriquerEnemy(Vector2f position, Texture &texture, Color color) = 0;
+		virtual Enemy* fabriquerEnemy(Texture &texture, Color color) = 0;
 	};
 }

@@ -64,6 +64,11 @@ Scene::scenes SceneCombat::run()
 		}
 	}
 	delete fabriqueEnemy1;
+	delete fabriqueEnemy2;
+	delete fabriqueEnemy3;
+	delete fabriqueEnemy4;
+	delete fabriqueEnemy5;
+	delete fabriqueEnemy6;
 	return transitionVersScene;
 }
 
@@ -110,6 +115,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!portailT.loadFromFile("Ressources\\portail.png"))
+	{
+		return false;
+	}
 	
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
@@ -117,6 +126,14 @@ bool SceneCombat::init(RenderWindow * const window)
 
 	ennemisSuivants.reserve(NBR_ENEMY);
 	niveauActif = 0;
+
+	//Positions des portails
+	fabriqueEnemy1->setPosition(100, 144);
+	fabriqueEnemy2->setPosition(100, 432);
+	fabriqueEnemy3->setPosition(100, 576);
+	fabriqueEnemy4->setPosition(LARGEUR_ECRAN - 100, 144);
+	fabriqueEnemy5->setPosition(LARGEUR_ECRAN - 100, 432);
+	fabriqueEnemy6->setPosition(LARGEUR_ECRAN - 100, 576);
 
 	//Text de niveau a l'ecran
 	textNiveau.setFont(font);
@@ -559,7 +576,14 @@ void SceneCombat::chargerNiveau(const int niveau)
 	}
 	else if (niveau == 2)
 	{
-		ennemisSuivants.push_back(new Enemy3({ LARGEUR_ECRAN + 100, 180 }, ennemisT[2], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur()));
 	}
 }
 

@@ -8,9 +8,9 @@ namespace tp3
 	class FabriqueEnemy1 : public FabriqueEnemy
 	{
 	public:
-		Enemy* fabriquerEnemy(Vector2f position, Texture &texture, Color color)
+		Enemy* fabriquerEnemy(Texture &texture, Color color)
 		{
-			return new Enemy1(position, texture, color);
+			return new Enemy1(getPosition(), texture, color);
 		}
 	};
 }
