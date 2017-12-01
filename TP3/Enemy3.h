@@ -5,7 +5,7 @@ namespace tp3
 	class Enemy3 : public Enemy
 	{
 	public:
-		Enemy3(Vector2f position, Texture &texture, Color color);
+		Enemy3(Vector2f position, Texture &texture, Color color, int num);
 		~Enemy3();
 
 	private:

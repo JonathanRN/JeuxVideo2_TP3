@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Enemy1::Enemy1(Vector2f position, Texture &texture, Color color):Enemy(position, texture, color)
+Enemy1::Enemy1(Vector2f position, Texture &texture, Color color, int numFabrique):Enemy(position, texture, color, numFabrique)
 {
 	setScale(getScale().x * 0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);

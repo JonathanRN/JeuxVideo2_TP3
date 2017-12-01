@@ -6,6 +6,6 @@ namespace tp3
 	class FabriqueEnemy : public Sprite
 	{
 	public:
-		virtual Enemy* fabriquerEnemy(Texture &texture, Color color) = 0;
+		virtual Enemy* fabriquerEnemy(Texture &texture, Color color, int num) = 0;
 	};
 }

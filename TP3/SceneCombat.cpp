@@ -69,6 +69,11 @@ Scene::scenes SceneCombat::run()
 	delete fabriqueEnemy4;
 	delete fabriqueEnemy5;
 	delete fabriqueEnemy6;
+
+	for (int i = 0; i < NBR_PORTAIL; i++)
+	{
+		delete portail[i];
+	}
 	return transitionVersScene;
 }
 
@@ -119,7 +124,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-	
+
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
@@ -127,13 +132,25 @@ bool SceneCombat::init(RenderWindow * const window)
 	ennemisSuivants.reserve(NBR_ENEMY);
 	niveauActif = 0;
 
-	//Positions des portails
+	//Positions des fabriques
 	fabriqueEnemy1->setPosition(100, 144);
 	fabriqueEnemy2->setPosition(100, 432);
 	fabriqueEnemy3->setPosition(100, 576);
 	fabriqueEnemy4->setPosition(LARGEUR_ECRAN - 100, 144);
 	fabriqueEnemy5->setPosition(LARGEUR_ECRAN - 100, 432);
 	fabriqueEnemy6->setPosition(LARGEUR_ECRAN - 100, 576);
+
+	//Portails
+	portail[0] = new Portail(fabriqueEnemy1->getPosition(), portailT);
+	portail[1] = new Portail(fabriqueEnemy2->getPosition(), portailT);
+	portail[2] = new Portail(fabriqueEnemy3->getPosition(), portailT);
+	portail[3] = new Portail(fabriqueEnemy4->getPosition(), portailT);
+	portail[4] = new Portail(fabriqueEnemy5->getPosition(), portailT);
+	portail[5] = new Portail(fabriqueEnemy6->getPosition(), portailT);
+	for (int i = 0; i < NBR_PORTAIL; i++)
+	{
+		portail[i]->initGraphiques();
+	}
 
 	//Text de niveau a l'ecran
 	textNiveau.setFont(font);
@@ -262,7 +279,11 @@ void SceneCombat::draw()
 		mainWin->draw(*vaisseauJoueur.shields.top());
 	}
 	
-
+	for (int i = 0; i < NBR_PORTAIL; i++)
+	{
+		mainWin->draw(*portail[i]);
+	}
+	
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(textNiveau);
 	mainWin->display();
@@ -473,14 +494,24 @@ void tp3::SceneCombat::gererEnnemis()
 		{
 			Enemy *temp = ennemisSuivants.pop_front();
 			ennemis.push_back(temp);
-			for (size_t i = 0; i < NBR_BONUS; i++)
-			{
-				if (bonus[i] != nullptr)
+			portail[temp->numeroFabrique]->animTermine = false;
+			std::cout << temp->numeroFabrique << std::endl;
+				for (size_t i = 0; i < NBR_BONUS; i++)
 				{
-					bonus[i]->ajouterObservateur(temp);
+					if (bonus[i] != nullptr)
+					{
+						bonus[i]->ajouterObservateur(temp);
+					}
 				}
-			}
-			spawnEnemy.restart();
+				spawnEnemy.restart();
+			
+		}
+	}
+	for (size_t i = 0; i < NBR_PORTAIL; i++)
+	{
+		if (!portail[i]->animTermine)
+		{
+			portail[i]->anim();
 		}
 	}
 	////////////////////////
@@ -571,25 +602,26 @@ void SceneCombat::chargerNiveau(const int niveau)
 
 	if (niveau == 1)
 	{
-		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 180 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 360 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ -100, 180 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ -100, 360 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 540 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ -100, 540 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ LARGEUR_ECRAN + 100, 720 }, ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(new Enemy1({ -100, 720 }, ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(new Enemy2({ 200, 200 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
 	}
 	else if (niveau == 2)
 	{
-		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur()));
-		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur()));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
 	}
 }
 
@@ -620,5 +652,30 @@ void SceneCombat::animText()
 			compteur = 0;
 			textAfficheTerminer = true;
 		}
+	}
+}
+
+void tp3::SceneCombat::animPortail(Enemy* temp)
+{
+	switch (temp->numeroFabrique)
+	{
+	case 0:
+		
+		break;
+	case 1:
+		portail[1]->setPosition(fabriqueEnemy2->getPosition());
+		break;
+	case 2:
+		portail[2]->setPosition(fabriqueEnemy3->getPosition());
+		break;
+	case 3:
+		portail[3]->setPosition(fabriqueEnemy4->getPosition());
+		break;
+	case 4:
+		portail[4]->setPosition(fabriqueEnemy5->getPosition());
+		break;
+	case 5:
+		portail[5]->setPosition(fabriqueEnemy6->getPosition());
+		break;
 	}
 }

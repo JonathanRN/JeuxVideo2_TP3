@@ -18,15 +18,45 @@ Portail::~Portail()
 
 void tp3::Portail::anim()
 {
-	if (animation < ANIMATION_MAXIMALE)
+	static int direction = 1;
+	if (direction == 1)
 	{
-		animation++;
-		if (animation % RHYTME_ANIM == 0)
+		if (animation < ANIMATION_MAXIMALE)
 		{
-			rectangleAnimation.left += image;
-			setTextureRect(rectangleAnimation);
+			animation++;
+			if (animation % RHYTME_ANIM == 0)
+			{
+				rectangleAnimation.left += image;
+				setTextureRect(rectangleAnimation);
+			}
+			if (rectangleAnimation.left >= 1920-image)
+			{
+				direction = -1;
+				isReady = true;
+			}
+			else
+			{
+				isReady = false;
+			}
 		}
-
+	}
+	else
+	{
+		if (animation < ANIMATION_MAXIMALE)
+		{
+			animation--;
+			if (animation % RHYTME_ANIM == 0)
+			{
+				rectangleAnimation.left -= image;
+				setTextureRect(rectangleAnimation);
+			}
+			if (rectangleAnimation.left <= 0)
+			{
+				animTermine = true;
+				std::cout << "true" << std::endl;
+				direction = 1;
+			}
+		}
 	}
 }
 

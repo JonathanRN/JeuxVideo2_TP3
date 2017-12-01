@@ -50,12 +50,14 @@ namespace tp3
 		void nbEnnemis();
 		void chargerNiveau(const int niveau);
 		void animText();
+		void animPortail(Enemy* temp);
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
 		static const int NBR_ENEMY = 10;
+		static const int NBR_PORTAIL = 6;
 		int thrust;
-
+		int fabriqueActive = 0;
 		int niveauActif;
 
 		int nbEnemy1 = 0;
@@ -92,7 +94,7 @@ namespace tp3
 		FabriqueEnemy* fabriqueEnemy5 = new FabriqueEnemy1();
 		FabriqueEnemy* fabriqueEnemy6 = new FabriqueEnemy1();
 		Texture portailT;
-		Portail* portail;
+		Portail* portail[6];
 
 		FondMobile fond;
 	

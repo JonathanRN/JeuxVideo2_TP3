@@ -18,12 +18,13 @@ void Enemy::initExplosion()
 	setTextureRect(rectangleAnimation);
 }
 
-Enemy::Enemy(Vector2f position, Texture &texture, Color color)
+Enemy::Enemy(Vector2f position, Texture &texture, Color color, int numFabrique)
 {
 	setPosition(position);
 	setTexture(texture);
 	setColor(color);
 	initExplosion();
+	numeroFabrique = numFabrique;
 }
 
 Enemy::~Enemy()

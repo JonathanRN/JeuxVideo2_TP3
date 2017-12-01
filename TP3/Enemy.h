@@ -17,7 +17,7 @@ namespace tp3
 	{
 	public:
 		void initExplosion();
-		Enemy(Vector2f position, Texture &texture, Color color);
+		Enemy(Vector2f position, Texture &texture, Color color, int numFabrique);
 		~Enemy();
 		void animExplosion();
 		virtual void action(Vaisseau& cible);
@@ -27,6 +27,7 @@ namespace tp3
 		int dommageTir;
 		int ptsVie;
 		int direction;
+		int numeroFabrique;
 		bool isReady;
 
 	protected:
