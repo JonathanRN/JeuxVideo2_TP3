@@ -100,6 +100,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!bonusT[1].loadFromFile("Ressources\\Bombe_electro.png"))
+	{
+		return false;
+	}
 	if (!player.loadFromFile("Ressources\\Player.png"))
 	{
 		return false;
