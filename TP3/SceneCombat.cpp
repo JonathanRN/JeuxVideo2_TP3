@@ -128,9 +128,21 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+<<<<<<< HEAD
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
 	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
+=======
+	if (!hudT.loadFromFile("Ressources\\hud.png"))
+	{
+		return false;
+	}
+
+	hud.setTexture(hudT);
+	hud.setOrigin(LARGEUR_ECRAN / 2, HAUTEUR_ECRAN / 2);
+	hud.setPosition(hud.getOrigin());
+
+>>>>>>> a3354bb8e826d74c84705f254dfcd1c5acfd41bc
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
@@ -163,6 +175,20 @@ bool SceneCombat::init(RenderWindow * const window)
 	textNiveau.setCharacterSize(150);
 	textNiveau.setFillColor(Color::White);
 	textNiveau.setScale(0, textNiveau.getScale().y);
+
+	//Section HUD
+	//Texte Niveau
+	niveauTextHUD.setFont(font);
+	niveauTextHUD.setFillColor(Color::White);
+	niveauTextHUD.setCharacterSize(35);
+	niveauTextHUD.setString("Niveau");
+	niveauTextHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
+	niveauTextHUD.setPosition(LARGEUR_ECRAN / 2, 0);
+	//Nombre niveau
+	niveauHUD.setFont(font);
+	niveauHUD.setFillColor(Color::White);
+	niveauHUD.setCharacterSize(100);
+	niveauHUD.setPosition(LARGEUR_ECRAN / 2 + 23, 0);
 
 	this->mainWin = window;
 	isRunning = true;
@@ -297,6 +323,9 @@ void SceneCombat::draw()
 	mainWin->draw(explo);
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(textNiveau);
+	mainWin->draw(niveauTextHUD);
+	mainWin->draw(niveauHUD);
+	mainWin->draw(hud);
 	mainWin->display();
 }
 
@@ -541,8 +570,7 @@ void tp3::SceneCombat::gererEnnemis()
 			portail[temp->numeroFabrique]->animTermine = false;
 			std::cout << temp->numeroFabrique << std::endl;
 			addObserver();
-				spawnEnemy.restart();
-			
+			spawnEnemy.restart();
 		}
 	}
 	for (size_t i = 0; i < NBR_PORTAIL; i++)
@@ -681,6 +709,8 @@ void SceneCombat::chargerNiveau(const int niveau)
 	text.str("");
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
+	niveauHUD.setString(std::to_string(niveau));
+	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
 
 	if (niveau == 1)
 	{
@@ -734,30 +764,5 @@ void SceneCombat::animText()
 			compteur = 0;
 			textAfficheTerminer = true;
 		}
-	}
-}
-
-void tp3::SceneCombat::animPortail(Enemy* temp)
-{
-	switch (temp->numeroFabrique)
-	{
-	case 0:
-		
-		break;
-	case 1:
-		portail[1]->setPosition(fabriqueEnemy2->getPosition());
-		break;
-	case 2:
-		portail[2]->setPosition(fabriqueEnemy3->getPosition());
-		break;
-	case 3:
-		portail[3]->setPosition(fabriqueEnemy4->getPosition());
-		break;
-	case 4:
-		portail[4]->setPosition(fabriqueEnemy5->getPosition());
-		break;
-	case 5:
-		portail[5]->setPosition(fabriqueEnemy6->getPosition());
-		break;
 	}
 }

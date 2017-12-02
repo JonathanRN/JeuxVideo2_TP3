@@ -52,7 +52,6 @@ namespace tp3
 		void nbEnnemis();
 		void chargerNiveau(const int niveau);
 		void animText();
-		void animPortail(Enemy* temp);
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
@@ -61,6 +60,7 @@ namespace tp3
 		int thrust;
 		int fabriqueActive = 0;
 		int niveauActif;
+		int scoreJoueur = 0;
 
 		int nbEnemy1 = 0;
 		int nbEnemy2 = 0;
@@ -108,6 +108,13 @@ namespace tp3
 		Text textNiveau;
 		std::ostringstream text;
 		bool textAfficheTerminer;
+
+		//Section HUD
+		Texture hudT;
+		Sprite hud;
+		Text niveauTextHUD;
+		Text niveauHUD;
+		Text scoreHUD;
 	};
 }
 
