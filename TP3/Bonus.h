@@ -8,6 +8,8 @@ namespace tp3
 	{
 	public:
 		Bonus(Vector2f position,Texture& texture);
+		virtual void anim();
+		virtual void initGraphiques();
 		~Bonus();
 	};
 }

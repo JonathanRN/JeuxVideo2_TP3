@@ -11,7 +11,7 @@ namespace tp3
 		void initGraphiques();
 		~BombeElectro();
 	private:
-		static const int NOMBRES_ANIM = 10;
+		static const int NOMBRES_ANIM = 4;
 		static const int RHYTME_ANIM = 6;
 		int animation;
 		const int ANIMATION_MAXIMALE = 100;

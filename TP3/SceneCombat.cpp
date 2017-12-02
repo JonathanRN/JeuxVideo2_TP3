@@ -128,7 +128,9 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-
+	explo.setOutlineThickness(1);
+	explo.setFillColor(Color::Transparent);
+	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
@@ -155,7 +157,6 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		portail[i]->initGraphiques();
 	}
-
 	//Text de niveau a l'ecran
 	textNiveau.setFont(font);
 	textNiveau.setPosition(LARGEUR_ECRAN / 2 - 300, HAUTEUR_ECRAN / 2 - 150);
@@ -246,11 +247,12 @@ void SceneCombat::update()
 	animText();
 	gererEnnemis();
 	gererProjectiles();
+	gererExplo();
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
 	}
-
+	
 }
 
 void SceneCombat::draw()
@@ -292,7 +294,7 @@ void SceneCombat::draw()
 	{
 		mainWin->draw(*portail[i]);
 	}
-	
+	mainWin->draw(explo);
 	mainWin->draw(vaisseauJoueur);
 	mainWin->draw(textNiveau);
 	mainWin->display();
@@ -333,8 +335,9 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			}
 			if (choixBonus == 2)
 			{
-				bonus[i] = new BombeElectro(position, ennemisT[1]);
+				bonus[i] = new BombeElectro(position, bonusT[1]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
 				return;
 			}
 		}
@@ -401,6 +404,20 @@ void tp3::SceneCombat::addObserver()
 				}
 			}
 		}
+	}
+}
+
+void tp3::SceneCombat::gererExplo()
+{
+	if (readyExplo == true)
+	{
+		explo.setRadius(explo.getRadius() + 40);
+		explo.setPosition(explo.getPosition().x - 40, explo.getPosition().y - 40);
+	}
+	if (explo.getRadius() >= 2000)
+	{
+		explo.setRadius(0);
+		readyExplo = false;
 	}
 }
 
@@ -587,11 +604,19 @@ void tp3::SceneCombat::gererBonus()
 	{
 		if (bonus[i] != nullptr)
 		{
+			if (typeid(*bonus[i]) == typeid(BombeElectro))
+			{
+				bonus[i]->anim();
+			}
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
+				
 				if (typeid(*bonus[i]) == typeid(BombeElectro))
 				{
 					tempsBombeElectroEnnemis.restart();
+					explo.setPosition(bonus[i]->getPosition());
+					explo.setOutlineColor(bonus[i]->getColor());
+					readyExplo = true;
 				}
 				bonus[i]->notifierTousLesObservateurs();
 				delete bonus[i];
@@ -608,6 +633,9 @@ void tp3::SceneCombat::gererBonus()
 						{
 							if (ennemis[j]->getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 							{
+								explo.setPosition(bonus[i]->getPosition());
+								explo.setOutlineColor(bonus[i]->getColor());
+								readyExplo = true;
 								tempsBombeElectro.restart();
 								bonus[i]->notifierTousLesObservateurs();
 								delete bonus[i];

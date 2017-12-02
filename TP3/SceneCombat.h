@@ -42,6 +42,7 @@ namespace tp3
 
 	private:
 		void addObserver();
+		void gererExplo();
 		void collisionProjectilesEnnemis();
 		void collisionVaisseauEnnemis();
 		void gererBoucliers();
@@ -101,6 +102,8 @@ namespace tp3
 
 		FondMobile fond;
 	
+		CircleShape explo = CircleShape(0, 30);
+		bool readyExplo = false;
 		Font font;
 		Text textNiveau;
 		std::ostringstream text;

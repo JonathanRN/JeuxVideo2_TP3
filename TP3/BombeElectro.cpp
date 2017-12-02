@@ -5,6 +5,8 @@ using namespace tp3;
 BombeElectro::BombeElectro(Vector2f position, Texture& texture) :Bonus(position, texture)
 {
 	setColor(choixCouleur());
+	rectangleAnimation.left = 0;
+	rectangleAnimation.top = 0;
 }
 
 Color tp3::BombeElectro::choixCouleur()
@@ -30,27 +32,23 @@ Color tp3::BombeElectro::choixCouleur()
 
 void tp3::BombeElectro::anim()
 {
+
 	static int direction = 1;
 	if (direction == 1)
 	{
-		if (animation < ANIMATION_MAXIMALE)
-		{
 			animation++;
 			if (animation % RHYTME_ANIM == 0)
 			{
 				rectangleAnimation.left += image;
 				setTextureRect(rectangleAnimation);
 			}
-			if (rectangleAnimation.left >= 1920-image)
+			if (rectangleAnimation.left >= 460-image)
 			{
 				direction = -1;
 			}
-		}
 	}
 	else
 	{
-		if (animation < ANIMATION_MAXIMALE)
-		{
 			animation--;
 			if (animation % RHYTME_ANIM == 0)
 			{
@@ -61,7 +59,6 @@ void tp3::BombeElectro::anim()
 			{
 				direction = 1;
 			}
-		}
 	}
 }
 
@@ -71,7 +68,7 @@ void tp3::BombeElectro::initGraphiques()
 	int demiTailleX = image / 2;
 	int demiTailleY = getTexture()->getSize().y / 2;
 	setOrigin(demiTailleX, demiTailleY);
-
+	setScale(getScale().x * 0.5, getScale().y * 0.5);
 	//Rectangle d'animation
 	rectangleAnimation.left = 0;
 	rectangleAnimation.top = 0;
@@ -80,6 +77,7 @@ void tp3::BombeElectro::initGraphiques()
 
 	setTextureRect(rectangleAnimation);
 }
+
 
 
 BombeElectro::~BombeElectro()
