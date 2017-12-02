@@ -41,6 +41,7 @@ namespace tp3
 		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction);
 
 	private:
+		void addObserver();
 		void collisionProjectilesEnnemis();
 		void collisionVaisseauEnnemis();
 		void gererBoucliers();

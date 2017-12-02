@@ -382,6 +382,24 @@ void tp3::SceneCombat::retObservateur(Enemy* observateur)
 	}
 }
 
+void tp3::SceneCombat::addObserver()
+{
+	bool peutAjouter = true;
+	for (size_t i = 0; i < NBR_BONUS; i++)
+	{
+		if (bonus[i] != nullptr)
+		{
+			for (size_t j = 0; j < ennemis.size(); j++)
+			{
+				if (ennemis[j] != nullptr)
+				{
+					bonus[i]->ajouterObservateur(ennemis[j]);
+				}
+			}
+		}
+	}
+}
+
 void tp3::SceneCombat::collisionProjectilesEnnemis()
 {
 	for (int i = 0; i < ennemis.size(); i++)
@@ -501,13 +519,7 @@ void tp3::SceneCombat::gererEnnemis()
 			ennemis.push_back(temp);
 			portail[temp->numeroFabrique]->animTermine = false;
 			std::cout << temp->numeroFabrique << std::endl;
-				for (size_t i = 0; i < NBR_BONUS; i++)
-				{
-					if (bonus[i] != nullptr)
-					{
-						bonus[i]->ajouterObservateur(temp);
-					}
-				}
+			addObserver();
 				spawnEnemy.restart();
 			
 		}
@@ -521,27 +533,32 @@ void tp3::SceneCombat::gererEnnemis()
 	}
 	////////////////////////
 
+
 	nbEnnemis();
+	int counterEnemy2 = 0;
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
-			if (tempsBombeElectroEnnemis.getElapsedTime().asSeconds() > 2)
-			{
-				ennemis[i]->canShoot = true;
-			}
 			ennemis[i]->action(vaisseauJoueur);
+			
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
-				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady && ennemis[i]->canShoot)
+				counterEnemy2++;
+				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
 				{
+					cout << ennemis[i]->canShoot << endl;
 					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction);
-					if (i == nbEnemy2)
+					if (nbEnemy2 == counterEnemy2 ||  nbEnemy2 == 1)
 					{
 						clock_tire_enemy2.restart();
 					}
 				}
 
+			}
+			if (tempsBombeElectroEnnemis.getElapsedTime().asSeconds() > 2)
+			{
+				ennemis[i]->canShoot = true;
 			}
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
@@ -568,11 +585,11 @@ void tp3::SceneCombat::gererBonus()
 		{
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
-				bonus[i]->notifierTousLesObservateurs();
 				if (typeid(*bonus[i]) == typeid(BombeElectro))
 				{
 					tempsBombeElectroEnnemis.restart();
 				}
+				bonus[i]->notifierTousLesObservateurs();
 				delete bonus[i];
 				bonus[i] = nullptr;
 
@@ -636,8 +653,8 @@ void SceneCombat::chargerNiveau(const int niveau)
 	if (niveau == 1)
 	{
 		ennemisSuivants.push_back(new Enemy2({ 200, 200 }, ennemisT[1], choixCouleur(), 1));
-		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(new Enemy2({ 200, 200 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy2({ 200, 200 }, ennemisT[1], choixCouleur(), 1));
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
