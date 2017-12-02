@@ -128,11 +128,11 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
-<<<<<<< HEAD
+
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
 	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
-=======
+
 	if (!hudT.loadFromFile("Ressources\\hud.png"))
 	{
 		return false;
@@ -142,7 +142,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	hud.setOrigin(LARGEUR_ECRAN / 2, HAUTEUR_ECRAN / 2);
 	hud.setPosition(hud.getOrigin());
 
->>>>>>> a3354bb8e826d74c84705f254dfcd1c5acfd41bc
+
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(100, 100);
 	vaisseauJoueur.initGraphiques();
