@@ -10,15 +10,16 @@ Enemy4::Enemy4(Vector2f position, Texture &texture, Color color, int num) :Enemy
 	dommageTir = 1;
 	vitesse = 8;
 	ptsVie = 5;
-	direction = 1;
+	direction = -1;
 	isReady = false;
-	posX = 90;
+	posX = 100;
 }
 
 
 Enemy4::~Enemy4()
 {
 }
+
 
 void Enemy4::action(Vaisseau &cible)
 {
@@ -27,42 +28,45 @@ void Enemy4::action(Vaisseau &cible)
 	Vector2f hautDroite = Vector2f( LARGEUR - 100, 100 );
 	Vector2f basDroite = Vector2f( LARGEUR - 100, HAUTEUR - 100 );
 	Vector2f enemyPos = getPosition();
+	static Vector2f target = hautGauche;
 
-	//if (!isReady)
+	if (!isReady)
 	{
-		/*move(-direction*vitesse, 0);
-		if (direction == -1 && getPosition().x > posX)
+		move(direction*vitesse, 0);
+		if (direction == 1 && getPosition().x > posX)
 		{
 			isReady = true;
 		}
-		else if (direction == 1 && getPosition().x < LARGEUR - posX)
+		else if (direction == -1 && getPosition().x < LARGEUR - posX)
 		{
 			isReady = true;
-		}*/
+		}
+		choixCible(hautGauche, enemyPos);
 
-		//if (enemyPos != hautGauche && enemyPos != hautDroite && enemyPos != basGauche && enemyPos != basDroite) //Si ennemi n'a pas commence sa boucle
-		//{
-		//	//Il la commence
-		//	choixCible(hautGauche, enemyPos);
-		//}
 	}
-	//else
+	else
 	{	
-		if (enemyPos.x >= hautGauche.x && enemyPos.y >= hautGauche.y)
+		if (enemyPos.x <= hautGauche.x && enemyPos.y <= hautGauche.y && target == hautGauche)
 		{
 			choixCible(basGauche, enemyPos);
+			target = basGauche;
 		}
-		if (enemyPos.x >= basGauche.x && enemyPos.y >= basGauche.y)
+		if (enemyPos.x >= basGauche.x && enemyPos.y >= basGauche.y && target == basGauche)
 		{
 			choixCible(hautDroite, enemyPos);
+			target = hautDroite;
 		}
-		if (enemyPos.x >= hautDroite.x && enemyPos.y >= hautDroite.y)
+		if (enemyPos.x >= hautDroite.x && enemyPos.y <= hautDroite.y && target == hautDroite)
 		{
 			choixCible(basDroite, enemyPos);
+			target = basDroite;
+			angle = angle + M_PI;
 		}
-		if (enemyPos.x >= basDroite.x && enemyPos.y >= basDroite.y)
+		if (enemyPos.x <= basDroite.x && enemyPos.y >= basDroite.y && target == basDroite)
 		{
 			choixCible(hautGauche, enemyPos);
+			target = hautGauche;
+			angle = angle + M_PI;
 		}
 
 		setPosition(enemyPos.x + (cos(angle) * vitesse), enemyPos.y + (sin(angle) * vitesse));
@@ -73,11 +77,6 @@ void Enemy4::choixCible(Vector2f posCible, Vector2f enemy)
 {
 	//Gestion de l'angle
 	angle = (atanf((posCible.y - enemy.y) / (posCible.x - enemy.x)));
-
-	/*if (posCible.x < enemy.x)
-	{
-		angle = angle + M_PI;
-	}*/
 }
 
 

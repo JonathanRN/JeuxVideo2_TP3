@@ -665,7 +665,7 @@ void tp3::SceneCombat::gererEnnemis()
 				counterEnemy3++;
 				if (clock_tire_enemy3.getElapsedTime().asMilliseconds() >= 800 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
 				{
-					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x +10, ennemis[i]->getPosition().y + 35}, ennemis[i]->getColor(), ennemis[i]->direction, 0.20f);
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x +10, ennemis[i]->getPosition().y + 35 }, ennemis[i]->getColor(), ennemis[i]->direction, 0.20f);
 					if (nbEnemy3 == counterEnemy3 || nbEnemy3 == 1)
 					{
 						clock_tire_enemy3.restart();
@@ -783,7 +783,7 @@ void SceneCombat::chargerNiveau(const int niveau)
 	{
 		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-		ennemisSuivants.push_back(new Enemy4({100, 100 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[1], choixCouleur(), 1));
 
 		/*ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
