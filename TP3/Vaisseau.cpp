@@ -5,6 +5,7 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
+	weapon = Base;
 }
 
 
@@ -40,19 +41,25 @@ void Vaisseau::notifier(Sujet * sujet)
 			{
 				int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
 				ptsVie -= (750 - distance) / 20;
-				std::cout << "Ouch esti" << std::endl;
+				std::cout << ((750 - distance) / 20) / 4 << std::endl;//couutt
 			}
 		}
 		else
 		{
 			int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
-			ptsVie -= (750 - distance) / 20;
-			std::cout << "Ouch esti" << std::endl;
+			ptsVie -= ((750 - distance) / 20)/10;
+			std::cout << ((750 - distance) / 20) / 4 << std::endl;//couuttt
+			
 		}
 	}
 	if (typeid(*sujet) == typeid(BombeElectro))
 	{
 		canShoot = false;
+	}
+	if (typeid(*sujet) == typeid(BonusScatter))
+	{
+		weapon = Scatter;
+		munitionScatter += 250;
 	}
 
 }

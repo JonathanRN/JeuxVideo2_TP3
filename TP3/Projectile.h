@@ -9,6 +9,7 @@ namespace tp3
 		Projectile(const Vector2f& position, const Color& couleur, const int animationMaximale);
 		~Projectile();
 		float vitesse;
+		float angle;
 		virtual void initGraphiques() = 0;
 		virtual void anim(int direction) = 0;
 		void activer();

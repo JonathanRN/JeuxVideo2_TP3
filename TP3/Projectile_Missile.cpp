@@ -1,19 +1,19 @@
-#include "Projectile_normal.h"
+#include "Projectile_Missile.h"
 using namespace tp3;
 
 
-Projectile_normal::Projectile_normal(Vector2f position, float vitesse,Texture& texture,float angle): Projectile(position,Color::Cyan,100)
+Projectile_Missile::Projectile_Missile(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::Cyan, 100)
 {
 	this->angle = angle;
 	setPosition(position);
 	this->vitesse = vitesse;
 	setTexture(texture);
-	setScale(getScale().x * 0.5,getScale().y *0.5);
+	setScale(getScale().x * 0.5, getScale().y *0.5);
 	rectangleAnimation.left = 0;
 	rectangleAnimation.top = 0;
 }
 
-void Projectile_normal::anim(int direction)
+void Projectile_Missile::anim(int direction)
 {
 	if (actif && animation < ANIMATION_MAXIMALE)
 	{
@@ -31,7 +31,7 @@ void Projectile_normal::anim(int direction)
 	}
 }
 
-void Projectile_normal::initGraphiques()
+void Projectile_Missile::initGraphiques()
 {
 	image = getTexture()->getSize().y / NOMBRES_ANIM;
 	int demiTailleX = getTexture()->getSize().x / 2;
@@ -48,6 +48,6 @@ void Projectile_normal::initGraphiques()
 }
 
 
-Projectile_normal::~Projectile_normal()
+Projectile_Missile::~Projectile_Missile()
 {
 }

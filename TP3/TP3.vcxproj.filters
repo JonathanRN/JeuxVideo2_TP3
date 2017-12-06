@@ -68,6 +68,8 @@
     <ClCompile Include="Enemy4.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="BonusScatter.cpp" />
+    <ClCompile Include="Projectile_Missile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -151,6 +153,11 @@
     <ClInclude Include="Enemy4.h">
       <Filter>Entetes</Filter>
     </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusScatter.h" />
+    <ClInclude Include="Projectile_Missile.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
