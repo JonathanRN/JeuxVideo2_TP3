@@ -24,7 +24,7 @@ void Enemy1::action(Vaisseau& cible)
 	float enemyX = getPosition().x;
 	float enemyY = getPosition().y;
 
-	// Gestion de l'angle du zombie
+	// Gestion de l'angle
 	angle = (atanf((cibleY - enemyY) / (cibleX - enemyX)));
 
 	if (cibleX < enemyX)

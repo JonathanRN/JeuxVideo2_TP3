@@ -15,6 +15,7 @@
 #include "Enemy1.h"
 #include "Enemy2.h"
 #include "Enemy3.h"
+#include "Enemy4.h"
 #include "Pile.h"
 #include "File.h"
 #include "FabriqueEnemy1.h"
@@ -38,7 +39,7 @@ namespace tp3
 		void retObservateur(Enemy* observateur);
 		void ajouterProjectile(Vector2f position);
 		void ajouterBonus(Vector2f position);
-		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction);
+		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction, float scale);
 
 	private:
 		void addObserver();
@@ -70,6 +71,7 @@ namespace tp3
 		Clock clock_tirer;
 		Clock clock_pivoter;
 		Clock clock_tire_enemy2;
+		Clock clock_tire_enemy3;
 		Clock spawnEnemy;
 		Clock animationText;
 		Clock tempsBombeElectro;
@@ -115,6 +117,8 @@ namespace tp3
 		Text niveauTextHUD;
 		Text niveauHUD;
 		Text scoreHUD;
+		Text ptsVieText;
+		RectangleShape* barresVie[10];
 	};
 }
 

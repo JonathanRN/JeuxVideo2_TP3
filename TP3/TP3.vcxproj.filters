@@ -65,6 +65,9 @@
     <ClCompile Include="BombeElectro.cpp">
       <Filter>Sources\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy4.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -144,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="Pile.h">
       <Filter>Entetes\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy4.h">
+      <Filter>Entetes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

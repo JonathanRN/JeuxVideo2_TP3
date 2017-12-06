@@ -2,11 +2,11 @@
 using namespace tp3;
 
 
-Projectile_Enemy::Projectile_Enemy(Vector2f position, float vitesse, Texture& texture, Color color, int direction) : Projectile(position, color, 100)
+Projectile_Enemy::Projectile_Enemy(Vector2f position, float vitesse, Texture& texture, Color color, int direction, float scale) : Projectile(position, color, 100)
 {
 	setTexture(texture);
 	this->vitesse = vitesse;
-	setScale(getScale().x * (0.05 *direction), getScale().y *(0.05 *direction));
+	setScale(getScale().x * (scale *direction), getScale().y *(scale *direction));
 	setOrigin(texture.getSize().x/2, texture.getSize().y / 2);
 
 }

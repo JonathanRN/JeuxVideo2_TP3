@@ -96,6 +96,7 @@
     <ClCompile Include="Enemy2.cpp" />
     <ClCompile Include="Enemy1.cpp" />
     <ClCompile Include="Enemy3.cpp" />
+    <ClCompile Include="Enemy4.cpp" />
     <ClCompile Include="FondMobile.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -120,6 +121,7 @@
     <ClInclude Include="Enemy2.h" />
     <ClInclude Include="Enemy1.h" />
     <ClInclude Include="Enemy3.h" />
+    <ClInclude Include="Enemy4.h" />
     <ClInclude Include="FabriqueEnemy.h" />
     <ClInclude Include="FabriqueEnemy1.h" />
     <ClInclude Include="File.h" />

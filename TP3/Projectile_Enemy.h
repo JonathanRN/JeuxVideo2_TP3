@@ -5,7 +5,7 @@ namespace tp3
 	class Projectile_Enemy : public Projectile
 	{
 	public:
-		Projectile_Enemy(Vector2f position, float vitesse, Texture& texture,Color color,int direction);
+		Projectile_Enemy(Vector2f position, float vitesse, Texture& texture,Color color,int direction, float scale);
 		void anim(int direction);
 		void initGraphiques();
 		~Projectile_Enemy();
