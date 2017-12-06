@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include "Bonus.h"
+#include "Weapon.h"
+#include "BonusScatter.h"
 #include "BonusShield.h"
 #include "Bombe.h"
 #include "BombeElectro.h"
@@ -29,6 +31,8 @@ namespace tp3
 		Texture shield;
 		Pile<Shield*> shields;
 		bool canShoot = true;
+		int munitionScatter = 0;
+		Weapon weapon;
 	private:
 		static const int OFFSET = 0;
 		static const int CENTRE = 24;

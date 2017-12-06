@@ -294,6 +294,7 @@ void SceneCombat::update()
 	gererEnnemis();
 	gererProjectiles();
 	gererExplo();
+	gererWeapons();
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
@@ -379,14 +380,54 @@ void SceneCombat::draw()
 
 void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 {
-	for (int i = 0; i < NBR_PROJ; i++)
+	if (vaisseauJoueur.weapon == Base)
 	{
-		if (projectiles[i] == nullptr)
+		for (int i = 0; i < NBR_PROJ; i++)
 		{
-			projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0]);
-			projectiles[i]->initGraphiques();
-			projectiles[i]->activer();
-			return;
+			if (projectiles[i] == nullptr)
+			{
+				projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0],0);
+				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
+				projectiles[i]->initGraphiques();
+				projectiles[i]->activer();
+				return;
+			}
+		}
+	}
+	if (vaisseauJoueur.weapon == Scatter)
+	{
+		for (size_t j = 0; j < 3; j++)
+		{
+			for (int i = 0; i < NBR_PROJ; i++)
+			{
+				if (projectiles[i] == nullptr)
+				{
+					projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0],0);
+					if (j == 0)
+						projectiles[i]->angle = 0.2f;
+					if (j == 1)
+						projectiles[i]->angle = -0.2f;
+					projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
+					projectiles[i]->initGraphiques();
+					projectiles[i]->activer();
+					vaisseauJoueur.munitionScatter--;
+					break;
+				}
+			}
+		}
+	}
+	if (vaisseauJoueur.weapon == Missile)
+	{
+		for (int i = 0; i < NBR_PROJ; i++)
+		{
+			if (projectiles[i] == nullptr)
+			{
+				projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0], 0);
+				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
+				projectiles[i]->initGraphiques();
+				projectiles[i]->activer();
+				return;
+			}
 		}
 	}
 }
@@ -397,7 +438,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 3;
+			int choixBonus = rand() % 4;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -413,6 +454,13 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			if (choixBonus == 2)
 			{
 				bonus[i] = new BombeElectro(position, bonusT[1]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
+				return;
+			}
+			if (choixBonus == 3)
+			{
+				bonus[i] = new BonusScatter(position, ennemisT[0]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -576,6 +624,17 @@ void tp3::SceneCombat::gererBoucliers()
 	
 }
 
+void tp3::SceneCombat::gererWeapons()
+{
+	if (vaisseauJoueur.weapon == Scatter)
+	{
+		if (vaisseauJoueur.munitionScatter <= 0)
+		{
+			vaisseauJoueur.weapon == Base;
+		}
+	}
+}
+
 void tp3::SceneCombat::gererProjectiles()
 {
 	for (size_t i = 0; i < NBR_PROJ; i++)
@@ -583,7 +642,7 @@ void tp3::SceneCombat::gererProjectiles()
 		if (projectiles[i] != nullptr)
 		{
 			projectiles[i]->anim(vaisseauJoueur.direction);
-			projectiles[i]->move(projectiles[i]->vitesse, 0);
+			projectiles[i]->move(projectiles[i]->vitesse *cos(projectiles[i]->angle), projectiles[i]->vitesse*sin(projectiles[i]->angle));
 			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
 			{
 				delete projectiles[i];
@@ -785,14 +844,14 @@ void SceneCombat::chargerNiveau(const int niveau)
 		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy4({100, 100 }, ennemisT[1], choixCouleur(), 1));
 
-		/*ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
 		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
-		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));*/
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
 	}
 	else if (niveau == 2)
 	{

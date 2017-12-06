@@ -1,11 +1,14 @@
 #pragma once
+#define _USE_MATH_DEFINES
 #include <vector>
 #include <sstream>
+#include "BonusScatter.h"
 #include "FondMobile.h"
 #include "Scene.h"
 #include "Vaisseau.h"
 #include "Projectile.h"
 #include "Projectile_normal.h"
+#include "Weapon.h"
 #include "Projectile_Enemy.h"
 #include "Bonus.h"
 #include "BonusShield.h"
@@ -47,6 +50,7 @@ namespace tp3
 		void collisionProjectilesEnnemis();
 		void collisionVaisseauEnnemis();
 		void gererBoucliers();
+		void gererWeapons();
 		void gererProjectiles();
 		void gererEnnemis();
 		void gererBonus();
