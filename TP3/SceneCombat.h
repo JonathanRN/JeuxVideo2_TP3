@@ -8,6 +8,7 @@
 #include "Vaisseau.h"
 #include "Projectile.h"
 #include "Projectile_normal.h"
+#include "Projectile_Missile.h"
 #include "Weapon.h"
 #include "Projectile_Enemy.h"
 #include "Bonus.h"

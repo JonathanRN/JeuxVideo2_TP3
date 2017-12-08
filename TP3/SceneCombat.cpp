@@ -422,9 +422,8 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 		{
 			if (projectiles[i] == nullptr)
 			{
-				projectiles[i] = new Projectile_normal(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[0], 0);
+				projectiles[i] = new Projectile_Missile(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, ennemisT[0], 0);
 				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
-				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
 				return;
 			}
@@ -559,6 +558,22 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 					if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
 					{
 						ennemis[i]->ptsVie--;
+						if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
+						{
+							for (size_t k = 0; k < ennemis.size(); k++)
+							{
+								if (ennemis[k] != nullptr)
+								{
+									int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
+									if (distance < 1000)
+									{
+										ennemis[k]->ptsVie -= 2;
+										if(ennemis[i] != ennemis[k])
+											cout << "OUCH ESTI" << endl;
+									}
+								}
+							}
+						}
 						delete projectiles[j];
 						projectiles[j] = nullptr;
 					}
@@ -641,7 +656,10 @@ void tp3::SceneCombat::gererProjectiles()
 	{
 		if (projectiles[i] != nullptr)
 		{
-			projectiles[i]->anim(vaisseauJoueur.direction);
+			if (typeid(*projectiles[i]) == typeid(Projectile_normal))
+			{
+				projectiles[i]->anim(vaisseauJoueur.direction);
+			}
 			projectiles[i]->move(projectiles[i]->vitesse *cos(projectiles[i]->angle), projectiles[i]->vitesse*sin(projectiles[i]->angle));
 			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
 			{

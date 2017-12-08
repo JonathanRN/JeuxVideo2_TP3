@@ -5,7 +5,7 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
-	weapon = Base;
+	weapon = Missile;
 }
 
 

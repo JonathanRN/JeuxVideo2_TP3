@@ -8,9 +8,8 @@ Projectile_Missile::Projectile_Missile(Vector2f position, float vitesse, Texture
 	setPosition(position);
 	this->vitesse = vitesse;
 	setTexture(texture);
-	setScale(getScale().x * 0.5, getScale().y *0.5);
-	rectangleAnimation.left = 0;
-	rectangleAnimation.top = 0;
+	//rectangleAnimation.left = 0;
+	//rectangleAnimation.top = 0;
 }
 
 void Projectile_Missile::anim(int direction)
