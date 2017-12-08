@@ -13,7 +13,6 @@ Projectile_Beam::Projectile_Beam(Vector2f position, float vitesse, Texture& text
 
 void Projectile_Beam::anim(int direction)
 {
-	static int direction = 1;
 	if (direction == 1)
 	{
 		animation++;
