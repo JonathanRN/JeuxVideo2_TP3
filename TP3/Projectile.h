@@ -12,6 +12,7 @@ namespace tp3
 		float angle;
 		virtual void initGraphiques() = 0;
 		virtual void anim(int direction) = 0;
+		bool animTermine = false;
 		void activer();
 	protected:
 		static const int RHYTME_ANIM = 4;

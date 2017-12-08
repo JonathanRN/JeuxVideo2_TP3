@@ -4,41 +4,35 @@ using namespace tp3;
 
 Projectile_Beam::Projectile_Beam(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::Cyan, 100)
 {
+	//setOrigin(0, texture.getSize().y/10);
 	setPosition(position);
 	setTexture(texture);
-	//setScale(getScale().x * 0.5, getScale().y *0.5);
-	rectangleAnimation.left = 0;
+	setScale(getScale().x * 10 , getScale().y * 10);
+	
+	rectangleAnimation.left = 3498;
 	rectangleAnimation.top = 0;
 }
 
 void Projectile_Beam::anim(int direction)
 {
-	if (direction == 1)
-	{
+	    if (animation == 0)
+	    {
+			setScale(getScale().x * direction, getScale().y);
+			setPosition(getPosition().x + 650 * direction, getPosition().y);
+		}
 		animation++;
 		if (animation % RHYTME_ANIM == 0)
 		{
-			rectangleAnimation.left += image;
-			setTextureRect(rectangleAnimation);
-		}
-		if (rectangleAnimation.left >= 460 - image)
-		{
-			direction = -1;
-		}
-	}
-	else
-	{
-		animation--;
-		if (animation % RHYTME_ANIM == 0)
-		{
+			
 			rectangleAnimation.left -= image;
 			setTextureRect(rectangleAnimation);
 		}
-		if (rectangleAnimation.left <= 0)
+		if (rectangleAnimation.left < 0)
 		{
-			direction = 1;
+			animTermine = true;
 		}
-	}
+	
+
 }
 
 void Projectile_Beam::initGraphiques()
@@ -49,7 +43,7 @@ void Projectile_Beam::initGraphiques()
 	setOrigin(demiTailleX, demiTailleY);
 	setScale(getScale().x * 0.5, getScale().y * 0.5);
 	//Rectangle d'animation
-	rectangleAnimation.left = 0;
+	//rectangleAnimation.left = 0;
 	rectangleAnimation.top = 0;
 	rectangleAnimation.width = image;
 	rectangleAnimation.height = getTexture()->getSize().y;

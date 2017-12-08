@@ -97,6 +97,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!projectileT[1].loadFromFile("Ressources\\beam.png"))
+	{
+		return false;
+	}
 	if (!projectileEnemy.loadFromFile("Ressources\\Projectile_enemy2.png"))
 	{
 		return false;
@@ -333,17 +337,7 @@ void SceneCombat::draw()
 {
 	mainWin->clear();
 	fond.draw(mainWin);
-	for (int i = 0; i < NBR_PROJ; i++)
-	{
-		if (projectiles[i] != nullptr)
-		{
-			mainWin->draw(*projectiles[i]);
-		}
-		if (projectilesEnemy[i] != nullptr)
-		{
-			mainWin->draw(*projectilesEnemy[i]);
-		}
-	}
+	
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
@@ -390,6 +384,17 @@ void SceneCombat::draw()
 	}
 	mainWin->draw(explo);
 	mainWin->draw(vaisseauJoueur);
+	for (int i = 0; i < NBR_PROJ; i++)
+	{
+		if (projectiles[i] != nullptr)
+		{
+			mainWin->draw(*projectiles[i]);
+		}
+		if (projectilesEnemy[i] != nullptr)
+		{
+			mainWin->draw(*projectilesEnemy[i]);
+		}
+	}
 	mainWin->draw(textNiveau);
 	mainWin->draw(niveauTextHUD);
 	mainWin->draw(niveauHUD);
@@ -444,6 +449,19 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			{
 				projectiles[i] = new Projectile_Missile(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, ennemisT[0], 0);
 				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
+				projectiles[i]->activer();
+				return;
+			}
+		}
+	}
+	if (vaisseauJoueur.weapon == FatLaser)
+	{
+		for (int i = 0; i < NBR_PROJ; i++)
+		{
+			if (projectiles[i] == nullptr)
+			{
+				projectiles[i] = new Projectile_Beam(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[1], 0);
+				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
 				return;
 			}
@@ -576,27 +594,30 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 			{
 				if (projectiles[j] != nullptr)
 				{
-					if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
+					if (typeid(*projectiles[j]) != typeid(Projectile_Beam))
 					{
-						ennemis[i]->ptsVie--;
-						if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
+						if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
 						{
-							for (size_t k = 0; k < ennemis.size(); k++)
+							ennemis[i]->ptsVie--;
+							if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
 							{
-								if (ennemis[k] != nullptr)
+								for (size_t k = 0; k < ennemis.size(); k++)
 								{
-									int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-									if (distance < 1000)
+									if (ennemis[k] != nullptr)
 									{
-										ennemis[k]->ptsVie -= 2;
-										if(ennemis[i] != ennemis[k])
-											cout << "OUCH ESTI" << endl;
+										int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
+										if (distance < 1000)
+										{
+											ennemis[k]->ptsVie -= 2;
+											if (ennemis[i] != ennemis[k])
+												cout << "OUCH ESTI" << endl;
+										}
 									}
 								}
 							}
+							delete projectiles[j];
+							projectiles[j] = nullptr;
 						}
-						delete projectiles[j];
-						projectiles[j] = nullptr;
 					}
 				}
 			}
@@ -677,15 +698,33 @@ void tp3::SceneCombat::gererProjectiles()
 	{
 		if (projectiles[i] != nullptr)
 		{
-			if (typeid(*projectiles[i]) == typeid(Projectile_normal))
+			if (typeid(*projectiles[i]) == typeid(Projectile_normal) || typeid(*projectiles[i]) == typeid(Projectile_Beam))
 			{
 				projectiles[i]->anim(vaisseauJoueur.direction);
 			}
-			projectiles[i]->move(projectiles[i]->vitesse *cos(projectiles[i]->angle), projectiles[i]->vitesse*sin(projectiles[i]->angle));
+			if (typeid(*projectiles[i]) != typeid(Projectile_Beam))
+			{
+				projectiles[i]->move(projectiles[i]->vitesse *cos(projectiles[i]->angle), projectiles[i]->vitesse*sin(projectiles[i]->angle));
+			}
 			if (projectiles[i]->getPosition().x > LARGEUR_ECRAN || projectiles[i]->getPosition().x < 0)
 			{
-				delete projectiles[i];
-				projectiles[i] = nullptr;
+				if (typeid(*projectiles[i]) != typeid(Projectile_Beam))
+				{
+					delete projectiles[i];
+					projectiles[i] = nullptr;
+				}
+			}
+			if (projectiles[i] != nullptr)
+			{
+				if (typeid(*projectiles[i]) == typeid(Projectile_Beam))
+				{
+					if (projectiles[i]->animTermine)
+					{
+						delete projectiles[i];
+						projectiles[i] = nullptr;
+						ennemis.clear();
+					}
+				}
 			}
 			
 		}
