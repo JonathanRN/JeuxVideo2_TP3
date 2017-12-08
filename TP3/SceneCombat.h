@@ -124,8 +124,11 @@ namespace tp3
 		Text niveauHUD;
 		Text scoreHUD;
 		Text ptsVieText;
-		RectangleShape* barresVie[10];
-		RectangleShape* barresEnnemis[5];
+		static const int NB_BARRES_VIES = 10;
+		RectangleShape* barresVie[NB_BARRES_VIES];
+
+		static const int NB_BARRES_ENNEMIS = 7;
+		RectangleShape* barresEnnemis[NB_BARRES_ENNEMIS];
 	};
 }
 
