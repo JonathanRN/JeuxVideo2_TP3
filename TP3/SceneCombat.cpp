@@ -129,6 +129,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!ennemisT[3].loadFromFile("Ressources\\enemy4.png"))
+	{
+		return false;
+	}
 	if (!portailT.loadFromFile("Ressources\\portail.png"))
 	{
 		return false;
@@ -209,6 +213,17 @@ bool SceneCombat::init(RenderWindow * const window)
 	ptsVieText.setCharacterSize(55);
 	ptsVieText.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
 	ptsVieText.setPosition(120, -15);
+
+	//Ennemis suivants
+	static int espaceEnnemis = 0;
+	for (int i = 0; i < 5; i++)
+	{
+		barresEnnemis[i] = new RectangleShape({ 20, 25 });
+		barresEnnemis[i]->setFillColor(Color::Green);
+		barresEnnemis[i]->setOrigin(barresEnnemis[i]->getSize().x / 2, barresEnnemis[i]->getSize().y / 2);
+		barresEnnemis[i]->setPosition(LARGEUR_ECRAN - 100 - espaceEnnemis, 40);
+		espaceEnnemis += 25;
+	}
 
 	this->mainWin = window;
 	isRunning = true;
@@ -469,13 +484,14 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	}
 }
 
-void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int direction, float scale)
+void SceneCombat::ajouterProjectileEnnemis(Vector2f position, Color color ,int direction, float scale, float angle)
 {
 	for (int j = 0; j < NBR_PROJ; j++)
 	{
 		if (projectilesEnemy[j] == nullptr)
 		{
-			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 20 * -direction, projectileEnemy, color,direction, scale);
+			projectilesEnemy[j] = new Projectile_Enemy(Vector2f(position.x, position.y), 20 * -direction, projectileEnemy, color,direction, scale, angle);
+			projectilesEnemy[j]->setRotation(((projectilesEnemy[j]->angle) * 180) / M_PI);
 			projectilesEnemy[j]->activer();
 			return;
 		}
@@ -652,7 +668,7 @@ void tp3::SceneCombat::gererProjectiles()
 		}
 		if (projectilesEnemy[i] != nullptr)
 		{
-			projectilesEnemy[i]->move(projectilesEnemy[i]->vitesse, 0);
+			projectilesEnemy[i]->move(projectilesEnemy[i]->vitesse *cos(projectilesEnemy[i]->angle), projectilesEnemy[i]->vitesse*sin(projectilesEnemy[i]->angle));
 			if (projectilesEnemy[i]->getPosition().x > LARGEUR_ECRAN || projectilesEnemy[i]->getPosition().x < 0)
 			{
 				delete projectilesEnemy[i];
@@ -699,6 +715,7 @@ void tp3::SceneCombat::gererEnnemis()
 	nbEnnemis();
 	int counterEnemy2 = 0;
 	int counterEnemy3 = 0;
+	int counterEnemy4 = 0;
 
 	for (int i = 0; i < ennemis.size(); i++)
 	{
@@ -706,12 +723,13 @@ void tp3::SceneCombat::gererEnnemis()
 		{
 			ennemis[i]->action(vaisseauJoueur);
 			
+			//Enemy2 tire
 			if (typeid(*ennemis[i]) == typeid(Enemy2))
 			{
 				counterEnemy2++;
 				if (clock_tire_enemy2.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
 				{
-					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction, 0.05f);
+					ajouterProjectileEnnemis(ennemis[i]->getPosition(), ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, 0);
 					if (nbEnemy2 == counterEnemy2 ||  nbEnemy2 == 1)
 					{
 						clock_tire_enemy2.restart();
@@ -719,15 +737,33 @@ void tp3::SceneCombat::gererEnnemis()
 				}
 
 			}
+			//Enemy3 tire
 			if (typeid(*ennemis[i]) == typeid(Enemy3))
 			{
 				counterEnemy3++;
 				if (clock_tire_enemy3.getElapsedTime().asMilliseconds() >= 800 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
 				{
-					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x +10, ennemis[i]->getPosition().y + 35 }, ennemis[i]->getColor(), ennemis[i]->direction, 0.20f);
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x +10, ennemis[i]->getPosition().y + 35 }, ennemis[i]->getColor(), ennemis[i]->direction, 0.20f, 0);
 					if (nbEnemy3 == counterEnemy3 || nbEnemy3 == 1)
 					{
 						clock_tire_enemy3.restart();
+					}
+				}
+			}
+			//Enemy4 tire
+			if (typeid(*ennemis[i]) == typeid(Enemy4))
+			{
+				counterEnemy4++;
+				if (clock_tire_enemy4.getElapsedTime().asMilliseconds() >= 800 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
+				{
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, 0.5f);
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, -0.5f);
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction*-1, 0.05f, 0.5f);
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction*-1, 0.05f, -0.5f);
+
+					if (nbEnemy4 == counterEnemy4 || nbEnemy4 == 1)
+					{
+						clock_tire_enemy4.restart();
 					}
 				}
 			}
@@ -735,6 +771,7 @@ void tp3::SceneCombat::gererEnnemis()
 			{
 				ennemis[i]->canShoot = true;
 			}
+
 			//Si la vie est a 0, detruit l'ennemi
 			if (ennemis[i]->ptsVie <= 0)
 			{
@@ -823,11 +860,16 @@ void SceneCombat::nbEnnemis()
 			{
 				temp3++;
 			}
+			if (typeid(*ennemis[i]) == typeid(Enemy4))
+			{
+				temp4++;
+			}
 		}
 	}
 	nbEnemy1 = temp1;
 	nbEnemy2 = temp2;
 	nbEnemy3 = temp3;
+	nbEnemy4 = temp4;
 }
 
 void SceneCombat::chargerNiveau(const int niveau)
@@ -840,18 +882,18 @@ void SceneCombat::chargerNiveau(const int niveau)
 
 	if (niveau == 1)
 	{
-		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
-		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[1], choixCouleur(), 1));
+		//ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
+		//ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));
 
-		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		/*ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
 		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
-		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));*/
 	}
 	else if (niveau == 2)
 	{

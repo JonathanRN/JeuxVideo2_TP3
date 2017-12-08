@@ -4,12 +4,12 @@ using namespace tp3;
 
 Enemy4::Enemy4(Vector2f position, Texture &texture, Color color, int num) :Enemy(position, texture, color, num)
 {
-	setScale(getScale().x * -0.8, getScale().y * 0.8);
+	setScale(getScale().x * -0.15, getScale().y * 0.15);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 4;
 	dommageTir = 1;
-	vitesse = 8;
-	ptsVie = 5;
+	vitesse = 4;
+	ptsVie = 10;
 	direction = -1;
 	isReady = false;
 	posX = 100;

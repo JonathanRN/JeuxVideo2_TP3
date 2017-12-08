@@ -42,7 +42,7 @@ namespace tp3
 		void retObservateur(Enemy* observateur);
 		void ajouterProjectile(Vector2f position);
 		void ajouterBonus(Vector2f position);
-		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction, float scale);
+		void ajouterProjectileEnnemis(Vector2f position, Color color, int direction, float scale, float angle);
 
 	private:
 		void addObserver();
@@ -76,6 +76,7 @@ namespace tp3
 		Clock clock_pivoter;
 		Clock clock_tire_enemy2;
 		Clock clock_tire_enemy3;
+		Clock clock_tire_enemy4;
 		Clock spawnEnemy;
 		Clock animationText;
 		Clock tempsBombeElectro;
@@ -83,7 +84,7 @@ namespace tp3
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
-		Texture ennemisT[3];
+		Texture ennemisT[4];
 		std::vector<Enemy*> ennemis;
 
 		Texture player;
@@ -123,6 +124,7 @@ namespace tp3
 		Text scoreHUD;
 		Text ptsVieText;
 		RectangleShape* barresVie[10];
+		RectangleShape* barresEnnemis[5];
 	};
 }
 
