@@ -70,6 +70,7 @@
     </ClCompile>
     <ClCompile Include="BonusScatter.cpp" />
     <ClCompile Include="Projectile_Missile.cpp" />
+    <ClCompile Include="Projectile_Beam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -158,6 +159,7 @@
     </ClInclude>
     <ClInclude Include="BonusScatter.h" />
     <ClInclude Include="Projectile_Missile.h" />
+    <ClInclude Include="Projectile_Beam.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

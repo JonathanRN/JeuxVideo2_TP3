@@ -103,6 +103,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Portail.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Projectile_Beam.cpp" />
     <ClCompile Include="Projectile_Enemy.cpp" />
     <ClCompile Include="Projectile_Missile.cpp" />
     <ClCompile Include="Projectile_normal.cpp" />
@@ -134,6 +135,7 @@
     <ClInclude Include="Pile.h" />
     <ClInclude Include="Portail.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Projectile_Beam.h" />
     <ClInclude Include="Projectile_Enemy.h" />
     <ClInclude Include="Projectile_Missile.h" />
     <ClInclude Include="Projectile_normal.h" />
