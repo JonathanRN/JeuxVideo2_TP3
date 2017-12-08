@@ -10,7 +10,7 @@ namespace tp3
 		void initGraphiques();
 		~Projectile_Beam();
 	private:
-		static const int NOMBRES_ANIM = 10;
+		static const int NOMBRES_ANIM = 12;
 	};
 }
 
