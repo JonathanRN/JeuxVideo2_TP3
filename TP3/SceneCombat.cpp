@@ -690,20 +690,21 @@ void tp3::SceneCombat::gererBoucliers()
 
 void tp3::SceneCombat::gererWeapons()
 {
-	if (vaisseauJoueur.weapon == Scatter)
-	{
-		if (vaisseauJoueur.munitionScatter <= 0)
-		{
-			vaisseauJoueur.weapon == Base;
-		}
-	}
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
-			vaisseauJoueur.weapon == Base;
+			vaisseauJoueur.weapon = Base;
 		}
 	}
+	if (vaisseauJoueur.weapon == Scatter)
+	{
+		if (vaisseauJoueur.munitionScatter <= 0)
+		{
+			vaisseauJoueur.weapon = Base;
+		}
+	}
+	
 }
 
 void tp3::SceneCombat::gererProjectiles()
