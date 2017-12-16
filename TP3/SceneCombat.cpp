@@ -75,9 +75,14 @@ Scene::scenes SceneCombat::run()
 		delete portail[i];
 	}
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
 		delete barresVie[i];
+	}
+
+	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
+	{
+		delete barresEnnemis[i];
 	}
 	return transitionVersScene;
 }
@@ -134,6 +139,22 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!ennemisT[3].loadFromFile("Ressources\\enemy4.png"))
+	{
+		return false;
+	}
+	if (!enemyListeT[0].loadFromFile("Ressources\\enemy1_liste.png"))
+	{
+		return false;
+	}
+	if (!enemyListeT[1].loadFromFile("Ressources\\enemy2_liste.png"))
+	{
+		return false;
+	}
+	if (!enemyListeT[2].loadFromFile("Ressources\\enemy3_liste.png"))
+	{
+		return false;
+	}
+	if (!enemyListeT[3].loadFromFile("Ressources\\enemy4_liste.png"))
 	{
 		return false;
 	}
@@ -223,7 +244,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
 	{
 		barresEnnemis[i] = new RectangleShape({ 40, 25 });
-		barresEnnemis[i]->setFillColor(Color::Green);
+		barresEnnemis[i]->setFillColor(Color::White);
 		barresEnnemis[i]->setOrigin(barresEnnemis[i]->getSize().x / 2, barresEnnemis[i]->getSize().y / 2);
 		barresEnnemis[i]->setPosition(LARGEUR_ECRAN - 85 - espaceEnnemis, 65);
 		espaceEnnemis += 50;
@@ -849,25 +870,42 @@ void tp3::SceneCombat::gererEnnemis()
 			}
 		}
 	}
+
+	//Liste des ennemis dans le HUD
 	static int espace;
 	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
 	{
 		if (ennemisSuivants.size() < NB_BARRES_ENNEMIS)
 		{
-			espace = (NB_BARRES_ENNEMIS-1) - ennemisSuivants.size();
+			espace = NB_BARRES_ENNEMIS-1 - ennemisSuivants.size();
 		}
 		else
 		{
-			barresEnnemis[i]->setFillColor(ennemisSuivants[i]->getColor());
-
+			if (typeid(*ennemisSuivants[i]) == typeid(Enemy1))
+			{
+				barresEnnemis[i]->setTexture(&enemyListeT[0]);
+			}
+			else if (typeid(*ennemisSuivants[i]) == typeid(Enemy2))
+			{
+				barresEnnemis[i]->setTexture(&enemyListeT[1]);
+			}
+			else if (typeid(*ennemisSuivants[i]) == typeid(Enemy3))
+			{
+				barresEnnemis[i]->setTexture(&enemyListeT[2]);
+			}
+			else
+			{
+				barresEnnemis[i]->setTexture(&enemyListeT[3]);
+			}
 		}
+
 	}
 
 	if (espace > 0)
 	{
 		for (int i = 0; i <= espace; i++)
 		{
-			barresEnnemis[i]->setFillColor(Color::Transparent);
+			barresEnnemis[i + ennemisSuivants.size()]->setFillColor(Color::Transparent);
 		}
 	}
 }

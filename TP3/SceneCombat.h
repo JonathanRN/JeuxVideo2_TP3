@@ -130,6 +130,7 @@ namespace tp3
 
 		static const int NB_BARRES_ENNEMIS = 7;
 		RectangleShape* barresEnnemis[NB_BARRES_ENNEMIS];
+		Texture enemyListeT[4];
 	};
 }
 
