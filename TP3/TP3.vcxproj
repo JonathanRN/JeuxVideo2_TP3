@@ -91,6 +91,7 @@
     <ClCompile Include="Bombe.cpp" />
     <ClCompile Include="BombeElectro.cpp" />
     <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="BonusLaserBeam.cpp" />
     <ClCompile Include="BonusScatter.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Bombe.h" />
     <ClInclude Include="BombeElectro.h" />
     <ClInclude Include="Bonus.h" />
+    <ClInclude Include="BonusLaserBeam.h" />
     <ClInclude Include="BonusScatter.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Enemy.h" />

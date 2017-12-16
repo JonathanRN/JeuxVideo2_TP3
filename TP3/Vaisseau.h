@@ -6,6 +6,7 @@
 #include "Weapon.h"
 #include "BonusScatter.h"
 #include "BonusShield.h"
+#include "BonusLaserBeam.h"
 #include "Bombe.h"
 #include "BombeElectro.h"
 #include "Shield.h"
@@ -32,6 +33,7 @@ namespace tp3
 		Pile<Shield*> shields;
 		bool canShoot = true;
 		int munitionScatter = 0;
+		int munitionLaserbeam = 0;
 		Weapon weapon;
 	private:
 		static const int OFFSET = 0;

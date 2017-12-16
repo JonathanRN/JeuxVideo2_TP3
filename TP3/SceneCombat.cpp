@@ -307,18 +307,17 @@ void SceneCombat::update()
 	vaisseauJoueur.mouvementJoueur(mouvementJoueur);
 	collisionProjectilesEnnemis();
 	collisionVaisseauEnnemis();
+	gererExplo();
 	gererBonus();
 	gererBoucliers();
 	animText();
 	gererEnnemis();
 	gererProjectiles();
-	gererExplo();
 	gererWeapons();
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
 	}
-	
 	if (vaisseauJoueur.shields.size() > 0)
 	{
 		ptsVieText.setFillColor(vaisseauJoueur.shields.top()->getColor());
@@ -463,6 +462,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 				projectiles[i] = new Projectile_Beam(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, projectileT[1], 0);
 				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
+				vaisseauJoueur.munitionLaserbeam--;
 				return;
 			}
 		}
@@ -475,7 +475,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 4;
+			int choixBonus = rand() % 5;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -498,6 +498,13 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			if (choixBonus == 3)
 			{
 				bonus[i] = new BonusScatter(position, ennemisT[0]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
+				return;
+			}
+			if (choixBonus == 4)
+			{
+				bonus[i] = new BonusLaserBeam(position, projectileT[1]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -690,6 +697,13 @@ void tp3::SceneCombat::gererWeapons()
 			vaisseauJoueur.weapon == Base;
 		}
 	}
+	if (vaisseauJoueur.weapon == FatLaser)
+	{
+		if (vaisseauJoueur.munitionLaserbeam <= 0)
+		{
+			vaisseauJoueur.weapon == Base;
+		}
+	}
 }
 
 void tp3::SceneCombat::gererProjectiles()
@@ -722,8 +736,9 @@ void tp3::SceneCombat::gererProjectiles()
 					{
 						delete projectiles[i];
 						projectiles[i] = nullptr;
-						ennemis.clear();
+						
 					}
+					ennemis.clear();
 				}
 			}
 			

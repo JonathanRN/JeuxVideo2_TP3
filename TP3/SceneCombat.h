@@ -14,6 +14,7 @@
 #include "Projectile_Enemy.h"
 #include "Bonus.h"
 #include "BonusShield.h"
+#include "BonusLaserBeam.h"
 #include "BombeElectro.h"
 #include "Shield.h"
 #include "Enemy.h"

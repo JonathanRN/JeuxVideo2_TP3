@@ -71,6 +71,7 @@
     <ClCompile Include="BonusScatter.cpp" />
     <ClCompile Include="Projectile_Missile.cpp" />
     <ClCompile Include="Projectile_Beam.cpp" />
+    <ClCompile Include="BonusLaserBeam.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -160,6 +161,7 @@
     <ClInclude Include="BonusScatter.h" />
     <ClInclude Include="Projectile_Missile.h" />
     <ClInclude Include="Projectile_Beam.h" />
+    <ClInclude Include="BonusLaserBeam.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">

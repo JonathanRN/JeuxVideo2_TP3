@@ -2,7 +2,7 @@
 using namespace tp3;
 
 
-Projectile_Beam::Projectile_Beam(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::Cyan, 100)
+Projectile_Beam::Projectile_Beam(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::White, 100)
 {
 	//setOrigin(0, texture.getSize().y/10);
 	setPosition(position);

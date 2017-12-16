@@ -5,7 +5,7 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
-	weapon = FatLaser;
+	weapon = Base;
 }
 
 
@@ -60,6 +60,11 @@ void Vaisseau::notifier(Sujet * sujet)
 	{
 		weapon = Scatter;
 		munitionScatter += 250;
+	}
+	if (typeid(*sujet) == typeid(BonusLaserBeam))
+	{
+		weapon = FatLaser;
+		munitionLaserbeam += 2;
 	}
 
 }
