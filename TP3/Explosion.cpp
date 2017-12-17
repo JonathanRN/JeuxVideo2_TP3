@@ -18,46 +18,24 @@ Explosion::~Explosion()
 
 void tp3::Explosion::anim()
 {
-	static int direction = 1;
-	if (direction == 1)
+
+	if (animation < ANIMATION_MAXIMALE)
 	{
-		if (animation < ANIMATION_MAXIMALE)
+		animation++;
+
+		if (animation % RHYTME_ANIM == 0)
 		{
-			animation++;
-			if (animation % RHYTME_ANIM == 0)
-			{
-				rectangleAnimation.left += image;
-				setTextureRect(rectangleAnimation);
-			}
-			if (rectangleAnimation.left >= 1920 - image)
-			{
-				direction = -1;
-				isReady = true;
-			}
-			else
-			{
-				isReady = false;
-			}
+			rectangleAnimation.left += image;
+			setTextureRect(rectangleAnimation);
 		}
-	}
-	else
-	{
-		if (animation < ANIMATION_MAXIMALE)
+		if (animation == 60)
 		{
-			animation--;
-			if (animation % RHYTME_ANIM == 0)
-			{
-				rectangleAnimation.left -= image;
-				setTextureRect(rectangleAnimation);
-			}
-			if (rectangleAnimation.left <= 0)
-			{
-				animTermine = true;
-				std::cout << "true" << std::endl;
-				direction = 1;
-			}
+			animTermine = true;
 		}
+
 	}
+	
+
 }
 
 void tp3::Explosion::initGraphiques()

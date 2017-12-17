@@ -12,12 +12,12 @@ namespace tp3
 		~Explosion();
 		void anim();
 		void initGraphiques();
-		bool animTermine = true;
+		bool animTermine = false;
 		bool isReady = false;
 	private:
-		static const int NOMBRES_ANIM = 10;
+		static const int NOMBRES_ANIM = 16;
 		static const int RHYTME_ANIM = 6;
-		int animation;
+		int animation = 0;
 		const int ANIMATION_MAXIMALE = 100;
 		int image;
 		IntRect rectangleAnimation;

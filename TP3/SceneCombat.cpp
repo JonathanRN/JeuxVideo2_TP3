@@ -58,6 +58,14 @@ Scene::scenes SceneCombat::run()
 		}
 	}
 	ennemis.clear();
+	for (int i = 0; i < explosions.size(); i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			delete explosions[i];
+		}
+	}
+	explosions.clear();
 
 	/*for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
@@ -208,6 +216,10 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!portailT.loadFromFile("Ressources\\portail.png"))
+	{
+		return false;
+	}
+	if (!explosionT.loadFromFile("Ressources\\explosion.png"))
 	{
 		return false;
 	}
@@ -468,6 +480,20 @@ void SceneCombat::update()
 	gererEnnemis();
 	gererProjectiles();
 	gererWeapons();
+	for (int i = 0; i < explosions.size(); i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			if (explosions[i]->isReady)
+			{
+				explosions[i]->anim();
+			}
+			if (explosions[i]->animTermine == true)
+			{
+				explosions.erase(explosions.begin() + i);
+			}
+		}
+	}
 	if (vaisseauJoueur.isPivoting == true)
 	{
 		vaisseauJoueur.pivoter();
@@ -509,6 +535,16 @@ void SceneCombat::draw()
 		if (ennemis[i] != nullptr)
 		{
 			mainWin->draw(*ennemis[i]);
+		}
+	}
+	for (int i = 0; i < explosions.size(); i++)
+	{
+		if (explosions[i] != nullptr)
+		{
+			if (explosions[i]->isReady == true)
+			{
+				mainWin->draw(*explosions[i]);
+			}
 		}
 	}
 	mainWin->draw(*cercleCollision);
@@ -1042,7 +1078,21 @@ void tp3::SceneCombat::gererProjectiles()
 							ajouterScore(i);
 						}
 					}
-					ennemis.clear();
+					if (projectiles[i] != nullptr)
+					{
+						if (!projectiles[i]->hasBeenShot)
+						{
+							for (size_t j = 0; j < ennemis.size(); j++)
+							{
+								if (ennemis[j] != nullptr)
+								{
+									ennemis[j]->ptsVie -= 100;
+								}
+							}
+							projectiles[i]->hasBeenShot = true;
+						}
+					}
+					
 				}
 			}
 			
@@ -1102,6 +1152,8 @@ void tp3::SceneCombat::gererEnnemis()
 		{
 			Enemy *temp = ennemisSuivants.pop_front();
 			ennemis.push_back(temp);
+			explosions.push_back(new Explosion(temp->getPosition(), explosionT));
+			explosions[explosions.size() - 1]->initGraphiques();
 			grp.ajouter(temp);
 
 			if (!dernierNiveau)
@@ -1211,7 +1263,6 @@ void tp3::SceneCombat::gererEnnemis()
 					{
 						clock_tire_enemyBoss.restart();
 					}
-					
 				}
 			}
 
@@ -1233,7 +1284,11 @@ void tp3::SceneCombat::gererEnnemis()
 
 				//Ajoute le score au joueur
 				ajouterScore(i);
+				explosions.front()->setPosition(ennemis[i]->getPosition());
+				explosions.front()->setScale(explosions.front()->getScale().x * ennemis[i]->grosseur, explosions.front()->getScale().x * ennemis[i]->grosseur);
 				ennemis.erase(ennemis.begin() + i);
+				
+				explosions.front()->isReady = true;
 			}
 		}
 	}
@@ -1483,9 +1538,9 @@ void SceneCombat::chargerNiveau(const int niveau)
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 	niveauHUD.setString(std::to_string(niveau));
-	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
+	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);*/
 
-	/*if (niveau == 1)
+	if (niveau == 1)
 	{
 		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
@@ -1501,7 +1556,7 @@ void SceneCombat::chargerNiveau(const int niveau)
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
-	}*/
+	}
 	//else if (niveau == 2)
 	//{
 	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
@@ -1511,7 +1566,7 @@ void SceneCombat::chargerNiveau(const int niveau)
 	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
 	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 200 }, ennemisT[1], choixCouleur(), 1));
 	//}
-	if (niveau == 1)
+    if (niveau == 2)
 	{
 		ennemisSuivants.push_back(new Boss({ LARGEUR_ECRAN + 230, HAUTEUR_ECRAN / 2 }, bossT, Color::White, 1));
 		dernierNiveau = true;

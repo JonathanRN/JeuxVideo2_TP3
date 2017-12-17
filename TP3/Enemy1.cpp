@@ -10,6 +10,7 @@ Enemy1::Enemy1(Vector2f position, Texture &texture, Color color, int numFabrique
 	dommageTir = 0;
 	vitesse = 6;
 	ptsVie = 3;
+	
 }
 
 

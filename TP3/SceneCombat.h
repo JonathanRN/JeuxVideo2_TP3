@@ -112,6 +112,7 @@ namespace tp3
 		CircleShape* cercleCollision;
 		std::vector<Enemy*> ennemis;
 		std::vector<Explosion*> explosions;
+		Texture explosionT;
 		Boss_Groupe grp;
 
 		Texture player;
@@ -122,7 +123,7 @@ namespace tp3
 		Texture projectileEnemy;
 		
 		Texture bonusT[7];
-		Texture explosion;
+		
 		
 		File<Enemy*> ennemisSuivants;
 		FabriqueEnemy* fabriqueEnemy1 = new FabriqueEnemy1();

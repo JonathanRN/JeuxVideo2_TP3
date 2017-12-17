@@ -13,6 +13,7 @@ Enemy4::Enemy4(Vector2f position, Texture &texture, Color color, int num) :Enemy
 	direction = -1;
 	isReady = false;
 	posX = 100;
+	grosseur = 1.5f;
 }
 
 

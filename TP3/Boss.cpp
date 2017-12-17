@@ -13,6 +13,7 @@ Boss::Boss(Vector2f position, Texture &texture, Color color, int num) :Enemy(pos
 	directionY = 1;
 	isReady = false;
 	posX = 70;
+	grosseur = 5;
 }
 
 

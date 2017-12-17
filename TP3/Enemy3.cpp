@@ -14,6 +14,7 @@ Enemy3::Enemy3(Vector2f position, Texture &texture, Color color, int num) :Enemy
 	directionY = 1;
 	isReady = false;
 	posX = 200;
+	grosseur = 2;
 }
 
 

@@ -33,7 +33,7 @@ namespace tp3
 		bool canShoot = true;
 		bool isReady;
 		int phase = 1;
-
+		float grosseur = 1;
 	protected:
 		const int LARGEUR = 1280;
 		const int HAUTEUR = 720;
