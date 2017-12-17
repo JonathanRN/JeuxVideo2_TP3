@@ -5,12 +5,9 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
-<<<<<<< HEAD
 	weapon = Base;
 	weapons.push_back(new Weapon(Base));
-=======
-	weapon = Scatter;
->>>>>>> 145d817ab05e3093d4134b00c5e57d36b727601a
+
 }
 
 
