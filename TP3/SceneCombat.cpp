@@ -557,11 +557,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-<<<<<<< HEAD
-			int choixBonus = 0;//rand() % 5;
-=======
 			int choixBonus = rand() % 4 + 3;
->>>>>>> 379b40ae9632e518abaffceb6112f8e66aa5896d
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -809,12 +805,8 @@ void tp3::SceneCombat::gererWeapons()
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
-<<<<<<< HEAD
 			munitionsHUD.setString("");
-=======
 			vaisseauJoueur.haveLaser = false;
-			//vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin());
->>>>>>> 379b40ae9632e518abaffceb6112f8e66aa5896d
 		}
 	}
 	if (vaisseauJoueur.weapon == Scatter)
@@ -823,11 +815,8 @@ void tp3::SceneCombat::gererWeapons()
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
-<<<<<<< HEAD
 			munitionsHUD.setString("");
-=======
 			vaisseauJoueur.haveScatter = false;
->>>>>>> 379b40ae9632e518abaffceb6112f8e66aa5896d
 		}
 	}
 	
