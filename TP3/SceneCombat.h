@@ -22,6 +22,7 @@
 #include "Enemy2.h"
 #include "Enemy3.h"
 #include "Enemy4.h"
+#include "Boss.h"
 #include "Pile.h"
 #include "File.h"
 #include "FabriqueEnemy1.h"
@@ -76,12 +77,14 @@ namespace tp3
 		int nbEnemy2 = 0;
 		int nbEnemy3 = 0;
 		int nbEnemy4 = 0;
+		bool dernierNiveau = false;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
 		Clock clock_tire_enemy2;
 		Clock clock_tire_enemy3;
 		Clock clock_tire_enemy4;
+		Clock clock_tire_boss;
 		Clock spawnEnemy;
 		Clock animationText;
 		Clock tempsBombeElectro;
@@ -90,6 +93,7 @@ namespace tp3
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture ennemisT[4];
+		Texture bossT;
 		std::vector<Enemy*> ennemis;
 
 		Texture player;

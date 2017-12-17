@@ -34,7 +34,7 @@ namespace tp3
 	protected:
 		const int LARGEUR = 1280;
 		const int HAUTEUR = 720;
-		int vitesse;
+		float vitesse;
 		int posX; //Position X avant de commencer l'action
 		static const int RHYTME_ANIM = 4;
 		int animation;
