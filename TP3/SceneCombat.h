@@ -12,6 +12,7 @@
 #include "Projectile_Missile.h"
 #include "Weapon.h"
 #include "Projectile_Enemy.h"
+#include "BonusScore.h"
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "BonusLaserBeam.h"
@@ -61,6 +62,7 @@ namespace tp3
 		void gererEnnemis();
 		void gererBonus();
 		void gererScoreJoueur();
+		void ajouterScore(int indexEnnemis);
 		void nbEnnemis();
 		void chargerNiveau(const int niveau);
 		void animText();
@@ -79,6 +81,7 @@ namespace tp3
 		int nbEnemy3 = 0;
 		int nbEnemy4 = 0;
 		bool dernierNiveau = false;
+		bool bonusScoreActif = false;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
@@ -90,6 +93,7 @@ namespace tp3
 		Clock animationText;
 		Clock tempsBombeElectro;
 		Clock tempsBombeElectroEnnemis;
+		Clock tempsBonusScore;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;

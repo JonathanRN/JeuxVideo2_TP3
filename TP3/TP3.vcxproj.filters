@@ -75,6 +75,7 @@
     <ClCompile Include="BonusLaserBeam.cpp">
       <Filter>Sources\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="BonusScore.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -183,6 +184,9 @@
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
     <ClInclude Include="BonusLaserBeam.h">
+      <Filter>Entetes\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusScore.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
   </ItemGroup>

@@ -41,7 +41,7 @@ namespace tp3
 		int munitionMissile = 200;
 		int munitionScatter = 200;
 		int munitionLaserbeam = 200;
-		
+		bool isPivoting;
 		list<Weapon> weapons;
 		Weapon weapon;
 	private:
@@ -55,7 +55,7 @@ namespace tp3
 
 
 		
-		bool isPivoting;
+		
 
 		int image;
 		IntRect rectangleAnimation;

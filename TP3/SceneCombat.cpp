@@ -396,9 +396,17 @@ void SceneCombat::update()
 	gererEnnemis();
 	gererProjectiles();
 	gererWeapons();
+	if (vaisseauJoueur.isPivoting == true)
+	{
+		vaisseauJoueur.pivoter();
+	}
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
+	}
+	if (tempsBonusScore.getElapsedTime().asSeconds() > 22)
+	{
+		bonusScoreActif = false;
 	}
 	if (vaisseauJoueur.shields.size() > 0)
 	{
@@ -589,7 +597,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus =   1;
+			int choixBonus =  rand() % 5 + 3;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -627,6 +635,13 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			if (choixBonus == 5)
 			{
 				bonus[i] = new BonusMissile(position, bonusT[5]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
+				return;
+			}
+			if (choixBonus == 6)
+			{
+				bonus[i] = new BonusScore(position, bonusT[4]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -788,22 +803,7 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 				retObservateur(ennemis[i]);
 
 				//Ajoute le score au joueur
-				if (typeid(*ennemis[i]) == typeid(Enemy1))
-				{
-					scoreJoueur += 1;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy2))
-				{
-					scoreJoueur += 3;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy3))
-				{
-					scoreJoueur += 6;
-				}
-				else
-				{
-					scoreJoueur += 8;
-				}
+				ajouterScore(i);
 
 				if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
 				{
@@ -903,22 +903,7 @@ void tp3::SceneCombat::gererProjectiles()
 						if (ennemis[i] != nullptr)
 						{
 							//Ajoute le score au joueur
-							if (typeid(*ennemis[i]) == typeid(Enemy1))
-							{
-								scoreJoueur += 1;
-							}
-							else if (typeid(*ennemis[i]) == typeid(Enemy2))
-							{
-								scoreJoueur += 3;
-							}
-							else if (typeid(*ennemis[i]) == typeid(Enemy3))
-							{
-								scoreJoueur += 6;
-							}
-							else
-							{
-								scoreJoueur += 8;
-							}
+							ajouterScore(i);
 						}
 					}
 					ennemis.clear();
@@ -1087,22 +1072,7 @@ void tp3::SceneCombat::gererEnnemis()
 				}
 				retObservateur(ennemis[i]);
 				//Ajoute le score au joueur
-				if (typeid(*ennemis[i]) == typeid(Enemy1))
-				{
-					scoreJoueur += 1;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy2))
-				{
-					scoreJoueur += 3;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy3))
-				{
-					scoreJoueur += 6;
-				}
-				else
-				{
-					scoreJoueur += 8;
-				}
+				ajouterScore(i);
 				delete ennemis[i];
 				ennemis[i] = nullptr;
 			}
@@ -1127,7 +1097,7 @@ void tp3::SceneCombat::gererBonus()
 			
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
-				
+
 				if (typeid(*bonus[i]) == typeid(BombeElectro))
 				{
 					tempsBombeElectroEnnemis.restart();
@@ -1139,7 +1109,11 @@ void tp3::SceneCombat::gererBonus()
 				{
 					bonus[i]->readyAnim = true;
 				}
-				
+				if ((typeid(*bonus[i]) == typeid(BonusScore)))
+				{
+					tempsBonusScore.restart();
+					bonusScoreActif = true;
+				}
 
 				//Affiche la liste des boucliers
 				if (typeid(*bonus[i]) == typeid(BonusShield))
@@ -1202,7 +1176,69 @@ void tp3::SceneCombat::gererBonus()
 
 void tp3::SceneCombat::gererScoreJoueur()
 {
+	
+    if (bonusScoreActif)
+	{
+		scoreHUD.setFillColor(Color::Yellow);
+		if (tempsBonusScore.getElapsedTime().asSeconds() > 17)
+		{
+			scoreHUD.setFillColor(Color::Red);
+		}
+	}
+	else
+	{
+		scoreHUD.setFillColor(Color::White);
+	}
 	scoreHUD.setString(std::to_string(scoreJoueur));
+	
+}
+
+void tp3::SceneCombat::ajouterScore(int indexEnnemis)
+{
+	if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy1))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 1;
+		}
+		else
+		{
+			scoreJoueur += 1 * 2;
+		}
+	}
+	else if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy2))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 3;
+		}
+		else
+		{
+			scoreJoueur += 3 * 2;
+		}
+	}
+	else if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy3))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 6;
+		}
+		else
+		{
+			scoreJoueur += 6 * 2;
+		}
+	}
+	else
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 8;
+		}
+		else
+		{
+			scoreJoueur += 8 * 2;
+		}
+	}
 }
 
 void SceneCombat::nbEnnemis()
@@ -1244,23 +1280,23 @@ void SceneCombat::chargerNiveau(const int niveau)
 	niveauHUD.setString(std::to_string(niveau));
 	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
 
-	//if (niveau == 3)
-	//{
-	//	/*ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
-	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-	//	ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));*/
+	if (niveau == 1)
+	{
+		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));
 
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
-	//	ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
-	//	ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
-	//	ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
-	//	ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
-	//}
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
+	}
 	//else if (niveau == 2)
 	//{
 	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
@@ -1270,11 +1306,11 @@ void SceneCombat::chargerNiveau(const int niveau)
 	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
 	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 200 }, ennemisT[1], choixCouleur(), 1));
 	//}
-	if (niveau == 1)
+	/*if (niveau == 1)
 	{
 		ennemisSuivants.push_back(new Boss({ LARGEUR_ECRAN + 230, HAUTEUR_ECRAN / 2 }, bossT, Color::White, 1));
 		dernierNiveau = true;
-	}
+	}*/
 	gererListeEnnemisHUD();
 }
 

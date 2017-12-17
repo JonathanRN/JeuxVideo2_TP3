@@ -5,7 +5,7 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
-	weapon = Missile;
+	weapon = Base;
 }
 
 
@@ -89,7 +89,7 @@ void Vaisseau::notifier(Sujet * sujet)
 //ANIMATION DE LA DESCENTE DU VAISSEAU
 void Vaisseau::descendre()
 {
-	if (image < LIMITE_BAS)
+	if (image < LIMITE_BAS && isPivoting == false)
 	{
 		image++;
 
@@ -104,7 +104,7 @@ void Vaisseau::descendre()
 //ANIMATION DE LA MONTÉE DU VAISSEAU
 void Vaisseau::monter()
 {
-	if (image > LIMITE_HAUT)
+	if (image > LIMITE_HAUT && isPivoting == false)
 	{
 		image--;
 
@@ -132,6 +132,7 @@ void Vaisseau::centrer()
 		{
 			monter();
 		}
+		
 	}
 }
 
@@ -143,7 +144,7 @@ void Vaisseau::pivoter()
 		isPivoting = true;
 	}
 
-	while (image != LIMITE_DROITE_PIVOT)
+	if(image != LIMITE_DROITE_PIVOT)
 	{
 		image++;
 		if (image % RHYTME_ANIM == 0)
@@ -157,8 +158,10 @@ void Vaisseau::pivoter()
 	{
  		isPivoting = false;
 		image = CENTRE;
+		rectangleAnimation.left = (rectangleAnimation.width + OFFSET) * (image / RHYTME_ANIM);
 		setScale(getScale().x * -1, getScale().y);
 		direction *= -1;
+		setTextureRect(rectangleAnimation);
 	}
 }
 
