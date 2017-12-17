@@ -242,6 +242,7 @@ public:
 	}
 
 	iterator operator++(int) {   //i++
+
 		POINTEUR = POINTEUR->suiv;
 		return *this;
 	}
@@ -252,10 +253,9 @@ public:
 		return *this;
 	}
 	iterator operator--(int) {   //i--
-		if (POINTEUR != nullptr)
-		{
-			POINTEUR = POINTEUR->prec;
-		}
+
+		POINTEUR = POINTEUR->prec;
+		
 		return *this;
 	}
 	bool operator==(const iterator&droite)const { //Cadeau! comparaison d'iterateur

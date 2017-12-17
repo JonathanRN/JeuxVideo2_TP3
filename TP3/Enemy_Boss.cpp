@@ -8,10 +8,12 @@ Enemy_Boss::Enemy_Boss(Vector2f position, Texture &texture, Color color, int num
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 2;
 	dommageTir = 0;
-	vitesse = 0.5f;
+	vitesse = 1.5f;
 	ptsVie = 2;
 	directionY = 1;
-	direction = 1;
+	direction = -1;
+	isReady = false;
+	posX = 250;
 }
 
 
@@ -37,16 +39,32 @@ void tp3::Enemy_Boss::bouger()
 		setScale(getScale().x * -1, getScale().y);
 	}
 
-	//Fais bouger les ennemis selon les limites de l'ecran
-	if (enemyY - getTexture()->getSize().y / 2 < 0)
+	if (!isReady)
 	{
-		directionY = 1;
+		move(-direction*vitesse, 0);
+		if (direction == -1 && getPosition().x > posX)
+		{
+			isReady = true;
+		}
+		else if (direction == 1 && getPosition().x < LARGEUR - posX)
+		{
+			isReady = true;
+		}
 	}
-	else if (enemyY + getTexture()->getSize().y / 2 > 720)
+
+	if (isReady)
 	{
-		directionY = -1;
+		//Fais bouger les ennemis selon les limites de l'ecran
+		if (enemyY - getTexture()->getSize().y / 2 < 0)
+		{
+			directionY = 1;
+		}
+		else if (enemyY + getTexture()->getSize().y / 2 > 720)
+		{
+			directionY = -1;
+		}
+		move(0, directionY * vitesse);
 	}
-	move(0, directionY * vitesse);
 }
 
 void tp3::Enemy_Boss::arreter()
@@ -56,4 +74,5 @@ void tp3::Enemy_Boss::arreter()
 
 void tp3::Enemy_Boss::action(Vaisseau & cible)
 {
+	
 }

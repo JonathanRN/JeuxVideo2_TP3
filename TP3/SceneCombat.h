@@ -12,6 +12,7 @@
 #include "Projectile_Missile.h"
 #include "Weapon.h"
 #include "Projectile_Enemy.h"
+#include "BonusScore.h"
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "BonusLaserBeam.h"
@@ -64,6 +65,7 @@ namespace tp3
 		void gererNiveauBoss();
 		void gererBonus();
 		void gererScoreJoueur();
+		void ajouterScore(int indexEnnemis);
 		void nbEnnemis();
 		void chargerNiveau(const int niveau);
 		void animText();
@@ -81,8 +83,11 @@ namespace tp3
 		int nbEnemy2 = 0;
 		int nbEnemy3 = 0;
 		int nbEnemy4 = 0;
+		int nbEnemyBoss = 0;
 		bool dernierNiveau = false;
 		bool peutCreerEnnemi = true;
+		bool peutCreerEnnemi2 = true;
+		bool bonusScoreActif = false;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
@@ -90,18 +95,19 @@ namespace tp3
 		Clock clock_tire_enemy3;
 		Clock clock_tire_enemy4;
 		Clock clock_tire_boss;
+		Clock clock_tire_enemyBoss;
 		Clock spawnEnemy;
-		Clock spawnEnemy_boss;
 		Clock animationText;
 		Clock tempsBombeElectro;
 		Clock tempsBombeElectroEnnemis;
+		Clock tempsBonusScore;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
 		Texture ennemisT[4];
 		Texture bossT;
+		CircleShape* cercleCollision;
 		std::vector<Enemy*> ennemis;
-		std::vector<Enemy_Boss*> ennemisBoss;
 		Boss_Groupe grp;
 
 		Texture player;

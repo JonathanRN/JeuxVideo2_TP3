@@ -94,6 +94,7 @@
     <ClCompile Include="BonusLaserBeam.cpp" />
     <ClCompile Include="BonusMissile.cpp" />
     <ClCompile Include="BonusScatter.cpp" />
+    <ClCompile Include="BonusScore.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Boss_Groupe.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -126,6 +127,7 @@
     <ClInclude Include="BonusLaserBeam.h" />
     <ClInclude Include="BonusMissile.h" />
     <ClInclude Include="BonusScatter.h" />
+    <ClInclude Include="BonusScore.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Boss_Groupe.h" />
     <ClInclude Include="Enemy.h" />

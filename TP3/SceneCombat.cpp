@@ -57,29 +57,16 @@ Scene::scenes SceneCombat::run()
 			delete ennemis[i];
 		}
 	}
+	ennemis.clear();
 
-	for (int i = 0; i < ennemisBoss.size(); i++)
-	{
-		if (ennemisBoss[i] != nullptr)
-		{
-			delete ennemisBoss[i];
-		}
-	}
-
-	for (int i = 0; i < ennemisSuivants.size(); i++)
+	/*for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
 		if (ennemisSuivants[i] != nullptr)
 		{
 			delete ennemisSuivants[i];
 		}
-	}
-
-	delete fabriqueEnemy1;
-	delete fabriqueEnemy2;
-	delete fabriqueEnemy3;
-	delete fabriqueEnemy4;
-	delete fabriqueEnemy5;
-	delete fabriqueEnemy6;
+	}*/
+	ennemisSuivants.clear();
 
 	for (int i = 0; i < NBR_PORTAIL; i++)
 	{
@@ -93,15 +80,30 @@ Scene::scenes SceneCombat::run()
 
 	for (int i = 0; i < barresEnnemis.size(); i++)
 	{
-		delete barresEnnemis[i];
+		if (barresEnnemis[i] != nullptr)
+		{
+			delete barresEnnemis[i];
+		}
 	}
 	barresEnnemis.clear();
 
 	for (int i = 0; i < barresBouclier.size(); i++)
 	{
-		delete barresBouclier[i];
+		if (barresBouclier[i] != nullptr)
+		{
+			delete barresBouclier[i];
+		}
 	}
 	barresBouclier.clear();
+
+	delete fabriqueEnemy1;
+	delete fabriqueEnemy2;
+	delete fabriqueEnemy3;
+	delete fabriqueEnemy4;
+	delete fabriqueEnemy5;
+	delete fabriqueEnemy6;
+
+	delete cercleCollision;
 
 	return transitionVersScene;
 }
@@ -256,6 +258,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	}
 
 	//Boss
+	cercleCollision = new CircleShape(180);
+	cercleCollision->setFillColor(Color::Transparent);
+	cercleCollision->setOrigin(cercleCollision->getGlobalBounds().width / 2, cercleCollision->getGlobalBounds().height / 2);
+	cercleCollision->setPosition(-1000, 0);
 
 	//Text de niveau a l'ecran
 	textNiveau.setFont(font);
@@ -406,9 +412,17 @@ void SceneCombat::update()
 	gererEnnemis();
 	gererProjectiles();
 	gererWeapons();
+	if (vaisseauJoueur.isPivoting == true)
+	{
+		vaisseauJoueur.pivoter();
+	}
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
+	}
+	if (tempsBonusScore.getElapsedTime().asSeconds() > 22)
+	{
+		bonusScoreActif = false;
 	}
 	if (vaisseauJoueur.shields.size() > 0)
 	{
@@ -437,6 +451,7 @@ void SceneCombat::draw()
 			mainWin->draw(*ennemis[i]);
 		}
 	}
+	mainWin->draw(*cercleCollision);
 
 	//Bonus
 	for (int i = 0; i < NBR_BONUS; i++)
@@ -599,7 +614,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus =   1;
+			int choixBonus =  rand() % 5 + 3;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -637,6 +652,13 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			if (choixBonus == 5)
 			{
 				bonus[i] = new BonusMissile(position, bonusT[5]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
+				return;
+			}
+			if (choixBonus == 6)
+			{
+				bonus[i] = new BonusScore(position, bonusT[4]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -735,27 +757,55 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 				{
 					if (typeid(*projectiles[j]) != typeid(Projectile_Beam))
 					{
-						if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
+						if (typeid(*ennemis[i]) != typeid(Boss)) //Si ce n'est pas le boss, applique la collision normale
 						{
-							ennemis[i]->ptsVie--;
-							if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
+							if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
 							{
-								for (size_t k = 0; k < ennemis.size(); k++)
+								ennemis[i]->ptsVie--;
+								if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
 								{
-									if (ennemis[k] != nullptr)
+									for (size_t k = 0; k < ennemis.size(); k++)
 									{
-										int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-										if (distance < 1000)
+										if (ennemis[k] != nullptr)
 										{
-											ennemis[k]->ptsVie -= 2;
-											if (ennemis[i] != ennemis[k])
-												cout << "OUCH ESTI" << endl;
+											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
+											if (distance < 1000)
+											{
+												ennemis[k]->ptsVie -= 2;
+												if (ennemis[i] != ennemis[k])
+													cout << "OUCH ESTI" << endl;
+											}
 										}
 									}
 								}
+								delete projectiles[j];
+								projectiles[j] = nullptr;
 							}
-							delete projectiles[j];
-							projectiles[j] = nullptr;
+						}
+						else
+						{
+							if (cercleCollision->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
+							{
+								ennemis[i]->ptsVie--;
+								if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
+								{
+									for (size_t k = 0; k < ennemis.size(); k++)
+									{
+										if (ennemis[k] != nullptr)
+										{
+											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
+											if (distance < 1000)
+											{
+												ennemis[k]->ptsVie -= 2;
+												if (ennemis[i] != ennemis[k])
+													cout << "OUCH ESTI" << endl;
+											}
+										}
+									}
+								}
+								delete projectiles[j];
+								projectiles[j] = nullptr;
+							}
 						}
 					}
 				}
@@ -792,34 +842,37 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 	{
 		if (ennemis[i] != nullptr)
 		{
-			if (vaisseauJoueur.getGlobalBounds().intersects(ennemis[i]->getGlobalBounds()))
+			if (typeid(*ennemis[i]) != typeid(Boss)) //Si ce n'est pas le boss, applique la collision normale
 			{
-				vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
-				retObservateur(ennemis[i]);
+				if (vaisseauJoueur.getGlobalBounds().intersects(ennemis[i]->getGlobalBounds()))
+				{
+					vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
+					retObservateur(ennemis[i]);
 
-				//Ajoute le score au joueur
-				if (typeid(*ennemis[i]) == typeid(Enemy1))
-				{
-					scoreJoueur += 1;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy2))
-				{
-					scoreJoueur += 3;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy3))
-				{
-					scoreJoueur += 6;
-				}
-				else
-				{
-					scoreJoueur += 8;
-				}
+					//Ajoute le score au joueur
+					ajouterScore(i);
 
-				if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
+					if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
+					{
+						ennemis.erase(ennemis.begin() + i);
+					}
+				}
+			}
+			else
+			{
+				if (cercleCollision->getGlobalBounds().intersects(vaisseauJoueur.getGlobalBounds()))
 				{
-					delete ennemis[i];
-					ennemis[i] = nullptr;
-				}	
+					vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
+					retObservateur(ennemis[i]);
+
+					//Ajoute le score au joueur
+					ajouterScore(i);
+
+					if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
+					{
+						ennemis.erase(ennemis.begin() + i);
+					}
+				}
 			}
 		}
 	}
@@ -913,22 +966,7 @@ void tp3::SceneCombat::gererProjectiles()
 						if (ennemis[i] != nullptr)
 						{
 							//Ajoute le score au joueur
-							if (typeid(*ennemis[i]) == typeid(Enemy1))
-							{
-								scoreJoueur += 1;
-							}
-							else if (typeid(*ennemis[i]) == typeid(Enemy2))
-							{
-								scoreJoueur += 3;
-							}
-							else if (typeid(*ennemis[i]) == typeid(Enemy3))
-							{
-								scoreJoueur += 6;
-							}
-							else
-							{
-								scoreJoueur += 8;
-							}
+							ajouterScore(i);
 						}
 					}
 					ennemis.clear();
@@ -993,7 +1031,7 @@ void tp3::SceneCombat::gererEnnemis()
 			ennemis.push_back(temp);
 			grp.ajouter(temp);
 
-			if (typeid(*temp) != typeid(Enemy_Boss))
+			if (!dernierNiveau)
 			{
 				barresEnnemis.erase(barresEnnemis.begin()); //Enleve l'ennemi suivant dans la liste d'ennemis
 			}
@@ -1020,6 +1058,7 @@ void tp3::SceneCombat::gererEnnemis()
 	int counterEnemy2 = 0;
 	int counterEnemy3 = 0;
 	int counterEnemy4 = 0;
+	int counterEnemyBoss = 0;
 
 	for (int i = 0; i < ennemis.size(); i++)
 	{
@@ -1074,7 +1113,7 @@ void tp3::SceneCombat::gererEnnemis()
 			//Boss tire
 			if (typeid(*ennemis[i]) == typeid(Boss))
 			{
-				if (clock_tire_boss.getElapsedTime().asMilliseconds() >= 400 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
+				if (clock_tire_boss.getElapsedTime().asMilliseconds() >= 700 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
 				{
 					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, 0.2f);
 					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, -0.2f);
@@ -1086,6 +1125,20 @@ void tp3::SceneCombat::gererEnnemis()
 					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction*-1, 0.05f, -0.8f);
 
 					clock_tire_boss.restart();
+				}
+			}
+			//Enemy_boss tire
+			if (typeid(*ennemis[i]) == typeid(Enemy_Boss))
+			{
+				counterEnemyBoss++;
+				if (clock_tire_enemyBoss.getElapsedTime().asMilliseconds() >= 800 && ennemis[i]->isReady && ennemis[i]->canShoot == true)
+				{
+					ajouterProjectileEnnemis({ ennemis[i]->getPosition().x, ennemis[i]->getPosition().y }, ennemis[i]->getColor(), ennemis[i]->direction, 0.05f, 0);
+					if (nbEnemyBoss == counterEnemyBoss || nbEnemyBoss == 1)
+					{
+						clock_tire_enemyBoss.restart();
+					}
+					
 				}
 			}
 
@@ -1104,27 +1157,9 @@ void tp3::SceneCombat::gererEnnemis()
 					ajouterBonus(ennemis[i]->getPosition());
 				}
 				retObservateur(ennemis[i]);
+
 				//Ajoute le score au joueur
-				if (typeid(*ennemis[i]) == typeid(Enemy1))
-				{
-					scoreJoueur += 1;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy2))
-				{
-					scoreJoueur += 3;
-				}
-				else if (typeid(*ennemis[i]) == typeid(Enemy3))
-				{
-					scoreJoueur += 6;
-				}
-				else
-				{
-					scoreJoueur += 8;
-				}
-				if (dernierNiveau)
-				{
-					grp.retirer(i);
-				}
+				ajouterScore(i);
 				ennemis.erase(ennemis.begin() + i);
 			}
 		}
@@ -1139,23 +1174,27 @@ void tp3::SceneCombat::gererNiveauBoss()
 		{
 			if (ennemis[0] != nullptr)
 			{
-				if (ennemis[0]->phase == 2)
+				cercleCollision->setPosition(ennemis[0]->getPosition());
+				if (ennemis[0]->phase == 3)
 				{
 					//Ajoute les ennemis dans le composite
 					if (peutCreerEnnemi)
 					{
-						ennemisSuivants.push_back(new Enemy_Boss({ LARGEUR_ECRAN - 300, 100 }, ennemisT[0], Color::Green, 1));
+						ennemisSuivants.push_back(new Enemy_Boss(ennemis[0]->getPosition(), ennemisT[0], Color::Green, 1));
+
 						peutCreerEnnemi = false;
 					}
 					grp.bouger();
 				}
-				else if (ennemis[0]->phase == 3)
+				else if (ennemis[0]->phase == 2)
 				{
-					//Ajoute les ennemis dans le composite
-					if (peutCreerEnnemi)
+					if (peutCreerEnnemi2)
 					{
-						ennemisSuivants.push_back(new Enemy_Boss({ 300, 100 }, ennemisT[0], Color::Green, 1));
-						peutCreerEnnemi = false;
+						ennemisSuivants.push_back(new Enemy2({ -100, 100 }, ennemisT[1], choixCouleur(), 1));
+						ennemisSuivants.push_back(new Enemy2({ -100, 200 }, ennemisT[1], choixCouleur(), 1));
+						ennemisSuivants.push_back(new Enemy2({ -100, 300 }, ennemisT[1], choixCouleur(), 1));
+
+						peutCreerEnnemi2 = false;
 					}
 					grp.bouger();
 				}
@@ -1181,7 +1220,7 @@ void tp3::SceneCombat::gererBonus()
 			
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
-				
+
 				if (typeid(*bonus[i]) == typeid(BombeElectro))
 				{
 					tempsBombeElectroEnnemis.restart();
@@ -1193,7 +1232,11 @@ void tp3::SceneCombat::gererBonus()
 				{
 					bonus[i]->readyAnim = true;
 				}
-				
+				if ((typeid(*bonus[i]) == typeid(BonusScore)))
+				{
+					tempsBonusScore.restart();
+					bonusScoreActif = true;
+				}
 
 				//Affiche la liste des boucliers
 				if (typeid(*bonus[i]) == typeid(BonusShield))
@@ -1256,31 +1299,101 @@ void tp3::SceneCombat::gererBonus()
 
 void tp3::SceneCombat::gererScoreJoueur()
 {
+	
+    if (bonusScoreActif)
+	{
+		scoreHUD.setFillColor(Color::Yellow);
+		if (tempsBonusScore.getElapsedTime().asSeconds() > 17)
+		{
+			scoreHUD.setFillColor(Color::Red);
+		}
+	}
+	else
+	{
+		scoreHUD.setFillColor(Color::White);
+	}
 	scoreHUD.setString(std::to_string(scoreJoueur));
+	
+}
+
+void tp3::SceneCombat::ajouterScore(int indexEnnemis)
+{
+	if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy1))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 1;
+		}
+		else
+		{
+			scoreJoueur += 1 * 2;
+		}
+	}
+	else if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy2))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 3;
+		}
+		else
+		{
+			scoreJoueur += 3 * 2;
+		}
+	}
+	else if (typeid(*ennemis[indexEnnemis]) == typeid(Enemy3))
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 6;
+		}
+		else
+		{
+			scoreJoueur += 6 * 2;
+		}
+	}
+	else
+	{
+		if (bonusScoreActif != true)
+		{
+			scoreJoueur += 8;
+		}
+		else
+		{
+			scoreJoueur += 8 * 2;
+		}
+	}
 }
 
 void SceneCombat::nbEnnemis()
 {
-	int temp1=0, temp2=0, temp3=0, temp4=0;
+	int temp1 = 0, temp2 = 0, temp3 = 0, temp4 = 0, temp5 = 0;
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
-			if (typeid(*ennemis[i]) == typeid(Enemy1))
+			if (ennemis[i]->isReady)
 			{
-				temp1++;
-			}
-			else if (typeid(*ennemis[i]) == typeid(Enemy2))
-			{
-				temp2++;
-			}
-			if (typeid(*ennemis[i]) == typeid(Enemy3))
-			{
-				temp3++;
-			}
-			if (typeid(*ennemis[i]) == typeid(Enemy4))
-			{
-				temp4++;
+
+				if (typeid(*ennemis[i]) == typeid(Enemy1))
+				{
+					temp1++;
+				}
+				else if (typeid(*ennemis[i]) == typeid(Enemy2))
+				{
+					temp2++;
+				}
+				if (typeid(*ennemis[i]) == typeid(Enemy3))
+				{
+					temp3++;
+				}
+				if (typeid(*ennemis[i]) == typeid(Enemy4))
+				{
+					temp4++;
+				}
+				if (typeid(*ennemis[i]) == typeid(Enemy_Boss))
+				{
+					temp5++;
+				}
 			}
 		}
 	}
@@ -1288,6 +1401,7 @@ void SceneCombat::nbEnnemis()
 	nbEnemy2 = temp2;
 	nbEnemy3 = temp3;
 	nbEnemy4 = temp4;
+	nbEnemyBoss = temp5;
 }
 
 void SceneCombat::chargerNiveau(const int niveau)
@@ -1298,23 +1412,23 @@ void SceneCombat::chargerNiveau(const int niveau)
 	niveauHUD.setString(std::to_string(niveau));
 	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
 
-	//if (niveau == 3)
-	//{
-	//	/*ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
-	//	ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-	//	ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));*/
+	/*if (niveau == 1)
+	{
+		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));
 
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
-	//	ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
-	//	ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-	//	ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
-	//	ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
-	//	ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
-	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
-	//}
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
+	}*/
 	//else if (niveau == 2)
 	//{
 	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
