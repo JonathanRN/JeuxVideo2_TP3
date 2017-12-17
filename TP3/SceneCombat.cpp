@@ -348,13 +348,13 @@ bool SceneCombat::init(RenderWindow * const window)
 	for (int i = 0; i < NB_BARRES_ARMES; i++)
 	{
 		barresArmes[i] = new RectangleShape({ 50, 40 });
-		barresArmes[0]->setFillColor(Color::Red);
 		barresArmes[i]->setOrigin(barresArmes[i]->getSize().x / 2, barresArmes[i]->getSize().y / 2);
-		barresArmes[i]->setPosition(LARGEUR_ECRAN -160 - espaceArmes, 22);
+		barresArmes[i]->setPosition(LARGEUR_ECRAN -165 - espaceArmes, 23);
 		barresArmes[i]->setTexture(&iconArmes[i]);
 		barresArmes[i]->setOutlineThickness(2);
 		espaceArmes += 60;
 	}
+	barresArmes[0]->setFillColor(Color::Cyan);
 
 	//Texte affichant la vie
 	ptsVieText.setFont(font);
@@ -391,26 +391,56 @@ void SceneCombat::getInputs()
 	//Tirer
 	if (Keyboard::isKeyPressed(Keyboard::X))
 	{
-		if (clock_tirer.getElapsedTime().asMilliseconds() >= 100 && vaisseauJoueur.canShoot == true)
+		if (vaisseauJoueur.weapon == Base || vaisseauJoueur.weapon == Scatter)
 		{
-			ajouterProjectile(vaisseauJoueur.getPosition());
-			clock_tirer.restart();
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 100 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
 		}
-	}
-	if (Keyboard::isKeyPressed(Keyboard::E))
-	{
-		vaisseauJoueur.positionWeapon++;
-		if (vaisseauJoueur.positionWeapon > vaisseauJoueur.weapons.size() - 1)
+		else if(vaisseauJoueur.weapon == FatLaser)
 		{
-			vaisseauJoueur.positionWeapon = 0;
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 2000 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
+		}
+		else if (vaisseauJoueur.weapon == Missile)
+		{
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 400 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		vaisseauJoueur.positionWeapon--;
-		if (vaisseauJoueur.positionWeapon < 0)
+		if (peutSwitchWeapon)
 		{
-			vaisseauJoueur.positionWeapon = vaisseauJoueur.weapons.size() - 1;
+			vaisseauJoueur.positionWeapon++;
+			if (vaisseauJoueur.positionWeapon > vaisseauJoueur.weapons.size() - 1)
+			{
+				vaisseauJoueur.positionWeapon = 0;
+			}
+			tempsSwitchWeapon.restart();
+			peutSwitchWeapon = false;
+		}
+	}
+	if (Keyboard::isKeyPressed(Keyboard::E))
+	{
+		if (peutSwitchWeapon)
+		{
+			vaisseauJoueur.positionWeapon--;
+			if (vaisseauJoueur.positionWeapon < 0)
+			{
+				vaisseauJoueur.positionWeapon = vaisseauJoueur.weapons.size() - 1;
+			}
+			tempsSwitchWeapon.restart();
+			peutSwitchWeapon = false;
+
 		}
 		
 	}
@@ -479,6 +509,10 @@ void SceneCombat::update()
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
+	}
+	if (tempsSwitchWeapon.getElapsedTime().asMilliseconds() > 200)
+	{
+		peutSwitchWeapon = true;
 	}
 	if (tempsBonusScore.getElapsedTime().asSeconds() > 22)
 	{
@@ -654,6 +688,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
 				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
+				vaisseauJoueur.munitionMissile--;
 				return;
 			}
 		}
@@ -680,49 +715,43 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus =  rand() % 5 + 3;
-			if (choixBonus == 0)
+			int choixBonus =  rand() % 1000;
+			//Les boucliers ont 2fois plus de chance
+			if (choixBonus >= 0 && choixBonus < 60)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				return;
 			}
-			if (choixBonus == 1)
+			if (choixBonus >= 60 && choixBonus < 90)
 			{
 				bonus[i] = new Bombe(position, bonusT[6]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 2)
+			if (choixBonus >= 90 && choixBonus < 120)
 			{
 				bonus[i] = new BombeElectro(position, bonusT[1]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 3)
+			if (choixBonus >= 120 && choixBonus < 150)
 			{
 				bonus[i] = new BonusScatter(position, bonusT[3]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 4)
-			{
-				bonus[i] = new BonusLaserBeam(position, bonusT[2]);
-				bonus[i]->ajouterObservateur(&vaisseauJoueur);
-				bonus[i]->initGraphiques();
-				return;
-			}
-			if (choixBonus == 5)
+			if (choixBonus >= 150 && choixBonus < 180)
 			{
 				bonus[i] = new BonusMissile(position, bonusT[5]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 6)
+			if (choixBonus >= 180 && choixBonus < 210)
 			{
 				bonus[i] = new BonusScore(position, bonusT[4]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
@@ -835,12 +864,13 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										if (ennemis[k] != nullptr)
 										{
 											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-											if (distance < 1000)
+											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
 												if (ennemis[i] != ennemis[k])
-													cout << "OUCH ESTI" << endl;
+												  cout << "OUCH ESTI" << endl;
 											}
+											
 										}
 									}
 								}
@@ -860,7 +890,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										if (ennemis[k] != nullptr)
 										{
 											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-											if (distance < 1000)
+											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
 												if (ennemis[i] != ennemis[k])
@@ -869,6 +899,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										}
 									}
 								}
+
 								delete projectiles[j];
 								projectiles[j] = nullptr;
 							}
@@ -968,43 +999,78 @@ void tp3::SceneCombat::gererBoucliers()
 
 void tp3::SceneCombat::gererWeapons()
 {
+	static Color couleurHover = Color::White;
+	static Color couleurHave = Color::Cyan;
+	static Color couleurNoHave = Color::White;
+
 	if (vaisseauJoueur.weapons.size() > 0)
 	{
 		vaisseauJoueur.weapon = *vaisseauJoueur.weapons[vaisseauJoueur.positionWeapon];
 	}
+
+	//FATLASER
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
-		barresArmes[3]->setOutlineColor(Color::Green);
+		barresArmes[3]->setOutlineColor(couleurHover);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionLaserbeam));
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveLaser = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
 		}
 	}
 	else
 	{
 		barresArmes[3]->setOutlineColor(Color::Transparent);
 	}
+
+	//SCATTER
 	if (vaisseauJoueur.weapon == Scatter)
 	{
-		barresArmes[1]->setOutlineColor(Color::Green);
+		barresArmes[1]->setOutlineColor(couleurHover);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionScatter));
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveScatter = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
+
 		}
 	}
 	else
 	{
 		barresArmes[1]->setOutlineColor(Color::Transparent);
 	}
+
+	//MISSILE
+	if (vaisseauJoueur.weapon == Missile)
+	{
+		barresArmes[2]->setOutlineColor(couleurHover);
+		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionMissile));
+		if (vaisseauJoueur.munitionMissile <= 0)
+		{
+			vaisseauJoueur.weapon = Base;
+			munitionsHUD.setString("");
+			vaisseauJoueur.haveMissile = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
+
+		}
+	}
+	else
+	{
+		barresArmes[2]->setOutlineColor(Color::Transparent);
+	}
+
+	//BASE
 	if (vaisseauJoueur.weapon == Base)
 	{
-		barresArmes[0]->setOutlineColor(Color::Green);
+		barresArmes[0]->setOutlineColor(couleurHover);
 	}
 	else
 	{
@@ -1014,27 +1080,43 @@ void tp3::SceneCombat::gererWeapons()
 	//Barres d'armes
 	if (vaisseauJoueur.haveLaser)
 	{
-		barresArmes[3]->setFillColor(Color::Red);
+		barresArmes[3]->setFillColor(couleurHave);
 	}
 	else
 	{
-		barresArmes[3]->setFillColor(Color::White);
+		barresArmes[3]->setFillColor(couleurNoHave);
 	}
+
 	if (vaisseauJoueur.haveMissile)
 	{
-		barresArmes[2]->setFillColor(Color::Red);
+		barresArmes[2]->setFillColor(couleurHave);
 	}
 	else
 	{
-		barresArmes[2]->setFillColor(Color::White);
+		barresArmes[2]->setFillColor(couleurNoHave);
 	}
+
 	if (vaisseauJoueur.haveScatter)
 	{
-		barresArmes[1]->setFillColor(Color::Red);
+		barresArmes[1]->setFillColor(couleurHave);
 	}
 	else
 	{
-		barresArmes[1]->setFillColor(Color::White);
+		barresArmes[1]->setFillColor(couleurNoHave);
+	}
+
+	//Change l'emplacement des armes selon les emplacements par defaut
+	if (vaisseauJoueur.weapons.size() >= 3)
+	{
+		for (int i = 1; i < vaisseauJoueur.weapons.size()-1; i++)
+		{
+			if (*vaisseauJoueur.weapons[i] > *vaisseauJoueur.weapons[i+1])
+			{
+				Weapon* temp = vaisseauJoueur.weapons[i];
+				vaisseauJoueur.weapons[i] = vaisseauJoueur.weapons[i + 1];
+				vaisseauJoueur.weapons[i + 1] = temp;
+			}
+		}
 	}
 }
 
@@ -1515,7 +1597,7 @@ void SceneCombat::nbEnnemis()
 
 void SceneCombat::chargerNiveau(const int niveau)
 {
-	/*text.str("");
+	text.str("");
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 	niveauHUD.setString(std::to_string(niveau));

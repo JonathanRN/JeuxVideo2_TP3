@@ -1,2 +1,2 @@
 #pragma once
-enum Weapon {Base,Scatter,FatLaser,Missile};
+enum Weapon {Base=0,Scatter=1,Missile=2,FatLaser=3};

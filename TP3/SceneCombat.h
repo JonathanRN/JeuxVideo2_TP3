@@ -13,6 +13,7 @@
 #include "Weapon.h"
 #include "Projectile_Enemy.h"
 #include "BonusScore.h"
+#include "Explosion.h"
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "BonusLaserBeam.h"
@@ -88,6 +89,7 @@ namespace tp3
 		bool peutCreerEnnemi = true;
 		bool peutCreerEnnemi2 = true;
 		bool bonusScoreActif = false;
+		bool peutSwitchWeapon = true;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
@@ -101,6 +103,7 @@ namespace tp3
 		Clock tempsBombeElectro;
 		Clock tempsBombeElectroEnnemis;
 		Clock tempsBonusScore;
+		Clock tempsSwitchWeapon;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
@@ -108,6 +111,7 @@ namespace tp3
 		Texture bossT;
 		CircleShape* cercleCollision;
 		std::vector<Enemy*> ennemis;
+		std::vector<Explosion*> explosions;
 		Boss_Groupe grp;
 
 		Texture player;
