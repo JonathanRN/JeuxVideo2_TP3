@@ -67,13 +67,13 @@ Scene::scenes SceneCombat::run()
 	}
 	explosions.clear();
 
-	/*for (int i = 0; i < ennemisSuivants.size(); i++)
+	for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
 		if (ennemisSuivants[i] != nullptr)
 		{
 			delete ennemisSuivants[i];
 		}
-	}*/
+	}
 	ennemisSuivants.clear();
 
 	for (int i = 0; i < NBR_PORTAIL; i++)
@@ -84,6 +84,10 @@ Scene::scenes SceneCombat::run()
 	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
 		delete barresVie[i];
+	}
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		delete barresArmes[i];
 	}
 
 	for (int i = 0; i < barresEnnemis.size(); i++)
@@ -192,6 +196,22 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!ennemisT[3].loadFromFile("Ressources\\enemy4.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[0].loadFromFile("Ressources\\icon_base.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[1].loadFromFile("Ressources\\icon_scatter.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[2].loadFromFile("Ressources\\icon_missile.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[3].loadFromFile("Ressources\\icon_laser.png"))
 	{
 		return false;
 	}
@@ -324,7 +344,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	munitionsHUD.setPosition(LARGEUR_ECRAN - 130, -15);
 	munitionsHUD.setString("");
 
-	//Barre de vie
+	//Barres de vie
 	static int espace = 0;
 	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
@@ -334,6 +354,20 @@ bool SceneCombat::init(RenderWindow * const window)
 		barresVie[i]->setPosition(165 + espace, 20);
 		espace += 25;
 	}
+
+	//Barres des armes
+	static int espaceArmes = 0;
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		barresArmes[i] = new RectangleShape({ 50, 40 });
+		barresArmes[i]->setOrigin(barresArmes[i]->getSize().x / 2, barresArmes[i]->getSize().y / 2);
+		barresArmes[i]->setPosition(LARGEUR_ECRAN -165 - espaceArmes, 23);
+		barresArmes[i]->setTexture(&iconArmes[i]);
+		barresArmes[i]->setOutlineThickness(2);
+		espaceArmes += 60;
+	}
+	barresArmes[0]->setFillColor(Color::Cyan);
+
 	//Texte affichant la vie
 	ptsVieText.setFont(font);
 	ptsVieText.setCharacterSize(55);
@@ -394,7 +428,7 @@ void SceneCombat::getInputs()
 			}
 		}
 	}
-	if (Keyboard::isKeyPressed(Keyboard::E))
+	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
 		if (peutSwitchWeapon)
 		{
@@ -407,7 +441,7 @@ void SceneCombat::getInputs()
 			peutSwitchWeapon = false;
 		}
 	}
-	if (Keyboard::isKeyPressed(Keyboard::Q))
+	if (Keyboard::isKeyPressed(Keyboard::E))
 	{
 		if (peutSwitchWeapon)
 		{
@@ -502,7 +536,7 @@ void SceneCombat::update()
 	{
 		vaisseauJoueur.canShoot = true;
 	}
-	if (tempsSwitchWeapon.getElapsedTime().asSeconds() > 2)
+	if (tempsSwitchWeapon.getElapsedTime().asMilliseconds() > 200)
 	{
 		peutSwitchWeapon = true;
 	}
@@ -584,6 +618,12 @@ void SceneCombat::draw()
 			ptsVieText.setFillColor(Color::Cyan);
 		}
 		mainWin->draw(*barresVie[i]);
+	}
+
+	
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		mainWin->draw(*barresArmes[i]);
 	}
 
 	//Liste des ennemis
@@ -711,49 +751,43 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus =  rand() % 5 + 3;
-			if (choixBonus == 0)
+			int choixBonus =  rand() % 1000;
+			//Les boucliers ont 2fois plus de chance
+			if (choixBonus >= 0 && choixBonus < 60)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				return;
 			}
-			if (choixBonus == 1)
+			if (choixBonus >= 60 && choixBonus < 90)
 			{
 				bonus[i] = new Bombe(position, bonusT[6]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 2)
+			if (choixBonus >= 90 && choixBonus < 120)
 			{
 				bonus[i] = new BombeElectro(position, bonusT[1]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 3)
+			if (choixBonus >= 120 && choixBonus < 150)
 			{
 				bonus[i] = new BonusScatter(position, bonusT[3]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 4)
-			{
-				bonus[i] = new BonusLaserBeam(position, bonusT[2]);
-				bonus[i]->ajouterObservateur(&vaisseauJoueur);
-				bonus[i]->initGraphiques();
-				return;
-			}
-			if (choixBonus == 5)
+			if (choixBonus >= 150 && choixBonus < 180)
 			{
 				bonus[i] = new BonusMissile(position, bonusT[5]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
-			if (choixBonus == 6)
+			if (choixBonus >= 180 && choixBonus < 210)
 			{
 				bonus[i] = new BonusScore(position, bonusT[4]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
@@ -1001,41 +1035,125 @@ void tp3::SceneCombat::gererBoucliers()
 
 void tp3::SceneCombat::gererWeapons()
 {
+	static Color couleurHover = Color::White;
+	static Color couleurHave = Color::Cyan;
+	static Color couleurNoHave = Color::White;
+
 	if (vaisseauJoueur.weapons.size() > 0)
 	{
 		vaisseauJoueur.weapon = *vaisseauJoueur.weapons[vaisseauJoueur.positionWeapon];
 	}
+
+	//FATLASER
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
+		barresArmes[3]->setOutlineColor(couleurHover);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionLaserbeam));
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveLaser = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
 		}
 	}
+	else
+	{
+		barresArmes[3]->setOutlineColor(Color::Transparent);
+	}
+
+	//SCATTER
 	if (vaisseauJoueur.weapon == Scatter)
 	{
+		barresArmes[1]->setOutlineColor(couleurHover);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionScatter));
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveScatter = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
+
 		}
 	}
+	else
+	{
+		barresArmes[1]->setOutlineColor(Color::Transparent);
+	}
+
+	//MISSILE
 	if (vaisseauJoueur.weapon == Missile)
 	{
+		barresArmes[2]->setOutlineColor(couleurHover);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionMissile));
 		if (vaisseauJoueur.munitionMissile <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveMissile = false;
+			vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin() + vaisseauJoueur.positionWeapon);
+			vaisseauJoueur.positionWeapon = 0;
+
 		}
 	}
+	else
+	{
+		barresArmes[2]->setOutlineColor(Color::Transparent);
+	}
+
+	//BASE
+	if (vaisseauJoueur.weapon == Base)
+	{
+		barresArmes[0]->setOutlineColor(couleurHover);
+	}
+	else
+	{
+		barresArmes[0]->setOutlineColor(Color::Transparent);
+	}
 	
+	//Barres d'armes
+	if (vaisseauJoueur.haveLaser)
+	{
+		barresArmes[3]->setFillColor(couleurHave);
+	}
+	else
+	{
+		barresArmes[3]->setFillColor(couleurNoHave);
+	}
+
+	if (vaisseauJoueur.haveMissile)
+	{
+		barresArmes[2]->setFillColor(couleurHave);
+	}
+	else
+	{
+		barresArmes[2]->setFillColor(couleurNoHave);
+	}
+
+	if (vaisseauJoueur.haveScatter)
+	{
+		barresArmes[1]->setFillColor(couleurHave);
+	}
+	else
+	{
+		barresArmes[1]->setFillColor(couleurNoHave);
+	}
+
+	//Change l'emplacement des armes selon les emplacements par defaut
+	if (vaisseauJoueur.weapons.size() >= 3)
+	{
+		for (int i = 1; i < vaisseauJoueur.weapons.size()-1; i++)
+		{
+			if (*vaisseauJoueur.weapons[i] > *vaisseauJoueur.weapons[i+1])
+			{
+				Weapon* temp = vaisseauJoueur.weapons[i];
+				vaisseauJoueur.weapons[i] = vaisseauJoueur.weapons[i + 1];
+				vaisseauJoueur.weapons[i + 1] = temp;
+			}
+		}
+	}
 }
 
 void tp3::SceneCombat::gererProjectiles()
@@ -1534,7 +1652,7 @@ void SceneCombat::nbEnnemis()
 
 void SceneCombat::chargerNiveau(const int niveau)
 {
-	/*text.str("");
+	text.str("");
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 	niveauHUD.setString(std::to_string(niveau));
