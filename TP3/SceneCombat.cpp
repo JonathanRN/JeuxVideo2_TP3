@@ -278,6 +278,14 @@ void SceneCombat::getInputs()
 			clock_tirer.restart();
 		}
 	}
+	if (Keyboard::isKeyPressed(Keyboard::E))
+	{
+		vaisseauJoueur.weapons.iterateur++;
+	}
+	if (Keyboard::isKeyPressed(Keyboard::Q))
+	{
+		vaisseauJoueur.weapons.iterateur--;
+	}
 
 	//Mouvements gauche et droite
 	if (Keyboard::isKeyPressed(Keyboard::Left))
@@ -496,7 +504,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 5;
+			int choixBonus = rand() % 4 + 3;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -525,7 +533,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			}
 			if (choixBonus == 4)
 			{
-				bonus[i] = new BonusLaserBeam(position, projectileT[1]);
+				bonus[i] = new BonusLaserBeam(position, projectileT[0]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -711,11 +719,17 @@ void tp3::SceneCombat::gererBoucliers()
 
 void tp3::SceneCombat::gererWeapons()
 {
+	if (vaisseauJoueur.weapons.size() > 0)
+	{
+		vaisseauJoueur.weapon = *vaisseauJoueur.weapons.iterateur;
+	}
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
+			vaisseauJoueur.haveLaser = false;
+			//vaisseauJoueur.weapons.erase(vaisseauJoueur.weapons.begin());
 		}
 	}
 	if (vaisseauJoueur.weapon == Scatter)
@@ -723,6 +737,7 @@ void tp3::SceneCombat::gererWeapons()
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
+			vaisseauJoueur.haveScatter = false;
 		}
 	}
 	

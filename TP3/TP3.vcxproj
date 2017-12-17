@@ -134,6 +134,7 @@
     <ClInclude Include="FondMobile.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IObservateur.h" />
+    <ClInclude Include="list.h" />
     <ClInclude Include="Pile.h" />
     <ClInclude Include="Portail.h" />
     <ClInclude Include="Projectile.h" />
