@@ -1,4 +1,5 @@
 #pragma once
+
 #include "VaisseauLogique.h"
 #include <vector>
 #include <iostream>
@@ -10,6 +11,7 @@
 #include "Bombe.h"
 #include "BombeElectro.h"
 #include "Shield.h"
+#include "list.h"
 #include "Pile.h"
 #include "IObservateur.h"
 namespace tp3
@@ -32,8 +34,12 @@ namespace tp3
 		Texture shield;
 		Pile<Shield*> shields;
 		bool canShoot = true;
-		int munitionScatter = 0;
-		int munitionLaserbeam = 0;
+		bool haveLaser = false;
+		bool haveScatter = false;
+		int munitionScatter = 200;
+		int munitionLaserbeam = 200;
+		
+		list<Weapon> weapons;
 		Weapon weapon;
 	private:
 		static const int OFFSET = 0;

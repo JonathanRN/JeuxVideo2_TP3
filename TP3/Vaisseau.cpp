@@ -58,12 +58,20 @@ void Vaisseau::notifier(Sujet * sujet)
 	}
 	if (typeid(*sujet) == typeid(BonusScatter))
 	{
-		weapon = Scatter;
+		if (haveScatter == false)
+		{
+			weapons.push_back(Scatter);
+			haveScatter = true;
+		}
 		munitionScatter += 250;
 	}
 	if (typeid(*sujet) == typeid(BonusLaserBeam))
 	{
-		weapon = FatLaser;
+		if (haveLaser == false)
+		{
+			weapons.push_back(FatLaser);
+			haveLaser = true;
+		}
 		munitionLaserbeam += 2;
 	}
 
