@@ -557,7 +557,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 4 + 3;
+			int choixBonus = 0;//rand() % 4 + 3;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
