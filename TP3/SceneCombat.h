@@ -158,6 +158,10 @@ namespace tp3
 		static const int NB_BARRES_ENNEMIS = 7;
 		vector<RectangleShape*> barresEnnemis;
 		Texture enemyListeT[4];
+
+		static const int NB_BARRES_ARMES = 4;
+		RectangleShape* barresArmes[NB_BARRES_ARMES];
+		Texture iconArmes[4];
 	};
 }
 

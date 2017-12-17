@@ -59,13 +59,13 @@ Scene::scenes SceneCombat::run()
 	}
 	ennemis.clear();
 
-	/*for (int i = 0; i < ennemisSuivants.size(); i++)
+	for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
 		if (ennemisSuivants[i] != nullptr)
 		{
 			delete ennemisSuivants[i];
 		}
-	}*/
+	}
 	ennemisSuivants.clear();
 
 	for (int i = 0; i < NBR_PORTAIL; i++)
@@ -76,6 +76,10 @@ Scene::scenes SceneCombat::run()
 	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
 		delete barresVie[i];
+	}
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		delete barresArmes[i];
 	}
 
 	for (int i = 0; i < barresEnnemis.size(); i++)
@@ -184,6 +188,22 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!ennemisT[3].loadFromFile("Ressources\\enemy4.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[0].loadFromFile("Ressources\\icon_base.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[1].loadFromFile("Ressources\\icon_scatter.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[2].loadFromFile("Ressources\\icon_missile.png"))
+	{
+		return false;
+	}
+	if (!iconArmes[3].loadFromFile("Ressources\\icon_laser.png"))
 	{
 		return false;
 	}
@@ -312,7 +332,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	munitionsHUD.setPosition(LARGEUR_ECRAN - 130, -15);
 	munitionsHUD.setString("");
 
-	//Barre de vie
+	//Barres de vie
 	static int espace = 0;
 	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
@@ -322,6 +342,20 @@ bool SceneCombat::init(RenderWindow * const window)
 		barresVie[i]->setPosition(165 + espace, 20);
 		espace += 25;
 	}
+
+	//Barres des armes
+	static int espaceArmes = 0;
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		barresArmes[i] = new RectangleShape({ 50, 40 });
+		barresArmes[0]->setFillColor(Color::Red);
+		barresArmes[i]->setOrigin(barresArmes[i]->getSize().x / 2, barresArmes[i]->getSize().y / 2);
+		barresArmes[i]->setPosition(LARGEUR_ECRAN -160 - espaceArmes, 22);
+		barresArmes[i]->setTexture(&iconArmes[i]);
+		barresArmes[i]->setOutlineThickness(2);
+		espaceArmes += 60;
+	}
+
 	//Texte affichant la vie
 	ptsVieText.setFont(font);
 	ptsVieText.setCharacterSize(55);
@@ -514,6 +548,12 @@ void SceneCombat::draw()
 			ptsVieText.setFillColor(Color::Cyan);
 		}
 		mainWin->draw(*barresVie[i]);
+	}
+
+	
+	for (int i = 0; i < NB_BARRES_ARMES; i++)
+	{
+		mainWin->draw(*barresArmes[i]);
 	}
 
 	//Liste des ennemis
@@ -934,6 +974,7 @@ void tp3::SceneCombat::gererWeapons()
 	}
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
+		barresArmes[3]->setOutlineColor(Color::Green);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionLaserbeam));
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
@@ -942,8 +983,13 @@ void tp3::SceneCombat::gererWeapons()
 			vaisseauJoueur.haveLaser = false;
 		}
 	}
+	else
+	{
+		barresArmes[3]->setOutlineColor(Color::Transparent);
+	}
 	if (vaisseauJoueur.weapon == Scatter)
 	{
+		barresArmes[1]->setOutlineColor(Color::Green);
 		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionScatter));
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
@@ -952,7 +998,44 @@ void tp3::SceneCombat::gererWeapons()
 			vaisseauJoueur.haveScatter = false;
 		}
 	}
+	else
+	{
+		barresArmes[1]->setOutlineColor(Color::Transparent);
+	}
+	if (vaisseauJoueur.weapon == Base)
+	{
+		barresArmes[0]->setOutlineColor(Color::Green);
+	}
+	else
+	{
+		barresArmes[0]->setOutlineColor(Color::Transparent);
+	}
 	
+	//Barres d'armes
+	if (vaisseauJoueur.haveLaser)
+	{
+		barresArmes[3]->setFillColor(Color::Red);
+	}
+	else
+	{
+		barresArmes[3]->setFillColor(Color::White);
+	}
+	if (vaisseauJoueur.haveMissile)
+	{
+		barresArmes[2]->setFillColor(Color::Red);
+	}
+	else
+	{
+		barresArmes[2]->setFillColor(Color::White);
+	}
+	if (vaisseauJoueur.haveScatter)
+	{
+		barresArmes[1]->setFillColor(Color::Red);
+	}
+	else
+	{
+		barresArmes[1]->setFillColor(Color::White);
+	}
 }
 
 void tp3::SceneCombat::gererProjectiles()
