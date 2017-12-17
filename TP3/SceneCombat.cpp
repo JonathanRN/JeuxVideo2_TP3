@@ -357,26 +357,56 @@ void SceneCombat::getInputs()
 	//Tirer
 	if (Keyboard::isKeyPressed(Keyboard::X))
 	{
-		if (clock_tirer.getElapsedTime().asMilliseconds() >= 100 && vaisseauJoueur.canShoot == true)
+		if (vaisseauJoueur.weapon == Base || vaisseauJoueur.weapon == Scatter)
 		{
-			ajouterProjectile(vaisseauJoueur.getPosition());
-			clock_tirer.restart();
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 100 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
+		}
+		else if(vaisseauJoueur.weapon == FatLaser)
+		{
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 2000 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
+		}
+		else if (vaisseauJoueur.weapon == Missile)
+		{
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 400 && vaisseauJoueur.canShoot == true)
+			{
+				ajouterProjectile(vaisseauJoueur.getPosition());
+				clock_tirer.restart();
+			}
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::E))
 	{
-		vaisseauJoueur.positionWeapon++;
-		if (vaisseauJoueur.positionWeapon > vaisseauJoueur.weapons.size() - 1)
+		if (peutSwitchWeapon)
 		{
-			vaisseauJoueur.positionWeapon = 0;
+			vaisseauJoueur.positionWeapon++;
+			if (vaisseauJoueur.positionWeapon > vaisseauJoueur.weapons.size() - 1)
+			{
+				vaisseauJoueur.positionWeapon = 0;
+			}
+			tempsSwitchWeapon.restart();
+			peutSwitchWeapon = false;
 		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		vaisseauJoueur.positionWeapon--;
-		if (vaisseauJoueur.positionWeapon < 0)
+		if (peutSwitchWeapon)
 		{
-			vaisseauJoueur.positionWeapon = vaisseauJoueur.weapons.size() - 1;
+			vaisseauJoueur.positionWeapon--;
+			if (vaisseauJoueur.positionWeapon < 0)
+			{
+				vaisseauJoueur.positionWeapon = vaisseauJoueur.weapons.size() - 1;
+			}
+			tempsSwitchWeapon.restart();
+			peutSwitchWeapon = false;
+
 		}
 		
 	}
@@ -445,6 +475,10 @@ void SceneCombat::update()
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
+	}
+	if (tempsSwitchWeapon.getElapsedTime().asSeconds() > 2)
+	{
+		peutSwitchWeapon = true;
 	}
 	if (tempsBonusScore.getElapsedTime().asSeconds() > 22)
 	{
@@ -614,6 +648,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
 				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
+				vaisseauJoueur.munitionMissile--;
 				return;
 			}
 		}
@@ -795,12 +830,13 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										if (ennemis[k] != nullptr)
 										{
 											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-											if (distance < 1000)
+											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
 												if (ennemis[i] != ennemis[k])
-													cout << "OUCH ESTI" << endl;
+												  cout << "OUCH ESTI" << endl;
 											}
+											
 										}
 									}
 								}
@@ -820,7 +856,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										if (ennemis[k] != nullptr)
 										{
 											int distance = sqrt(pow(ennemis[k]->getPosition().x - projectiles[j]->getPosition().x, 2) + pow(ennemis[k]->getPosition().y - projectiles[j]->getPosition().y, 2));
-											if (distance < 1000)
+											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
 												if (ennemis[i] != ennemis[k])
@@ -829,6 +865,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 										}
 									}
 								}
+
 								delete projectiles[j];
 								projectiles[j] = nullptr;
 							}
@@ -950,6 +987,16 @@ void tp3::SceneCombat::gererWeapons()
 			vaisseauJoueur.weapon = Base;
 			munitionsHUD.setString("");
 			vaisseauJoueur.haveScatter = false;
+		}
+	}
+	if (vaisseauJoueur.weapon == Missile)
+	{
+		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionMissile));
+		if (vaisseauJoueur.munitionMissile <= 0)
+		{
+			vaisseauJoueur.weapon = Base;
+			munitionsHUD.setString("");
+			vaisseauJoueur.haveMissile = false;
 		}
 	}
 	

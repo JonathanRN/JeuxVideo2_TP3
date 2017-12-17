@@ -66,7 +66,7 @@ void Vaisseau::notifier(Sujet * sujet)
 			haveScatter = true;
 			positionWeapon++;
 		}
-		munitionScatter += 250;
+		munitionScatter += 150;
 	}
 	if (typeid(*sujet) == typeid(BonusLaserBeam))
 	{
@@ -86,7 +86,7 @@ void Vaisseau::notifier(Sujet * sujet)
 			haveMissile = true;
 			positionWeapon++;
 		}
-		munitionMissile += 50;
+		munitionMissile += 10;
 	}
 
 }

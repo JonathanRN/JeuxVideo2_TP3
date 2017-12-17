@@ -1,223 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="FondMobile.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneCombat.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneTitre.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Testeur.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Vaisseau.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy1.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy2.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy3.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Sujet.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile_normal.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile_Enemy.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Shield.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Bonus.cpp">
-      <Filter>Sources\Bonus</Filter>
-    </ClCompile>
-    <ClCompile Include="BonusShield.cpp">
-      <Filter>Sources\Bonus</Filter>
-    </ClCompile>
-    <ClCompile Include="Bombe.cpp">
-      <Filter>Sources\Bonus</Filter>
-    </ClCompile>
-    <ClCompile Include="Portail.cpp" />
-    <ClCompile Include="BombeElectro.cpp">
-      <Filter>Sources\Bonus</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy4.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="BonusScatter.cpp" />
-    <ClCompile Include="Projectile_Missile.cpp" />
-    <ClCompile Include="Projectile_Beam.cpp" />
+    <ClCompile Include="Bombe.cpp" />
+    <ClCompile Include="BombeElectro.cpp" />
+    <ClCompile Include="Bonus.cpp" />
+    <ClCompile Include="BonusLaserBeam.cpp" />
     <ClCompile Include="BonusMissile.cpp" />
-    <ClCompile Include="BonusLaserBeam.cpp">
-      <Filter>Sources\Bonus</Filter>
-    </ClCompile>
-<<<<<<< HEAD
-    <ClCompile Include="Enemy_Boss.cpp" />
-    <ClCompile Include="Boss_Groupe.cpp" />
-=======
+    <ClCompile Include="BonusScatter.cpp" />
     <ClCompile Include="BonusScore.cpp" />
->>>>>>> 1a5ac5113070076c7ae7dd8ffe93fb4d5d37cc6e
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="Boss_Groupe.cpp" />
+    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Enemy2.cpp" />
+    <ClCompile Include="Enemy1.cpp" />
+    <ClCompile Include="Enemy3.cpp" />
+    <ClCompile Include="Enemy4.cpp" />
+    <ClCompile Include="Enemy_Boss.cpp" />
+    <ClCompile Include="FondMobile.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Portail.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="Projectile_Beam.cpp" />
+    <ClCompile Include="Projectile_Enemy.cpp" />
+    <ClCompile Include="Projectile_Missile.cpp" />
+    <ClCompile Include="Projectile_normal.cpp" />
+    <ClCompile Include="SceneCombat.cpp" />
+    <ClCompile Include="SceneTitre.cpp" />
+    <ClCompile Include="BonusShield.cpp" />
+    <ClCompile Include="Shield.cpp" />
+    <ClCompile Include="Sujet.cpp" />
+    <ClCompile Include="Testeur.cpp" />
+    <ClCompile Include="Vaisseau.cpp" />
+    <ClCompile Include="Explosion.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FondMobile.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneCombat.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneTitre.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Testeur.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Vaisseau.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="VaisseauLogique.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy1.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy2.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy3.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="IObservateur.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Sujet.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile_normal.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile_Enemy.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Shield.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Bonus.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusShield.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="Bombe.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="BombeElectro.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="File.h">
-      <Filter>Entetes\Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Pile.h">
-      <Filter>Entetes\Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy4.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="list.h">
-      <Filter>Entetes\Structures</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile_Missile.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile_Beam.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="FabriqueEnemy1.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusScatter.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="FabriqueEnemy.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="Portail.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusMissile.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="BonusLaserBeam.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
-<<<<<<< HEAD
-    <ClInclude Include="Enemy_Boss.h" />
-    <ClInclude Include="IComponant.h">
-      <Filter>Entetes</Filter>
-    </ClInclude>
+    <ClInclude Include="Bombe.h" />
+    <ClInclude Include="BombeElectro.h" />
+    <ClInclude Include="Bonus.h" />
+    <ClInclude Include="BonusLaserBeam.h" />
+    <ClInclude Include="BonusMissile.h" />
+    <ClInclude Include="BonusScatter.h" />
+    <ClInclude Include="BonusScore.h" />
+    <ClInclude Include="Boss.h" />
     <ClInclude Include="Boss_Groupe.h" />
-=======
-    <ClInclude Include="BonusScore.h">
-      <Filter>Entetes\Bonus</Filter>
-    </ClInclude>
->>>>>>> 1a5ac5113070076c7ae7dd8ffe93fb4d5d37cc6e
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Sources">
-      <UniqueIdentifier>{827b927a-cd0c-485a-bd2b-5215dde034b0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entetes">
-      <UniqueIdentifier>{f7abfbf9-5134-4c77-8415-f0484796c055}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entetes\Bonus">
-      <UniqueIdentifier>{9b722798-eac9-4d5b-ad41-a535f54fa804}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Bonus">
-      <UniqueIdentifier>{b055a983-8e0c-4b8e-92bc-b82d111505da}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Entetes\Structures">
-      <UniqueIdentifier>{4f20153d-4d1d-4824-bc7c-eca07a2d9283}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="Enemy2.h" />
+    <ClInclude Include="Enemy1.h" />
+    <ClInclude Include="Enemy3.h" />
+    <ClInclude Include="Enemy4.h" />
+    <ClInclude Include="Enemy_Boss.h" />
+    <ClInclude Include="FabriqueEnemy.h" />
+    <ClInclude Include="FabriqueEnemy1.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="FondMobile.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="IComponant.h" />
+    <ClInclude Include="IObservateur.h" />
+    <ClInclude Include="list.h" />
+    <ClInclude Include="Pile.h" />
+    <ClInclude Include="Portail.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="Projectile_Beam.h" />
+    <ClInclude Include="Projectile_Enemy.h" />
+    <ClInclude Include="Projectile_Missile.h" />
+    <ClInclude Include="Projectile_normal.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneCombat.h" />
+    <ClInclude Include="SceneTitre.h" />
+    <ClInclude Include="BonusShield.h" />
+    <ClInclude Include="Shield.h" />
+    <ClInclude Include="Sujet.h" />
+    <ClInclude Include="Testeur.h" />
+    <ClInclude Include="Vaisseau.h" />
+    <ClInclude Include="VaisseauLogique.h" />
+    <ClInclude Include="Weapon.h" />
+    <ClInclude Include="Explosion.h" />
   </ItemGroup>
 </Project>

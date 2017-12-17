@@ -38,9 +38,9 @@ namespace tp3
 		bool haveLaser = false;
 		bool haveScatter = false;
 		bool haveMissile = false;
-		int munitionMissile = 200;
-		int munitionScatter = 200;
-		int munitionLaserbeam = 200;
+		int munitionMissile = 0;
+		int munitionScatter = 0;
+		int munitionLaserbeam = 0;
 		bool isPivoting;
 		std::vector<Weapon*> weapons;
 		int positionWeapon = 0;
