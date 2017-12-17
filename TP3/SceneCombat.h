@@ -28,6 +28,8 @@
 #include "File.h"
 #include "FabriqueEnemy1.h"
 #include "Portail.h"
+#include "Boss_Groupe.h"
+#include "Enemy_Boss.h"
 
 using namespace std;
 namespace tp3
@@ -59,6 +61,7 @@ namespace tp3
 		void gererProjectiles();
 		void gererListeEnnemisHUD();
 		void gererEnnemis();
+		void gererNiveauBoss();
 		void gererBonus();
 		void gererScoreJoueur();
 		void nbEnnemis();
@@ -79,6 +82,7 @@ namespace tp3
 		int nbEnemy3 = 0;
 		int nbEnemy4 = 0;
 		bool dernierNiveau = false;
+		bool peutCreerEnnemi = true;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
@@ -87,6 +91,7 @@ namespace tp3
 		Clock clock_tire_enemy4;
 		Clock clock_tire_boss;
 		Clock spawnEnemy;
+		Clock spawnEnemy_boss;
 		Clock animationText;
 		Clock tempsBombeElectro;
 		Clock tempsBombeElectroEnnemis;
@@ -96,6 +101,8 @@ namespace tp3
 		Texture ennemisT[4];
 		Texture bossT;
 		std::vector<Enemy*> ennemis;
+		std::vector<Enemy_Boss*> ennemisBoss;
+		Boss_Groupe grp;
 
 		Texture player;
 		Projectile* projectiles[NBR_PROJ];

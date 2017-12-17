@@ -27,7 +27,6 @@ void Enemy2::action(Vaisseau &cible)
 	float enemyY = getPosition().y;
 	float centreX = 1280 / 2;
 	float centreY = 720 / 2;
-	float distanceAuCentre = centreX - enemyX;
 
 	if (centreX - enemyX > 0 && direction != -1) //Empeche de toujours changer l'orientation
 	{

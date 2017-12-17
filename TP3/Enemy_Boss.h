@@ -4,18 +4,16 @@
 
 namespace tp3
 {
-	class Boss : public Enemy
+	class Enemy_Boss : public Enemy
 	{
 	public:
-		Boss(Vector2f position, Texture &texture, Color color, int num);
-		~Boss();
+		Enemy_Boss(Vector2f position, Texture &texture, Color color, int num);
+		~Enemy_Boss();
 
 	private:
 		virtual void bouger();
 		virtual void arreter();
 		void action(Vaisseau &cible);
 		int directionY;
-		bool isReadyPhase3 = false;
 	};
 }
-

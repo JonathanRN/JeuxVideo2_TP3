@@ -57,6 +57,15 @@ Scene::scenes SceneCombat::run()
 			delete ennemis[i];
 		}
 	}
+
+	for (int i = 0; i < ennemisBoss.size(); i++)
+	{
+		if (ennemisBoss[i] != nullptr)
+		{
+			delete ennemisBoss[i];
+		}
+	}
+
 	for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
 		if (ennemisSuivants[i] != nullptr)
@@ -64,6 +73,7 @@ Scene::scenes SceneCombat::run()
 			delete ennemisSuivants[i];
 		}
 	}
+
 	delete fabriqueEnemy1;
 	delete fabriqueEnemy2;
 	delete fabriqueEnemy3;
@@ -967,6 +977,7 @@ void tp3::SceneCombat::gererEnnemis()
 {
 	int nbEnemy = nbEnemy1 + nbEnemy2 + nbEnemy3;
 	// Fais spawn les ennemis
+	gererNiveauBoss();
 	if (ennemisSuivants.empty() && nbEnemy <= 0 && textAfficheTerminer && !dernierNiveau) //Verifie que le prochain niveau ne joue pas lorsque rendu au boss
 	{
 		niveauActif++;
@@ -975,11 +986,18 @@ void tp3::SceneCombat::gererEnnemis()
 	}
 	else if (spawnEnemy.getElapsedTime().asSeconds() > 2)
 	{
+		peutCreerEnnemi = true;
 		if (ennemisSuivants.size() > 0)
 		{
 			Enemy *temp = ennemisSuivants.pop_front();
-			barresEnnemis.erase(barresEnnemis.begin()); //Enleve l'ennemi suivant dans la liste d'ennemis
 			ennemis.push_back(temp);
+			grp.ajouter(temp);
+
+			if (typeid(*temp) != typeid(Enemy_Boss))
+			{
+				barresEnnemis.erase(barresEnnemis.begin()); //Enleve l'ennemi suivant dans la liste d'ennemis
+			}
+
 			if (typeid(*temp) == typeid(Enemy1))
 			{
 				portail[temp->numeroFabrique]->animTermine = false;
@@ -1103,8 +1121,44 @@ void tp3::SceneCombat::gererEnnemis()
 				{
 					scoreJoueur += 8;
 				}
-				delete ennemis[i];
-				ennemis[i] = nullptr;
+				if (dernierNiveau)
+				{
+					grp.retirer(i);
+				}
+				ennemis.erase(ennemis.begin() + i);
+			}
+		}
+	}
+}
+
+void tp3::SceneCombat::gererNiveauBoss()
+{
+	if (dernierNiveau)
+	{
+		if (ennemis.size() > 0)
+		{
+			if (ennemis[0] != nullptr)
+			{
+				if (ennemis[0]->phase == 2)
+				{
+					//Ajoute les ennemis dans le composite
+					if (peutCreerEnnemi)
+					{
+						ennemisSuivants.push_back(new Enemy_Boss({ LARGEUR_ECRAN - 300, 100 }, ennemisT[0], Color::Green, 1));
+						peutCreerEnnemi = false;
+					}
+					grp.bouger();
+				}
+				else if (ennemis[0]->phase == 3)
+				{
+					//Ajoute les ennemis dans le composite
+					if (peutCreerEnnemi)
+					{
+						ennemisSuivants.push_back(new Enemy_Boss({ 300, 100 }, ennemisT[0], Color::Green, 1));
+						peutCreerEnnemi = false;
+					}
+					grp.bouger();
+				}
 			}
 		}
 	}

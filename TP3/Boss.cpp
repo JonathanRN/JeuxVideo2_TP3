@@ -4,7 +4,6 @@ using namespace tp3;
 
 Boss::Boss(Vector2f position, Texture &texture, Color color, int num) :Enemy(position, texture, color, num)
 {
-	//setScale(getScale().x * -0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 4;
 	dommageTir = 1;
@@ -19,6 +18,45 @@ Boss::Boss(Vector2f position, Texture &texture, Color color, int num) :Enemy(pos
 
 Boss::~Boss()
 {
+}
+
+void tp3::Boss::bouger()
+{
+	float enemyX = getPosition().x;
+	float enemyY = getPosition().y;
+
+	if (!isReady)
+	{
+		move(direction*vitesse, 0);
+		if (direction == 1 && getPosition().x > LARGEUR + 230)
+		{
+			setPosition(-230, HAUTEUR / 2); //Il change de cote
+			isReadyPhase3 = true;
+		}
+		else if (direction == 1 && getPosition().x > posX && isReadyPhase3)
+		{
+			isReady = true;
+		}
+	}
+	if (isReady)
+	{
+		//Fais bouger les ennemis selon les limites de l'ecran
+		if (enemyY - getTexture()->getSize().y / 2 < 0)
+		{
+			directionY = 1;
+		}
+		else if (enemyY + getTexture()->getSize().y / 2 > 720)
+		{
+			directionY = -1;
+		}
+		move(0, directionY * vitesse);
+		rotate(0.8 * vitesse);
+	}
+}
+
+void tp3::Boss::arreter()
+{
+	rotate(0.8 * vitesse);
 }
 
 void Boss::action(Vaisseau & cible)
@@ -61,8 +99,7 @@ void Boss::action(Vaisseau & cible)
 	//Phase 2
 	else if (phase == 2)
 	{
-		//A faire
-		rotate(0.8 * vitesse);
+		//arreter();
 
 		if (ptsVie <= 100)
 		{
@@ -76,32 +113,6 @@ void Boss::action(Vaisseau & cible)
 	//Phase 3
 	else
 	{
-		if (!isReady)
-		{
-			move(direction*vitesse, 0);
-			if (direction == 1 && getPosition().x > LARGEUR + 230)
-			{
-				setPosition(-230, HAUTEUR / 2); //Il change de cote
-				isReadyPhase3 = true;
-			}
-			else if (direction == 1 && getPosition().x > posX && isReadyPhase3)
-			{
-				isReady = true;
-			}
-		}
-		if (isReady)
-		{
-			//Fais bouger les ennemis selon les limites de l'ecran
-			if (enemyY - getTexture()->getSize().y / 2 < 0)
-			{
-				directionY = 1;
-			}
-			else if (enemyY + getTexture()->getSize().y / 2 > 720)
-			{
-				directionY = -1;
-			}
-			move(0, directionY * vitesse);
-			rotate(0.8 * vitesse);
-		}
+		//bouger();
 	}
 }

@@ -8,16 +8,18 @@
 #include <random>
 #include <time.h>
 #include "Vaisseau.h"
+#include "IComponant.h"
 
 using namespace sf;
 
 namespace tp3
 {
-	class Enemy : public Sprite , public IObservateur
+	class Enemy : public Sprite , public IObservateur, public IComponant
 	{
 	public:
 		void initExplosion();
 		Enemy(Vector2f position, Texture &texture, Color color, int numFabrique);
+		Enemy();
 		~Enemy();
 		void animExplosion();
 		virtual void action(Vaisseau& cible);
@@ -30,6 +32,7 @@ namespace tp3
 		int numeroFabrique;
 		bool canShoot = true;
 		bool isReady;
+		int phase = 1;
 
 	protected:
 		const int LARGEUR = 1280;
@@ -42,5 +45,8 @@ namespace tp3
 		bool actif;
 		int image;
 		IntRect rectangleAnimation;
+		virtual void bouger();
+		virtual void arreter();
+		virtual void retirer(int i);
 	};
 }
