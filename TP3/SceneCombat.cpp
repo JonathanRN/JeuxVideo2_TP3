@@ -1,4 +1,4 @@
-#include "SceneCombat.h"
+ï»¿#include "SceneCombat.h"
 
 using namespace tp3;
 
@@ -31,6 +31,7 @@ Scene::scenes SceneCombat::run()
 		update();
 		draw();
 	}
+
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectiles[i] != nullptr)
@@ -80,10 +81,18 @@ Scene::scenes SceneCombat::run()
 		delete barresVie[i];
 	}
 
-	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
+	for (int i = 0; i < barresEnnemis.size(); i++)
 	{
 		delete barresEnnemis[i];
 	}
+	barresEnnemis.clear();
+
+	for (int i = 0; i < barresBouclier.size(); i++)
+	{
+		delete barresBouclier[i];
+	}
+	barresBouclier.clear();
+
 	return transitionVersScene;
 }
 
@@ -162,6 +171,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!iconBouclier.loadFromFile("Ressources\\shield_liste.png"))
+	{
+		return false;
+	}
 
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
@@ -217,12 +230,24 @@ bool SceneCombat::init(RenderWindow * const window)
 	niveauTextHUD.setCharacterSize(35);
 	niveauTextHUD.setString("Niveau");
 	niveauTextHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
-	niveauTextHUD.setPosition(LARGEUR_ECRAN / 2, 0);
+	niveauTextHUD.setPosition(LARGEUR_ECRAN / 2 - 20, 0);
 	//Nombre niveau
 	niveauHUD.setFont(font);
 	niveauHUD.setFillColor(Color::White);
-	niveauHUD.setCharacterSize(100);
-	niveauHUD.setPosition(LARGEUR_ECRAN / 2 + 23, 0);
+	niveauHUD.setCharacterSize(35);
+	niveauHUD.setPosition(LARGEUR_ECRAN / 2 + 95, 0);
+	//Nombre score joueur
+	scoreHUD.setFont(font);
+	scoreHUD.setFillColor(Color::White);
+	scoreHUD.setCharacterSize(90);
+	scoreHUD.setPosition(LARGEUR_ECRAN / 2 - 50, 0);
+	//Munitions du joueur
+	munitionsHUD.setFont(font);
+	munitionsHUD.setFillColor(Color::White);
+	munitionsHUD.setCharacterSize(45);
+	munitionsHUD.setPosition(LARGEUR_ECRAN - 130, -15);
+	munitionsHUD.setString("");
+
 	//Barre de vie
 	static int espace = 0;
 	for (int i = 0; i < NB_BARRES_VIES; i++)
@@ -238,17 +263,13 @@ bool SceneCombat::init(RenderWindow * const window)
 	ptsVieText.setCharacterSize(55);
 	ptsVieText.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
 	ptsVieText.setPosition(120, -15);
-
-	//Ennemis suivants
-	static int espaceEnnemis = 0;
-	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
-	{
-		barresEnnemis[i] = new RectangleShape({ 40, 25 });
-		barresEnnemis[i]->setFillColor(Color::White);
-		barresEnnemis[i]->setOrigin(barresEnnemis[i]->getSize().x / 2, barresEnnemis[i]->getSize().y / 2);
-		barresEnnemis[i]->setPosition(LARGEUR_ECRAN - 85 - espaceEnnemis, 65);
-		espaceEnnemis += 50;
-	}
+	
+	//Texte vie du bouclier
+	ptsBouclier.setFont(font);
+	ptsBouclier.setCharacterSize(55);
+	ptsBouclier.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
+	ptsBouclier.setPosition(120, 30);
+	ptsBouclier.setString("");
 
 	this->mainWin = window;
 	isRunning = true;
@@ -259,11 +280,11 @@ void SceneCombat::getInputs()
 {
 	while (mainWin->pollEvent(event))
 	{
-		//x sur la fenêtre
+		//x sur la fenÃªtre
 		if (event.type == Event::Closed)
 		{
-			//Attention, ici simplement fermer la fenêtre ne mettrait pas nécessairement 
-			//fin à l'application
+			//Attention, ici simplement fermer la fenÃªtre ne mettrait pas nÃ©cessairement 
+			//fin Ã  l'application
 			isRunning = false;
 			transitionVersScene = Scene::scenes::SORTIE;
 		}
@@ -330,6 +351,7 @@ void SceneCombat::update()
 	collisionVaisseauEnnemis();
 	gererExplo();
 	gererBonus();
+	gererScoreJoueur();
 	gererBoucliers();
 	animText();
 	gererEnnemis();
@@ -358,6 +380,7 @@ void SceneCombat::draw()
 	mainWin->clear();
 	fond.draw(mainWin);
 	
+	//Ennemis
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
@@ -366,6 +389,7 @@ void SceneCombat::draw()
 		}
 	}
 
+	//Bonus
 	for (int i = 0; i < NBR_BONUS; i++)
 	{
 		if (bonus[i] != nullptr)
@@ -373,16 +397,20 @@ void SceneCombat::draw()
 			mainWin->draw(*bonus[i]);
 		}
 	}	
+
+	//Bouclier du joueur
 	if (vaisseauJoueur.shields.size() > 0)
 	{
 		mainWin->draw(*vaisseauJoueur.shields.top());
 	}
 	
+	//Les 6 portails
 	for (int i = 0; i < NBR_PORTAIL; i++)
 	{
 		mainWin->draw(*portail[i]);
 	}
 
+	//Ajuste le texte et les barres de vies
 	for (int i = 0; i < vaisseauJoueur.ptsVie; i++)
 	{
 		if (vaisseauJoueur.shields.size() > 0)
@@ -398,10 +426,32 @@ void SceneCombat::draw()
 		mainWin->draw(*barresVie[i]);
 	}
 
-	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
+	//Liste des ennemis
+	int cptEnnemis = 1;
+	for (int i = 0; i < barresEnnemis.size(); i++)
 	{
+		if (cptEnnemis == NB_BARRES_ENNEMIS+1)
+		{
+			break;
+		}
+		barresEnnemis[i]->setPosition(LARGEUR_ECRAN - 55 - (50 * cptEnnemis), 55);
 		mainWin->draw(*barresEnnemis[i]);
+		cptEnnemis++;
 	}
+
+	//Liste des boucliers
+	int cptBoubou = 1;
+	for (int i = barresBouclier.size() - 1; i >= 0; i--)
+	{
+		if (cptBoubou == NB_BARRES_BOUCLIERS+1)
+		{
+			break;
+		}
+		barresBouclier[i]->setPosition(100 + (50 * cptBoubou), 55);
+		mainWin->draw(*barresBouclier[i]);
+		cptBoubou++;
+	}	
+
 	mainWin->draw(explo);
 	mainWin->draw(vaisseauJoueur);
 	for (int i = 0; i < NBR_PROJ; i++)
@@ -416,8 +466,11 @@ void SceneCombat::draw()
 		}
 	}
 	mainWin->draw(textNiveau);
+	mainWin->draw(scoreHUD);
+	mainWin->draw(ptsBouclier);
 	mainWin->draw(niveauTextHUD);
 	mainWin->draw(niveauHUD);
+	mainWin->draw(munitionsHUD);
 	mainWin->draw(ptsVieText);
 	mainWin->draw(hud);
 	mainWin->display();
@@ -496,7 +549,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = rand() % 5;
+			int choixBonus = 0;//rand() % 5;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -685,6 +738,24 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 			{
 				vaisseauJoueur.ptsVie -= ennemis[i]->dommageCollision;
 				retObservateur(ennemis[i]);
+
+				//Ajoute le score au joueur
+				if (typeid(*ennemis[i]) == typeid(Enemy1))
+				{
+					scoreJoueur += 1;
+				}
+				else if (typeid(*ennemis[i]) == typeid(Enemy2))
+				{
+					scoreJoueur += 3;
+				}
+				else if (typeid(*ennemis[i]) == typeid(Enemy3))
+				{
+					scoreJoueur += 6;
+				}
+				else
+				{
+					scoreJoueur += 8;
+				}
 				delete ennemis[i];
 				ennemis[i] = nullptr;
 			}
@@ -696,33 +767,42 @@ void tp3::SceneCombat::gererBoucliers()
 {
 	if (vaisseauJoueur.shields.size() > 0)
 	{
+		//Texte de pts de vies des boucliers
+		ptsBouclier.setString(std::to_string(vaisseauJoueur.shields.top()->ptsShield));
+		ptsBouclier.setColor(vaisseauJoueur.shields.top()->getColor());
+
 		if (vaisseauJoueur.shields.top()->ptsShield <= 0)
 		{
 			vaisseauJoueur.shields.pop();
-			cout << "shield miel" << endl;
+
+			//Enleve dans la liste des boucliers du HUD
+			barresBouclier.pop_back();
 		}
 		if (vaisseauJoueur.shields.size() > 0)
 		{
 			vaisseauJoueur.shields.top()->setPosition(vaisseauJoueur.getPosition());
 		}
 	}
-	
 }
 
 void tp3::SceneCombat::gererWeapons()
 {
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
+		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionLaserbeam));
 		if (vaisseauJoueur.munitionLaserbeam <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
+			munitionsHUD.setString("");
 		}
 	}
 	if (vaisseauJoueur.weapon == Scatter)
 	{
+		munitionsHUD.setString(std::to_string(vaisseauJoueur.munitionScatter));
 		if (vaisseauJoueur.munitionScatter <= 0)
 		{
 			vaisseauJoueur.weapon = Base;
+			munitionsHUD.setString("");
 		}
 	}
 	
@@ -760,6 +840,30 @@ void tp3::SceneCombat::gererProjectiles()
 						projectiles[i] = nullptr;
 						
 					}
+					//Ajoute le score
+					for (int i = 0; i < ennemis.size(); i++)
+					{
+						if (ennemis[i] != nullptr)
+						{
+							//Ajoute le score au joueur
+							if (typeid(*ennemis[i]) == typeid(Enemy1))
+							{
+								scoreJoueur += 1;
+							}
+							else if (typeid(*ennemis[i]) == typeid(Enemy2))
+							{
+								scoreJoueur += 3;
+							}
+							else if (typeid(*ennemis[i]) == typeid(Enemy3))
+							{
+								scoreJoueur += 6;
+							}
+							else
+							{
+								scoreJoueur += 8;
+							}
+						}
+					}
 					ennemis.clear();
 				}
 			}
@@ -774,6 +878,31 @@ void tp3::SceneCombat::gererProjectiles()
 				projectilesEnemy[i] = nullptr;
 			}
 		}
+	}
+}
+
+void tp3::SceneCombat::gererListeEnnemisHUD()
+{
+	for (int i = 0; i < ennemisSuivants.size(); i++)
+	{
+		barresEnnemis.push_back(new RectangleShape({ 40, 25 }));
+		if (typeid(*ennemisSuivants[i]) == typeid(Enemy1))
+		{
+			barresEnnemis[barresEnnemis.size()-1]->setTexture(&enemyListeT[0]);
+		}
+		else if (typeid(*ennemisSuivants[i]) == typeid(Enemy2))
+		{
+			barresEnnemis[barresEnnemis.size() - 1]->setTexture(&enemyListeT[1]);
+		}
+		else if (typeid(*ennemisSuivants[i]) == typeid(Enemy3))
+		{
+			barresEnnemis[barresEnnemis.size() - 1]->setTexture(&enemyListeT[2]);
+		}
+		else
+		{
+			barresEnnemis[barresEnnemis.size() - 1]->setTexture(&enemyListeT[3]);
+		}
+		barresEnnemis[barresEnnemis.size() - 1]->setFillColor(Color::White);
 	}
 }
 
@@ -792,6 +921,7 @@ void tp3::SceneCombat::gererEnnemis()
 		if (ennemisSuivants.size() > 0)
 		{
 			Enemy *temp = ennemisSuivants.pop_front();
+			barresEnnemis.erase(barresEnnemis.begin()); //Enleve l'ennemi suivant dans la liste d'ennemis
 			ennemis.push_back(temp);
 			if (typeid(*temp) == typeid(Enemy1))
 			{
@@ -881,47 +1011,26 @@ void tp3::SceneCombat::gererEnnemis()
 					ajouterBonus(ennemis[i]->getPosition());
 				}
 				retObservateur(ennemis[i]);
+				//Ajoute le score au joueur
+				if (typeid(*ennemis[i]) == typeid(Enemy1))
+				{
+					scoreJoueur += 1;
+				}
+				else if (typeid(*ennemis[i]) == typeid(Enemy2))
+				{
+					scoreJoueur += 3;
+				}
+				else if (typeid(*ennemis[i]) == typeid(Enemy3))
+				{
+					scoreJoueur += 6;
+				}
+				else
+				{
+					scoreJoueur += 8;
+				}
 				delete ennemis[i];
 				ennemis[i] = nullptr;
 			}
-		}
-	}
-
-	//Liste des ennemis dans le HUD
-	static int espace;
-	for (int i = 0; i < NB_BARRES_ENNEMIS; i++)
-	{
-		if (ennemisSuivants.size() < NB_BARRES_ENNEMIS)
-		{
-			espace = NB_BARRES_ENNEMIS-1 - ennemisSuivants.size();
-		}
-		else
-		{
-			if (typeid(*ennemisSuivants[i]) == typeid(Enemy1))
-			{
-				barresEnnemis[i]->setTexture(&enemyListeT[0]);
-			}
-			else if (typeid(*ennemisSuivants[i]) == typeid(Enemy2))
-			{
-				barresEnnemis[i]->setTexture(&enemyListeT[1]);
-			}
-			else if (typeid(*ennemisSuivants[i]) == typeid(Enemy3))
-			{
-				barresEnnemis[i]->setTexture(&enemyListeT[2]);
-			}
-			else
-			{
-				barresEnnemis[i]->setTexture(&enemyListeT[3]);
-			}
-		}
-
-	}
-
-	if (espace > 0)
-	{
-		for (int i = 0; i <= espace; i++)
-		{
-			barresEnnemis[i + ennemisSuivants.size()]->setFillColor(Color::Transparent);
 		}
 	}
 }
@@ -947,6 +1056,22 @@ void tp3::SceneCombat::gererBonus()
 					readyExplo = true;
 				}
 				bonus[i]->notifierTousLesObservateurs();
+
+				//Affiche la liste des boucliers
+				if (typeid(*bonus[i]) == typeid(BonusShield))
+				{
+					static int espaceBoucliers = 50;
+					static int precedent = 100;
+
+					if (barresBouclier.size() < NB_BARRES_BOUCLIERS)
+					{
+						precedent = precedent + espaceBoucliers;
+					}
+
+					barresBouclier.push_back(new RectangleShape({ 40, 25 }));
+					barresBouclier[barresBouclier.size()-1]->setTexture(&iconBouclier);
+					barresBouclier[barresBouclier.size() - 1]->setFillColor(vaisseauJoueur.shields.top()->getColor());
+				}
 				delete bonus[i];
 				bonus[i] = nullptr;
 
@@ -976,6 +1101,11 @@ void tp3::SceneCombat::gererBonus()
 		}
 		
 	}
+}
+
+void tp3::SceneCombat::gererScoreJoueur()
+{
+	scoreHUD.setString(std::to_string(scoreJoueur));
 }
 
 void SceneCombat::nbEnnemis()
@@ -1019,27 +1149,31 @@ void SceneCombat::chargerNiveau(const int niveau)
 
 	if (niveau == 1)
 	{
-		ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
+		/*ennemisSuivants.push_back(new Enemy3({ -100, 100 }, ennemisT[2], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, HAUTEUR_ECRAN + 100 }, ennemisT[3], choixCouleur(), 1));*/
 
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
-		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
-		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
 		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
 	}
 	else if (niveau == 2)
 	{
-		/*ennemisSuivants.push_back(new Enemy2({ -100, 100 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(new Enemy2({ -100, 100 }, ennemisT[1], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ -100, 200 }, ennemisT[1], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ -100, 300 }, ennemisT[1], choixCouleur(), 1));
 		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 100 }, ennemisT[1], choixCouleur(), 1));
-		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 200 }, ennemisT[1], choixCouleur(), 1));*/
+		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 200 }, ennemisT[1], choixCouleur(), 1));
 	}
+	gererListeEnnemisHUD();
 }
 
 void SceneCombat::animText()

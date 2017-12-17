@@ -55,8 +55,10 @@ namespace tp3
 		void gererBoucliers();
 		void gererWeapons();
 		void gererProjectiles();
+		void gererListeEnnemisHUD();
 		void gererEnnemis();
 		void gererBonus();
+		void gererScoreJoueur();
 		void nbEnnemis();
 		void chargerNiveau(const int niveau);
 		void animText();
@@ -121,16 +123,22 @@ namespace tp3
 
 		//Section HUD
 		Texture hudT;
+		Texture iconBouclier;
 		Sprite hud;
 		Text niveauTextHUD;
 		Text niveauHUD;
 		Text scoreHUD;
+		Text munitionsHUD;
 		Text ptsVieText;
+		Text ptsBouclier;
 		static const int NB_BARRES_VIES = 10;
 		RectangleShape* barresVie[NB_BARRES_VIES];
 
+		static const int NB_BARRES_BOUCLIERS = 5;
+		vector<RectangleShape*> barresBouclier;
+
 		static const int NB_BARRES_ENNEMIS = 7;
-		RectangleShape* barresEnnemis[NB_BARRES_ENNEMIS];
+		vector<RectangleShape*> barresEnnemis;
 		Texture enemyListeT[4];
 	};
 }
