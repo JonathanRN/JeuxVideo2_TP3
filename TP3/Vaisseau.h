@@ -8,6 +8,7 @@
 #include "BonusScatter.h"
 #include "BonusShield.h"
 #include "BonusLaserBeam.h"
+#include "BonusMissile.h"
 #include "Bombe.h"
 #include "BombeElectro.h"
 #include "Shield.h"
@@ -36,6 +37,8 @@ namespace tp3
 		bool canShoot = true;
 		bool haveLaser = false;
 		bool haveScatter = false;
+		bool haveMissile = false;
+		int munitionMissile = 200;
 		int munitionScatter = 200;
 		int munitionLaserbeam = 200;
 		

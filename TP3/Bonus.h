@@ -10,6 +10,8 @@ namespace tp3
 		Bonus(Vector2f position,Texture& texture);
 		virtual void anim();
 		virtual void initGraphiques();
+		bool readyAnim = false;
+		bool animTermine = false;
 		~Bonus();
 	};
 }

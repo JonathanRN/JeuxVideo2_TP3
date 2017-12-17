@@ -5,7 +5,7 @@ using namespace tp3;
 Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
-	weapon = Base;
+	weapon = Missile;
 }
 
 
@@ -73,6 +73,15 @@ void Vaisseau::notifier(Sujet * sujet)
 			haveLaser = true;
 		}
 		munitionLaserbeam += 2;
+	}
+	if (typeid(*sujet) == typeid(BonusMissile))
+	{
+		if (haveMissile == false)
+		{
+			weapons.push_back(Missile);
+			haveMissile = true;
+		}
+		munitionMissile += 50;
 	}
 
 }

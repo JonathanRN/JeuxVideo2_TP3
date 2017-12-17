@@ -115,6 +115,10 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	if (!projectileT[2].loadFromFile("Ressources\\missile.png"))
+	{
+		return false;
+	}
 	if (!projectileEnemy.loadFromFile("Ressources\\Projectile_enemy2.png"))
 	{
 		return false;
@@ -124,6 +128,26 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 	if (!bonusT[1].loadFromFile("Ressources\\Bombe_electro.png"))
+	{
+		return false;
+	}
+	if (!bonusT[2].loadFromFile("Ressources\\Bonus_laser.png"))
+	{
+		return false;
+	}
+	if (!bonusT[3].loadFromFile("Ressources\\Bonus_scatter.png"))
+	{
+		return false;
+	}
+	if (!bonusT[4].loadFromFile("Ressources\\Bonus_score.png"))
+	{
+		return false;
+	}
+	if (!bonusT[5].loadFromFile("Ressources\\Bonus_missile.png"))
+	{
+		return false;
+	}
+	if (!bonusT[6].loadFromFile("Ressources\\bombe.png"))
 	{
 		return false;
 	}
@@ -528,8 +552,9 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 		{
 			if (projectiles[i] == nullptr)
 			{
-				projectiles[i] = new Projectile_Missile(Vector2f(position.x, position.y), 20 * vaisseauJoueur.direction, ennemisT[0], 0);
+				projectiles[i] = new Projectile_Missile(Vector2f(position.x, position.y), 15 * vaisseauJoueur.direction, projectileT[2], 0);
 				projectiles[i]->setRotation(((projectiles[i]->angle) * 180) / M_PI);
+				projectiles[i]->initGraphiques();
 				projectiles[i]->activer();
 				return;
 			}
@@ -557,7 +582,7 @@ void SceneCombat::ajouterBonus(Vector2f position)
 	{
 		if (bonus[i] == nullptr)
 		{
-			int choixBonus = 0;//rand() % 4 + 3;
+			int choixBonus =   1;
 			if (choixBonus == 0)
 			{
 				bonus[i] = new BonusShield(position, bonusT[0]);
@@ -566,8 +591,9 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			}
 			if (choixBonus == 1)
 			{
-				bonus[i] = new Bombe(position, ennemisT[2]);
+				bonus[i] = new Bombe(position, bonusT[6]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
 				return;
 			}
 			if (choixBonus == 2)
@@ -579,14 +605,21 @@ void SceneCombat::ajouterBonus(Vector2f position)
 			}
 			if (choixBonus == 3)
 			{
-				bonus[i] = new BonusScatter(position, ennemisT[0]);
+				bonus[i] = new BonusScatter(position, bonusT[3]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
 			}
 			if (choixBonus == 4)
 			{
-				bonus[i] = new BonusLaserBeam(position, projectileT[0]);
+				bonus[i] = new BonusLaserBeam(position, bonusT[2]);
+				bonus[i]->ajouterObservateur(&vaisseauJoueur);
+				bonus[i]->initGraphiques();
+				return;
+			}
+			if (choixBonus == 5)
+			{
+				bonus[i] = new BonusMissile(position, bonusT[5]);
 				bonus[i]->ajouterObservateur(&vaisseauJoueur);
 				bonus[i]->initGraphiques();
 				return;
@@ -828,10 +861,9 @@ void tp3::SceneCombat::gererProjectiles()
 	{
 		if (projectiles[i] != nullptr)
 		{
-			if (typeid(*projectiles[i]) == typeid(Projectile_normal) || typeid(*projectiles[i]) == typeid(Projectile_Beam))
-			{
-				projectiles[i]->anim(vaisseauJoueur.direction);
-			}
+
+			projectiles[i]->anim(vaisseauJoueur.direction);
+			
 			if (typeid(*projectiles[i]) != typeid(Projectile_Beam))
 			{
 				projectiles[i]->move(projectiles[i]->vitesse *cos(projectiles[i]->angle), projectiles[i]->vitesse*sin(projectiles[i]->angle));
@@ -1059,6 +1091,11 @@ void tp3::SceneCombat::gererBonus()
 			{
 				bonus[i]->anim();
 			}
+			if (typeid(*bonus[i]) == typeid(Bombe) && bonus[i]->readyAnim)
+			{
+				bonus[i]->anim();
+			}
+			
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
 				
@@ -1069,7 +1106,11 @@ void tp3::SceneCombat::gererBonus()
 					explo.setOutlineColor(bonus[i]->getColor());
 					readyExplo = true;
 				}
-				bonus[i]->notifierTousLesObservateurs();
+				if (typeid(*bonus[i]) == typeid(Bombe))
+				{
+					bonus[i]->readyAnim = true;
+				}
+				
 
 				//Affiche la liste des boucliers
 				if (typeid(*bonus[i]) == typeid(BonusShield))
@@ -1086,8 +1127,13 @@ void tp3::SceneCombat::gererBonus()
 					barresBouclier[barresBouclier.size()-1]->setTexture(&iconBouclier);
 					barresBouclier[barresBouclier.size() - 1]->setFillColor(vaisseauJoueur.shields.top()->getColor());
 				}
-				delete bonus[i];
-				bonus[i] = nullptr;
+				if (typeid(*bonus[i]) != typeid(Bombe))
+				{
+					bonus[i]->notifierTousLesObservateurs();
+					delete bonus[i];
+					bonus[i] = nullptr;
+				}
+				
 
 			}
 			else if (typeid(*bonus[i]) == typeid(BombeElectro))
@@ -1110,6 +1156,14 @@ void tp3::SceneCombat::gererBonus()
 							}
 						}
 					}
+				}
+			}
+			if (bonus[i] != nullptr)
+			{
+				if (bonus[i]->animTermine == true)
+				{
+					delete bonus[i];
+					bonus[i] = nullptr;
 				}
 			}
 		}

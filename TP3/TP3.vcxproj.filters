@@ -71,7 +71,10 @@
     <ClCompile Include="BonusScatter.cpp" />
     <ClCompile Include="Projectile_Missile.cpp" />
     <ClCompile Include="Projectile_Beam.cpp" />
-    <ClCompile Include="BonusLaserBeam.cpp" />
+    <ClCompile Include="BonusMissile.cpp" />
+    <ClCompile Include="BonusLaserBeam.cpp">
+      <Filter>Sources\Bonus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -140,9 +143,6 @@
     <ClInclude Include="Bombe.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="FabriqueEnemy.h" />
-    <ClInclude Include="FabriqueEnemy1.h" />
-    <ClInclude Include="Portail.h" />
     <ClInclude Include="BombeElectro.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
@@ -158,12 +158,32 @@
     <ClInclude Include="Weapon.h">
       <Filter>Entetes</Filter>
     </ClInclude>
-    <ClInclude Include="BonusScatter.h" />
-    <ClInclude Include="Projectile_Missile.h" />
-    <ClInclude Include="Projectile_Beam.h" />
-    <ClInclude Include="BonusLaserBeam.h" />
     <ClInclude Include="list.h">
       <Filter>Entetes\Structures</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile_Missile.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile_Beam.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="FabriqueEnemy1.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusScatter.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="FabriqueEnemy.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Portail.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusMissile.h">
+      <Filter>Entetes\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="BonusLaserBeam.h">
+      <Filter>Entetes\Bonus</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

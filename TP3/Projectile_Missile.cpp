@@ -2,27 +2,32 @@
 using namespace tp3;
 
 
-Projectile_Missile::Projectile_Missile(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::Cyan, 100)
+Projectile_Missile::Projectile_Missile(Vector2f position, float vitesse, Texture& texture, float angle) : Projectile(position, Color::White, 100)
 {
 	this->angle = angle;
 	setPosition(position);
 	this->vitesse = vitesse;
 	setTexture(texture);
-	//rectangleAnimation.left = 0;
-	//rectangleAnimation.top = 0;
+	setScale(getScale().x * 0.4, getScale().y *0.4);
+	rectangleAnimation.left = 0;
+	rectangleAnimation.top = 0;
 }
 
 void Projectile_Missile::anim(int direction)
 {
 	if (actif && animation < ANIMATION_MAXIMALE)
 	{
+		if (animation == 0)
+		{
+			setScale(getScale().x *direction, getScale().y);
+		}
 		animation++;
 		if (animation % RHYTME_ANIM == 0)
 		{
-			if (rectangleAnimation.top < 350) //pour ne pas faire disparaitre le proj a la fin de lanim
+			if (rectangleAnimation.left < 2300) //pour ne pas faire disparaitre le proj a la fin de lanim
 			{
-				setScale(0.5 *direction, getScale().y);
-				rectangleAnimation.top += image;
+				
+				rectangleAnimation.left += image;
 				setTextureRect(rectangleAnimation);
 			}
 		}
@@ -32,16 +37,16 @@ void Projectile_Missile::anim(int direction)
 
 void Projectile_Missile::initGraphiques()
 {
-	image = getTexture()->getSize().y / NOMBRES_ANIM;
-	int demiTailleX = getTexture()->getSize().x / 2;
-	int demiTailleY = image / 2;
+	image = getTexture()->getSize().x / NOMBRES_ANIM;
+	int demiTailleX = image / 2;
+	int demiTailleY = getTexture()->getSize().y / 2;
 	setOrigin(demiTailleX, demiTailleY);
-
+	setScale(getScale().x * 0.5, getScale().y * 0.5);
 	//Rectangle d'animation
 	rectangleAnimation.left = 0;
 	rectangleAnimation.top = 0;
-	rectangleAnimation.width = getTexture()->getSize().x;
-	rectangleAnimation.height = image;
+	rectangleAnimation.width = image;
+	rectangleAnimation.height = getTexture()->getSize().y;
 
 	setTextureRect(rectangleAnimation);
 }

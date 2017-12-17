@@ -15,6 +15,7 @@
 #include "Bonus.h"
 #include "BonusShield.h"
 #include "BonusLaserBeam.h"
+#include "BonusMissile.h"
 #include "BombeElectro.h"
 #include "Shield.h"
 #include "Enemy.h"
@@ -99,7 +100,7 @@ namespace tp3
 		Texture projectileT[5];
 		Texture projectileEnemy;
 		
-		Texture bonusT[5];
+		Texture bonusT[7];
 		Texture explosion;
 		
 		File<Enemy*> ennemisSuivants;
