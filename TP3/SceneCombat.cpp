@@ -204,6 +204,23 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 
+	///////
+	
+	bonus[0] = new BonusScatter(Vector2f{200,200}, bonusT[3]);
+	bonus[0]->ajouterObservateur(&vaisseauJoueur);
+	bonus[0]->initGraphiques();
+	
+	
+	bonus[1] = new BonusLaserBeam(Vector2f{ 400,200 }, bonusT[2]);
+	bonus[1]->ajouterObservateur(&vaisseauJoueur);
+	bonus[1]->initGraphiques();
+
+	bonus[2] = new BonusMissile(Vector2f{ 600,200 }, bonusT[5]);
+	bonus[2]->ajouterObservateur(&vaisseauJoueur);
+	bonus[2]->initGraphiques();
+		
+	
+	///////
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
 	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
@@ -332,11 +349,20 @@ void SceneCombat::getInputs()
 	}
 	if (Keyboard::isKeyPressed(Keyboard::E))
 	{
-		vaisseauJoueur.weapons.iterateur++;
+		vaisseauJoueur.positionWeapon++;
+		if (vaisseauJoueur.positionWeapon > vaisseauJoueur.weapons.size() - 1)
+		{
+			vaisseauJoueur.positionWeapon = 0;
+		}
 	}
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
-		vaisseauJoueur.weapons.iterateur--;
+		vaisseauJoueur.positionWeapon--;
+		if (vaisseauJoueur.positionWeapon < 0)
+		{
+			vaisseauJoueur.positionWeapon = vaisseauJoueur.weapons.size() - 1;
+		}
+		
 	}
 
 	//Mouvements gauche et droite
@@ -841,7 +867,7 @@ void tp3::SceneCombat::gererWeapons()
 {
 	if (vaisseauJoueur.weapons.size() > 0)
 	{
-		vaisseauJoueur.weapon = *vaisseauJoueur.weapons.iterateur;
+		vaisseauJoueur.weapon = *vaisseauJoueur.weapons[vaisseauJoueur.positionWeapon];
 	}
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
@@ -1274,7 +1300,7 @@ void SceneCombat::nbEnnemis()
 
 void SceneCombat::chargerNiveau(const int niveau)
 {
-	text.str("");
+	/*text.str("");
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 	niveauHUD.setString(std::to_string(niveau));
@@ -1296,7 +1322,7 @@ void SceneCombat::chargerNiveau(const int niveau)
 		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
 		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
 		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));		
-	}
+	}*/
 	//else if (niveau == 2)
 	//{
 	//	ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));

@@ -81,7 +81,7 @@ public:
 
 	void push_back(const TYPE valeur);  //Ajoute un element a la fin de la liste. O(1)
 	void pop_back();			  //Enleve un element a la fin de la liste. O(1)
-	void push_front(const TYPE&); //Ajoute un element au debut de la liste. O(1)
+	void push_front(const TYPE valeur); //Ajoute un element au debut de la liste. O(1)
 	void pop_front();			  //Enleve un element au debut de la liste. O(1)
 	TYPE& back(); //Retourne une reference sur le dernier element de la liste. O(1)
 	TYPE& front(); //Retourne une reference sur le premier element de la liste. O(1)
@@ -157,7 +157,11 @@ void list<TYPE>::push_back(const TYPE valeur)
 template <typename TYPE>
 void list<TYPE>::pop_front()
 {
-
+	boite* temp = avant.suiv;
+	avant.suiv = temp->suiv;
+	avant.suiv->prec = &avant;
+	nbElem--;
+	delete temp;
 }
 template <typename TYPE>
 void list<TYPE>::pop_back()
@@ -169,9 +173,13 @@ void list<TYPE>::pop_back()
 	delete temp;
 }
 template <typename TYPE>
-void list<TYPE>::push_front(const TYPE&)
+void list<TYPE>::push_front(const TYPE valeur)
 {
-
+	boite* temp = avant.suiv;
+	temp->prec = new boite(valeur, &avant, temp);
+	avant->suiv = temp->prec;
+	iterateur.POINTEUR = temp->prec;
+	nbElem++;
 }
 template <typename TYPE>
 TYPE& list<TYPE>::back()
@@ -223,6 +231,7 @@ private:
 	
 public:
     boite* POINTEUR;
+	
 	iterator(boite*c = nullptr) :POINTEUR(c) {} // cadeau
 	TYPE operator*()const //Dereference l'iterateur
 	{
@@ -241,9 +250,11 @@ public:
 		return *this;
 	}
 
-	iterator operator++(int) {   //i++
-
-		POINTEUR = POINTEUR->suiv;
+	iterator& operator++(int) {   //i++
+		if (POINTEUR != nullptr)
+		{
+			POINTEUR = POINTEUR->suiv;
+		}
 		return *this;
 	}
 
@@ -252,10 +263,12 @@ public:
 		POINTEUR = POINTEUR->prec;
 		return *this;
 	}
-	iterator operator--(int) {   //i--
+	iterator& operator--(int) {   //i--
+		if (POINTEUR != nullptr)
+		{
+			POINTEUR = POINTEUR->prec;
+		}
 
-		POINTEUR = POINTEUR->prec;
-		
 		return *this;
 	}
 	bool operator==(const iterator&droite)const { //Cadeau! comparaison d'iterateur

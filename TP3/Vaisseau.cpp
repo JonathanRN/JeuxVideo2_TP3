@@ -6,6 +6,7 @@ Vaisseau::Vaisseau() : image(CENTRE)
 {
 	isPivoting = false;
 	weapon = Base;
+	weapons.push_back(new Weapon(Base));
 }
 
 
@@ -60,8 +61,9 @@ void Vaisseau::notifier(Sujet * sujet)
 	{
 		if (haveScatter == false)
 		{
-			weapons.push_back(Scatter);
+			weapons.push_back(new Weapon(Scatter));
 			haveScatter = true;
+			positionWeapon++;
 		}
 		munitionScatter += 250;
 	}
@@ -69,8 +71,9 @@ void Vaisseau::notifier(Sujet * sujet)
 	{
 		if (haveLaser == false)
 		{
-			weapons.push_back(FatLaser);
+			weapons.push_back(new Weapon(FatLaser));
 			haveLaser = true;
+			positionWeapon++;
 		}
 		munitionLaserbeam += 2;
 	}
@@ -78,8 +81,9 @@ void Vaisseau::notifier(Sujet * sujet)
 	{
 		if (haveMissile == false)
 		{
-			weapons.push_back(Missile);
+			weapons.push_back(new Weapon(Missile));
 			haveMissile = true;
+			positionWeapon++;
 		}
 		munitionMissile += 50;
 	}

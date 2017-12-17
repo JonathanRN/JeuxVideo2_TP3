@@ -42,7 +42,8 @@ namespace tp3
 		int munitionScatter = 200;
 		int munitionLaserbeam = 200;
 		bool isPivoting;
-		list<Weapon> weapons;
+		std::vector<Weapon*> weapons;
+		int positionWeapon = 0;
 		Weapon weapon;
 	private:
 		static const int OFFSET = 0;
