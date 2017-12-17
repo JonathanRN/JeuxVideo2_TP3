@@ -84,8 +84,8 @@ template <class T>
 void File<T>::clear()
 {
 	nbElem = 0;
-	cap = 0;
 	head = 0;
+	cap = 0;
 	delete[] tab;
 	tab = nullptr;
 }

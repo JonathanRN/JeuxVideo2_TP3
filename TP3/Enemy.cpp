@@ -27,6 +27,10 @@ Enemy::Enemy(Vector2f position, Texture &texture, Color color, int numFabrique)
 	numeroFabrique = numFabrique;
 }
 
+tp3::Enemy::Enemy()
+{
+}
+
 Enemy::~Enemy()
 {
 }
@@ -65,4 +69,16 @@ void tp3::Enemy::notifier(Sujet * sujet)
 		canShoot = false;
 	}
 	
+}
+
+void tp3::Enemy::bouger()
+{
+}
+
+void tp3::Enemy::arreter()
+{
+}
+
+void tp3::Enemy::retirer(int i)
+{
 }

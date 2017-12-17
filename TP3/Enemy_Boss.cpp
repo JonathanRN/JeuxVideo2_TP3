@@ -1,27 +1,27 @@
-#include "Enemy2.h"
+#include "Enemy_Boss.h"
 
 using namespace tp3;
 
-Enemy2::Enemy2(Vector2f position, Texture &texture, Color color, int num):Enemy(position, texture, color, num)
+Enemy_Boss::Enemy_Boss(Vector2f position, Texture &texture, Color color, int num):Enemy(position, texture, color, num)
 {
-	setScale(getScale().x * -0.8, getScale().y * 0.8);
+	setScale(getScale().x * 0.8, getScale().y * 0.8);
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
-	dommageCollision = 4;
-	dommageTir = 1;
-	vitesse = 3;
-	ptsVie = 5;
-	direction = 1;
+	dommageCollision = 2;
+	dommageTir = 0;
+	vitesse = 1.5f;
+	ptsVie = 2;
 	directionY = 1;
+	direction = -1;
 	isReady = false;
-	posX = 90;
+	posX = 250;
 }
 
 
-Enemy2::~Enemy2()
+Enemy_Boss::~Enemy_Boss()
 {
 }
 
-void Enemy2::action(Vaisseau &cible)
+void tp3::Enemy_Boss::bouger()
 {
 	float enemyX = getPosition().x;
 	float enemyY = getPosition().y;
@@ -38,7 +38,7 @@ void Enemy2::action(Vaisseau &cible)
 		direction = 1;
 		setScale(getScale().x * -1, getScale().y);
 	}
-	
+
 	if (!isReady)
 	{
 		move(-direction*vitesse, 0);
@@ -46,7 +46,7 @@ void Enemy2::action(Vaisseau &cible)
 		{
 			isReady = true;
 		}
-		else if (direction == 1 && getPosition().x < LARGEUR-posX)
+		else if (direction == 1 && getPosition().x < LARGEUR - posX)
 		{
 			isReady = true;
 		}
@@ -65,4 +65,14 @@ void Enemy2::action(Vaisseau &cible)
 		}
 		move(0, directionY * vitesse);
 	}
+}
+
+void tp3::Enemy_Boss::arreter()
+{
+	//vitesse = 0;
+}
+
+void tp3::Enemy_Boss::action(Vaisseau & cible)
+{
+	
 }

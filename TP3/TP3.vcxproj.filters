@@ -75,7 +75,12 @@
     <ClCompile Include="BonusLaserBeam.cpp">
       <Filter>Sources\Bonus</Filter>
     </ClCompile>
+<<<<<<< HEAD
+    <ClCompile Include="Enemy_Boss.cpp" />
+    <ClCompile Include="Boss_Groupe.cpp" />
+=======
     <ClCompile Include="BonusScore.cpp" />
+>>>>>>> 1a5ac5113070076c7ae7dd8ffe93fb4d5d37cc6e
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FondMobile.h">
@@ -186,9 +191,17 @@
     <ClInclude Include="BonusLaserBeam.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
+<<<<<<< HEAD
+    <ClInclude Include="Enemy_Boss.h" />
+    <ClInclude Include="IComponant.h">
+      <Filter>Entetes</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss_Groupe.h" />
+=======
     <ClInclude Include="BonusScore.h">
       <Filter>Entetes\Bonus</Filter>
     </ClInclude>
+>>>>>>> 1a5ac5113070076c7ae7dd8ffe93fb4d5d37cc6e
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Sources">
