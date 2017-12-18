@@ -251,6 +251,9 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+	//Explosion joueur
+	explosions.push_back(new Explosion({ 100,100 }, explosionT));
+	explosions.front()->initGraphiques();
 
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
@@ -1035,7 +1038,7 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 
 					if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
 					{
-						ennemis.erase(ennemis.begin() + i);
+						ennemis[i]->ptsVie -= 100;
 					}
 				}
 			}
@@ -1874,8 +1877,12 @@ void tp3::SceneCombat::gererFinJeu()
 	{
 		if (vaisseauJoueur.ptsVie <= 0 || dernierNiveau && ennemis.empty()) //Si la fin du jeu survient
 		{
+			
 			if (!jeuTermine)
 			{
+				explosions.front()->setPosition(vaisseauJoueur.getPosition());
+				explosions.front()->isReady = true;
+				vaisseauJoueur.setColor(Color::Transparent);
 				clock_finDeJeu.restart();
 				jeuTermine = true;
 			}
