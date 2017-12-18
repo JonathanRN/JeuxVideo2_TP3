@@ -4,6 +4,7 @@ using namespace tp3;
 
 SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mouvementJoueur(0, 0)
 {
+	int caht = 0;
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		projectiles[i] = nullptr;
