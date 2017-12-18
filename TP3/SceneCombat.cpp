@@ -1877,7 +1877,10 @@ void tp3::SceneCombat::gererFinJeu()
 	{
 		if (vaisseauJoueur.ptsVie <= 0 || dernierNiveau && ennemis.empty()) //Si la fin du jeu survient
 		{
-			
+			if (vaisseauJoueur.shields.size() > 0)
+			{
+				vaisseauJoueur.shields.top()->setColor(Color::Transparent);
+			}
 			if (!jeuTermine)
 			{
 				explosions.front()->setPosition(vaisseauJoueur.getPosition());
