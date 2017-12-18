@@ -27,7 +27,10 @@ void Vaisseau::mouvementJoueur(Vector2i& mouvement)
 {
 	move(mouvement.x * VITESSE, mouvement.y * VITESSE);
 }
-
+//// <summary>
+/// Réaction aux bonus
+/// </summary>
+/// <param name="sujet">The sujet.</param>
 void Vaisseau::notifier(Sujet * sujet)
 {
 	if (typeid(*sujet) == typeid(BonusShield))
@@ -143,7 +146,9 @@ void Vaisseau::centrer()
 		
 	}
 }
-
+/// <summary>
+/// Fait pivoter le vaisseau en x
+/// </summary>
 void Vaisseau::pivoter()
 {
 	if (!isPivoting)

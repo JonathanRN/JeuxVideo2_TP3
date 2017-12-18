@@ -76,7 +76,7 @@ namespace tp3
 		static const int NBR_BONUS = 5;
 		static const int NBR_ENEMY = 10;
 		static const int NBR_PORTAIL = 6;
-		int thrust;
+		int thrust; //vitesse fond moblile
 		int fabriqueActive = 0;
 		int niveauActif;
 		//int scoreJoueur = 0;

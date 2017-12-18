@@ -29,19 +29,24 @@ namespace tp3
 		void descendre();
 		void centrer();
 		void pivoter();
-		int direction = 1;
 		virtual void initGraphiques();
+
+		int direction = 1;
 		int ptsVie = 10;
+
 		Texture shield;
 		Pile<Shield*> shields;
+
 		bool canShoot = true;
 		bool haveLaser = false;
 		bool haveScatter = false;
 		bool haveMissile = false;
+		bool isPivoting;
+
 		int munitionMissile = 0;
 		int munitionScatter = 0;
 		int munitionLaserbeam = 0;
-		bool isPivoting;
+
 		std::vector<Weapon*> weapons;
 		int positionWeapon = 0;
 		Weapon weapon;
