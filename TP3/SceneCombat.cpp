@@ -250,16 +250,16 @@ bool SceneCombat::init(RenderWindow * const window)
 
 	///////
 	
-	bonus[0] = new BonusScatter(Vector2f{200,200}, bonusT[3]);
+	bonus[0] = new BonusShield(Vector2f{200,200}, bonusT[0]);
 	bonus[0]->ajouterObservateur(&vaisseauJoueur);
 	bonus[0]->initGraphiques();
 	
 	
-	bonus[1] = new BonusLaserBeam(Vector2f{ 400,200 }, bonusT[2]);
+	bonus[1] = new BonusShield(Vector2f{ 400,200 }, bonusT[0]);
 	bonus[1]->ajouterObservateur(&vaisseauJoueur);
 	bonus[1]->initGraphiques();
 
-	bonus[2] = new BonusMissile(Vector2f{ 600,200 }, bonusT[5]);
+	bonus[2] = new BonusShield(Vector2f{ 600,200 }, bonusT[0]);
 	bonus[2]->ajouterObservateur(&vaisseauJoueur);
 	bonus[2]->initGraphiques();
 		
@@ -1466,7 +1466,10 @@ void tp3::SceneCombat::gererBonus()
 			
 			if (vaisseauJoueur.getGlobalBounds().intersects(bonus[i]->getGlobalBounds()))
 			{
-
+				if (typeid(*bonus[i]) != typeid(Bombe))
+				{
+					bonus[i]->notifierTousLesObservateurs();
+				}
 				if (typeid(*bonus[i]) == typeid(BombeElectro))
 				{
 					tempsBombeElectroEnnemis.restart();
@@ -1494,14 +1497,13 @@ void tp3::SceneCombat::gererBonus()
 					{
 						precedent = precedent + espaceBoucliers;
 					}
-
 					barresBouclier.push_back(new RectangleShape({ 40, 25 }));
-					barresBouclier[barresBouclier.size()-1]->setTexture(&iconBouclier);
+					barresBouclier[barresBouclier.size() - 1]->setTexture(&iconBouclier);
 					barresBouclier[barresBouclier.size() - 1]->setFillColor(vaisseauJoueur.shields.top()->getColor());
+					
 				}
 				if (typeid(*bonus[i]) != typeid(Bombe))
 				{
-					bonus[i]->notifierTousLesObservateurs();
 					delete bonus[i];
 					bonus[i] = nullptr;
 				}
@@ -1652,7 +1654,7 @@ void SceneCombat::nbEnnemis()
 
 void SceneCombat::chargerNiveau(const int niveau)
 {
-	text.str("");
+	/*text.str("");
 	text << "NIVEAU " << niveau;
 	textNiveau.setString(text.str());
 	niveauHUD.setString(std::to_string(niveau));
