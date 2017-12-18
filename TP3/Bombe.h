@@ -13,7 +13,7 @@ namespace tp3
 	private:
 		static const int NOMBRES_ANIM = 13;
 		static const int RHYTME_ANIM = 6;
-		int animation;
+		int animation = 0;
 		const int ANIMATION_MAXIMALE = 100;
 		int image;
 		IntRect rectangleAnimation;
