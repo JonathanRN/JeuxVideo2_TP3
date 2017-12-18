@@ -4,7 +4,6 @@ using namespace tp3;
 
 SceneCombat::SceneCombat():fond(LARGEUR_ECRAN, HAUTEUR_ECRAN, 5), thrust(1), mouvementJoueur(0, 0)
 {
-	int caht = 0;
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		projectiles[i] = nullptr;
@@ -434,7 +433,7 @@ void SceneCombat::getInputs()
 		}
 		else if (vaisseauJoueur.weapon == Missile)
 		{
-			if (clock_tirer.getElapsedTime().asMilliseconds() >= 400 && vaisseauJoueur.canShoot == true)
+			if (clock_tirer.getElapsedTime().asMilliseconds() >= 200 && vaisseauJoueur.canShoot == true)
 			{
 				ajouterProjectile(vaisseauJoueur.getPosition());
 				clock_tirer.restart();
@@ -1237,16 +1236,17 @@ void tp3::SceneCombat::gererProjectiles()
 						
 					}
 					//Ajoute le score
-					for (int i = 0; i < ennemis.size(); i++)
-					{
-						if (ennemis[i] != nullptr)
-						{
-							//Ajoute le score au joueur
-							ajouterScore(i);
-						}
-					}
+					
 					if (projectiles[i] != nullptr)
 					{
+						for (int j = 0; j < ennemis.size(); j++)
+						{
+							if (ennemis[j] != nullptr && projectiles[i]->hasBeenShot == false)
+							{
+								//Ajoute le score au joueur
+								ajouterScore(j);
+							}
+						}
 						if (!projectiles[i]->hasBeenShot)
 						{
 							for (size_t j = 0; j < ennemis.size(); j++)
@@ -1585,6 +1585,7 @@ void tp3::SceneCombat::gererBonus()
 			{
 				if (bonus[i]->animTermine == true)
 				{
+					bonus[i]->notifierTousLesObservateurs();
 					delete bonus[i];
 					bonus[i] = nullptr;
 				}

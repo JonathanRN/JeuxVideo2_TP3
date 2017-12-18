@@ -42,16 +42,19 @@ void Vaisseau::notifier(Sujet * sujet)
 			if (bombe->getColor() != shields.top()->getColor())
 			{
 				int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
-				ptsVie -= (750 - distance) / 20;
-				std::cout << ((750 - distance) / 20) / 4 << std::endl;//couutt
+				if (distance < 200)
+				{
+					ptsVie -= 2;
+				}
 			}
 		}
 		else
 		{
 			int distance = sqrt(pow(bombe->getPosition().x - this->getPosition().x, 2) + pow(bombe->getPosition().y - this->getPosition().y, 2));
-			ptsVie -= ((750 - distance) / 20)/10;
-			std::cout << ((750 - distance) / 20) / 4 << std::endl;//couuttt
-			
+			if (distance < 200)
+			{
+				ptsVie -= 2;
+			}		
 		}
 	}
 	if (typeid(*sujet) == typeid(BombeElectro))

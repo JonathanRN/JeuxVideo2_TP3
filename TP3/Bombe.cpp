@@ -39,9 +39,8 @@ void tp3::Bombe::anim()
 			rectangleAnimation.left += image;
 			setTextureRect(rectangleAnimation);
 		}
-		if (animation == 70)
+		if (animation == 50)
 		{
-			notifierTousLesObservateurs();
 			animTermine = true;
 		}
 
