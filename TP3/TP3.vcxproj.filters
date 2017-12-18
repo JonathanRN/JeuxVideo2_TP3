@@ -33,6 +33,7 @@
     <ClCompile Include="Testeur.cpp" />
     <ClCompile Include="Vaisseau.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="SceneFin.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bombe.h" />
@@ -76,5 +77,10 @@
     <ClInclude Include="VaisseauLogique.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="SceneFin.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TP3.rc" />
   </ItemGroup>
 </Project>

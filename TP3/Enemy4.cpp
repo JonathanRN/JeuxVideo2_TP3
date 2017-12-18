@@ -24,12 +24,7 @@ Enemy4::~Enemy4()
 
 void Enemy4::action(Vaisseau &cible)
 {
-	Vector2f hautGauche = Vector2f( 100, 100 );
-	Vector2f basGauche = Vector2f( 100, HAUTEUR - 100 );
-	Vector2f hautDroite = Vector2f( LARGEUR - 100, 100 );
-	Vector2f basDroite = Vector2f( LARGEUR - 100, HAUTEUR - 100 );
 	Vector2f enemyPos = getPosition();
-	static Vector2f target = hautGauche;
 
 	if (!isReady)
 	{

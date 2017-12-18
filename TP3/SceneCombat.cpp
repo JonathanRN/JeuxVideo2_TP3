@@ -253,23 +253,6 @@ bool SceneCombat::init(RenderWindow * const window)
 		return false;
 	}
 
-	///////
-	
-	/*bonus[0] = new BonusShield(Vector2f{200,200}, bonusT[0]);
-	bonus[0]->ajouterObservateur(&vaisseauJoueur);
-	bonus[0]->initGraphiques();
-	
-	
-	bonus[1] = new BonusShield(Vector2f{ 400,200 }, bonusT[0]);
-	bonus[1]->ajouterObservateur(&vaisseauJoueur);
-	bonus[1]->initGraphiques();
-
-	bonus[2] = new BonusLaserBeam(Vector2f{ 600,200 }, bonusT[3]);
-	bonus[2]->ajouterObservateur(&vaisseauJoueur);
-	bonus[2]->initGraphiques();*/
-		
-	
-	///////
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
 	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
@@ -285,7 +268,7 @@ bool SceneCombat::init(RenderWindow * const window)
 
 
 	vaisseauJoueur.setTexture(player);
-	vaisseauJoueur.setPosition(100, 100);
+	vaisseauJoueur.setPosition(LARGEUR_ECRAN/2, HAUTEUR_ECRAN/2);
 	vaisseauJoueur.initGraphiques();
 
 	ennemisSuivants.reserve(NBR_ENEMY);
@@ -487,6 +470,12 @@ void SceneCombat::getInputs()
 		
 	}
 
+	//Cheat code vies
+	if (Keyboard::isKeyPressed(Keyboard::F))
+	{
+		debugMode = true;
+	}
+
 	//Mouvements gauche et droite
 	if (Keyboard::isKeyPressed(Keyboard::Left))
 	{
@@ -544,6 +533,7 @@ void SceneCombat::update()
 	gererEnnemis();
 	gererProjectiles();
 	gererWeapons();
+	gererFinJeu();
 	for (int i = 0; i < explosions.size(); i++)
 	{
 		if (explosions[i] != nullptr)
@@ -583,9 +573,13 @@ void SceneCombat::update()
 		ptsVieText.setFillColor(Color::Cyan);
 	}
 	if (vaisseauJoueur.ptsVie < 0)
+	{
 		ptsVieText.setString("0");
+	}
 	else
+	{
 		ptsVieText.setString(std::to_string(vaisseauJoueur.ptsVie));
+	}
 }
 
 void SceneCombat::draw()
@@ -1312,7 +1306,7 @@ void tp3::SceneCombat::gererEnnemis()
 	int nbEnemy = nbEnemy1 + nbEnemy2 + nbEnemy3;
 	// Fais spawn les ennemis
 	gererNiveauBoss();
-	if (ennemisSuivants.empty() && nbEnemy <= 0 && textAfficheTerminer && !dernierNiveau) //Verifie que le prochain niveau ne joue pas lorsque rendu au boss
+	if (ennemis.empty() && ennemisSuivants.empty() && nbEnemy <= 0 && textAfficheTerminer && !dernierNiveau) //Verifie que le prochain niveau ne joue pas lorsque rendu au boss
 	{
 		niveauActif++;
 		chargerNiveau(niveauActif);
@@ -1707,13 +1701,17 @@ void SceneCombat::nbEnnemis()
 	nbEnemyBoss = temp5;
 }
 
-void SceneCombat::chargerNiveau(const int niveau)
+void SceneCombat::chargerNiveau(int niveau)
 {
-	text.str("");
-	text << "NIVEAU " << niveau;
-	textNiveau.setString(text.str());
-	niveauHUD.setString(std::to_string(niveau));
-	niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
+	//Si ce n'est pas le dernier niveau
+	if (niveau != 11)
+	{
+		text.str("");
+		text << "NIVEAU " << niveau;
+		textNiveau.setString(text.str());
+		niveauHUD.setString(std::to_string(niveau));
+		niveauHUD.setOrigin(niveauTextHUD.getGlobalBounds().width / 2, niveauTextHUD.getGlobalBounds().height / 2);
+	}
 
 	if (niveau == 1)
 	{
@@ -1775,11 +1773,48 @@ void SceneCombat::chargerNiveau(const int niveau)
 			}
 		}
 	}
-    /*if (niveau == 1)
+	else if (niveau == 7)
+	{
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy2({ -100, 360 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy3({ LARGEUR_ECRAN + 100, 180 }, ennemisT[2], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 360 }, ennemisT[1], choixCouleur(), 1));
+	}
+	else if (niveau == 8)
+	{
+		ennemisSuivants.push_back(new Enemy4({ -100, 180 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy2->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));		
+		ennemisSuivants.push_back(fabriqueEnemy5->fabriquerEnemy(ennemisT[0], choixCouleur(), 4));
+		ennemisSuivants.push_back(fabriqueEnemy6->fabriquerEnemy(ennemisT[0], choixCouleur(), 5));
+		ennemisSuivants.push_back(fabriqueEnemy3->fabriquerEnemy(ennemisT[0], choixCouleur(), 2));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 3));
+		ennemisSuivants.push_back(new Enemy4({ -100, 180 }, ennemisT[3], choixCouleur(), 1));
+	}
+	else if (niveau == 9)
+	{
+		ennemisSuivants.push_back(new Enemy4({ -100, 180 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, 360 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, 540 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, 360 }, ennemisT[3], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, 180 }, ennemisT[3], choixCouleur(), 1));
+	}
+	else if (niveau == 10)
+	{
+		ennemisSuivants.push_back(new Enemy2({ LARGEUR_ECRAN + 100, 180 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy2({ -100, 360 }, ennemisT[1], choixCouleur(), 1));
+		ennemisSuivants.push_back(fabriqueEnemy1->fabriquerEnemy(ennemisT[0], choixCouleur(), 0));
+		ennemisSuivants.push_back(fabriqueEnemy4->fabriquerEnemy(ennemisT[0], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy3({ -100, 540 }, ennemisT[2], choixCouleur(), 1));
+		ennemisSuivants.push_back(new Enemy4({ -100, 540 }, ennemisT[3], choixCouleur(), 1));
+	}
+    else if (niveau == 11)
 	{
 		ennemisSuivants.push_back(new Boss({ LARGEUR_ECRAN + 230, HAUTEUR_ECRAN / 2 }, bossT, Color::White, 1));
 		dernierNiveau = true;
-	}*/
+	}
 	gererListeEnnemisHUD();
 }
 
@@ -1828,6 +1863,26 @@ void SceneCombat::animText()
 		{
 			animationWarning.restart();
 			cpt++;
+		}
+	}
+}
+
+void tp3::SceneCombat::gererFinJeu()
+{
+	if (!debugMode)
+	{
+		if (vaisseauJoueur.ptsVie <= 0 || dernierNiveau && ennemis.empty()) //Si la fin du jeu survient
+		{
+			if (!jeuTermine)
+			{
+				clock_finDeJeu.restart();
+				jeuTermine = true;
+			}
+			if (clock_finDeJeu.getElapsedTime().asSeconds() > 3) //On attend un peu
+			{
+				isRunning = false;
+				transitionVersScene = scenes::FIN; //Puis on change de scene
+			}
 		}
 	}
 }
