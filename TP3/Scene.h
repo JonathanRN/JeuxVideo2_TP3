@@ -9,7 +9,7 @@ namespace tp3
 	{
 	public:
 		//Quand vos ajouterez des scènes, ajouter un enum ici
-		enum scenes { TITRE, COMBAT, SORTIE };
+		enum scenes { TITRE, COMBAT, SORTIE, FIN };
 
 		virtual ~Scene() {}  //Pour que le destructeur de l'objet en mémoire soit apellé
 		virtual scenes run() = 0;

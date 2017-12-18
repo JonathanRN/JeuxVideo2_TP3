@@ -68,8 +68,9 @@ namespace tp3
 		void gererScoreJoueur();
 		void ajouterScore(int indexEnnemis);
 		void nbEnnemis();
-		void chargerNiveau(const int niveau);
+		void chargerNiveau(int niveau);
 		void animText();
+		void gererFinJeu();
 
 		static const int NBR_PROJ = 100;
 		static const int NBR_BONUS = 5;
@@ -90,6 +91,8 @@ namespace tp3
 		bool peutCreerEnnemi2 = true;
 		bool bonusScoreActif = false;
 		bool peutSwitchWeapon = true;
+		bool debugMode = false;
+		bool jeuTermine = false;
 
 		Clock clock_tirer;
 		Clock clock_pivoter;
@@ -105,6 +108,7 @@ namespace tp3
 		Clock tempsBonusScore;
 		Clock tempsSwitchWeapon;
 		Clock animationWarning;
+		Clock clock_finDeJeu;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;

@@ -114,6 +114,7 @@
     <ClCompile Include="Projectile_Missile.cpp" />
     <ClCompile Include="Projectile_normal.cpp" />
     <ClCompile Include="SceneCombat.cpp" />
+    <ClCompile Include="SceneFin.cpp" />
     <ClCompile Include="SceneTitre.cpp" />
     <ClCompile Include="BonusShield.cpp" />
     <ClCompile Include="Shield.cpp" />
@@ -153,8 +154,10 @@
     <ClInclude Include="Projectile_Enemy.h" />
     <ClInclude Include="Projectile_Missile.h" />
     <ClInclude Include="Projectile_normal.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneCombat.h" />
+    <ClInclude Include="SceneFin.h" />
     <ClInclude Include="SceneTitre.h" />
     <ClInclude Include="BonusShield.h" />
     <ClInclude Include="Shield.h" />
@@ -163,6 +166,9 @@
     <ClInclude Include="Vaisseau.h" />
     <ClInclude Include="VaisseauLogique.h" />
     <ClInclude Include="Weapon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TP3.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

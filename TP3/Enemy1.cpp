@@ -8,7 +8,7 @@ Enemy1::Enemy1(Vector2f position, Texture &texture, Color color, int numFabrique
 	setOrigin(texture.getSize().x / 2, texture.getSize().y / 2);
 	dommageCollision = 3;
 	dommageTir = 0;
-	vitesse = 6;
+	vitesse = 4;
 	ptsVie = 3;
 	
 }
