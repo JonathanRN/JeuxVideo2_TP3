@@ -263,7 +263,7 @@ bool SceneCombat::init(RenderWindow * const window)
 	bonus[1]->ajouterObservateur(&vaisseauJoueur);
 	bonus[1]->initGraphiques();
 
-	bonus[2] = new BonusShield(Vector2f{ 600,200 }, bonusT[0]);
+	bonus[2] = new BonusLaserBeam(Vector2f{ 600,200 }, bonusT[3]);
 	bonus[2]->ajouterObservateur(&vaisseauJoueur);
 	bonus[2]->initGraphiques();*/
 		
