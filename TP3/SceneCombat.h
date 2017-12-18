@@ -79,7 +79,7 @@ namespace tp3
 		int thrust;
 		int fabriqueActive = 0;
 		int niveauActif;
-		int scoreJoueur = 0;
+		//int scoreJoueur = 0;
 
 		int nbEnemy1 = 0;
 		int nbEnemy2 = 0;

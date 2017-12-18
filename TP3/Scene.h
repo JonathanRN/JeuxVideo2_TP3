@@ -20,6 +20,7 @@ namespace tp3
 		virtual void update() = 0;
 		virtual void draw() = 0;
 
+		int scoreJoueur = 0;
 
 
 	protected:
@@ -37,5 +38,7 @@ namespace tp3
 		/// </summary>
 		Scene::scenes transitionVersScene;
 		bool isRunning;
+
+		//Score du joueur
 	};
 }

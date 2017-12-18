@@ -50,10 +50,10 @@ bool SceneFin::init(RenderWindow * const window)
 
 	//Score
 	score.setFont(font);
-	score.setPosition(LARGEUR_ECRAN / 2 - 175, 200);
+	score.setPosition(LARGEUR_ECRAN / 2 - 150, 250);
 	score.setCharacterSize(50);
 	score.setFillColor(Color::White);
-	score.setString("");
+	score.setString(std::to_string(scoreJoueur));
 
 	//Bouton revenir
 	quitter.setFont(font);
