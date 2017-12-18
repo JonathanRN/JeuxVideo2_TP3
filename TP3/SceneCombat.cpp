@@ -1041,7 +1041,7 @@ void tp3::SceneCombat::collisionVaisseauEnnemis()
 
 					if (typeid(*ennemis[i]) != typeid(Boss)) //Ne supprime pas le boss si le joueur lui rentre dedans
 					{
-						ennemis.erase(ennemis.begin() + i);
+						ennemis[i]->ptsVie -= 100;
 					}
 				}
 			}

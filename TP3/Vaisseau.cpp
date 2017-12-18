@@ -89,7 +89,7 @@ void Vaisseau::notifier(Sujet * sujet)
 			haveMissile = true;
 			positionWeapon++;
 		}
-		munitionMissile += 10;
+		munitionMissile += 50;
 	}
 
 }
