@@ -2,6 +2,9 @@
 
 using namespace tp3;
 
+/// <summary>
+/// Init explosion
+/// </summary>
 void Enemy::initExplosion()
 {
 	image = getTexture()->getSize().y; // / NOMBRES_ANIM;
@@ -35,6 +38,9 @@ Enemy::~Enemy()
 {
 }
 
+/// <summary>
+/// Animation de l'explosion
+/// </summary>
 void Enemy::animExplosion()
 {
 	if (actif && animation < ANIMATION_MAXIMALE)
@@ -52,6 +58,10 @@ void tp3::Enemy::action(Vaisseau & cible)
 {
 }
 
+/// <summary>
+/// Réation aux bonus
+/// </summary>
+/// <param name="sujet">The sujet.</param>
 void tp3::Enemy::notifier(Sujet * sujet)
 {
 	if (typeid(*sujet) == typeid(Bombe))

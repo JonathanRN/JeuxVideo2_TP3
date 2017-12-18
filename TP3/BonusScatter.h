@@ -7,8 +7,6 @@ namespace tp3
 	public:
 		BonusScatter(Vector2f position, Texture& texture);
 		~BonusScatter();
-	private:
-
 	};
 }
 

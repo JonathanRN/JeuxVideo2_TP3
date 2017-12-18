@@ -7,8 +7,6 @@ namespace tp3
 	public:
 		BonusLaserBeam(Vector2f position, Texture& texture);
 		~BonusLaserBeam();
-	private:
-
 	};
 }
 

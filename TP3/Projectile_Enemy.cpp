@@ -11,6 +11,7 @@ Projectile_Enemy::Projectile_Enemy(Vector2f position, float vitesse, Texture& te
 	this->angle = angle;
 
 }
+
 void Projectile_Enemy::anim(int direction)
 {
 	setScale(getScale().x * direction, getScale().y);

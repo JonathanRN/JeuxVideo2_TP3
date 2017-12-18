@@ -21,6 +21,9 @@ Enemy_Boss::~Enemy_Boss()
 {
 }
 
+/// <summary>
+/// Se fait appeler par le composite
+/// </summary>
 void tp3::Enemy_Boss::bouger()
 {
 	float enemyX = getPosition().x;

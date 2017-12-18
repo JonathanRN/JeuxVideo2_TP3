@@ -22,6 +22,10 @@ Enemy3::~Enemy3()
 {
 }
 
+/// <summary>
+/// Se fait appeler à chaque update
+/// </summary>
+/// <param name="cible">The cible.</param>
 void Enemy3::action(Vaisseau &cible)
 {
 	float enemyX = getPosition().x;

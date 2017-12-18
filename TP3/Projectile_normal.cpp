@@ -13,6 +13,10 @@ Projectile_normal::Projectile_normal(Vector2f position, float vitesse,Texture& t
 	rectangleAnimation.top = 0;
 }
 
+/// <summary>
+/// Animation des projectiles du joueur
+/// </summary>
+/// <param name="direction">The direction.</param>
 void Projectile_normal::anim(int direction)
 {
 	if (actif && animation < ANIMATION_MAXIMALE)
@@ -31,6 +35,9 @@ void Projectile_normal::anim(int direction)
 	}
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void Projectile_normal::initGraphiques()
 {
 	image = getTexture()->getSize().y / NOMBRES_ANIM;

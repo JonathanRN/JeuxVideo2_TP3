@@ -5,7 +5,11 @@ FondMobile::FondMobile(const int largeur, const int hauteur, const int vitesse) 
 
 }
 
-
+/// <summary>
+/// Sets the texture.
+/// </summary>
+/// <param name="path">The path.</param>
+/// <returns></returns>
 bool FondMobile::setTexture(const char * path)
 {
 	if (!fondEcranT.loadFromFile(path))
@@ -24,6 +28,10 @@ bool FondMobile::setTexture(const char * path)
 	positions[1].y = 0.0f;
 }
 
+/// <summary>
+/// Bouge le fond mobile
+/// </summary>
+/// <param name="thrust">The thrust.</param>
 void FondMobile::move(const int thrust)
 {
 	for (int i = 0; i < 2; i++)

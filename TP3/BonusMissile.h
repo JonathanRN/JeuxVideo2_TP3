@@ -7,8 +7,6 @@ namespace tp3
 	public:
 		BonusMissile(Vector2f position, Texture& texture);
 		~BonusMissile();
-	private:
-
 	};
 }
 

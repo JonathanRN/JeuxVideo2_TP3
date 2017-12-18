@@ -16,9 +16,11 @@ Explosion::~Explosion()
 {
 }
 
+/// <summary>
+/// Animation de l'explosion
+/// </summary>
 void tp3::Explosion::anim()
 {
-
 	if (animation < ANIMATION_MAXIMALE)
 	{
 		animation++;
@@ -32,12 +34,12 @@ void tp3::Explosion::anim()
 		{
 			animTermine = true;
 		}
-
 	}
-	
-
 }
 
+/// <summary>
+/// Init graphique
+/// </summary>
 void tp3::Explosion::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;

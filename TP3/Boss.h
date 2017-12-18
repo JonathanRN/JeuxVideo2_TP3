@@ -14,8 +14,8 @@ namespace tp3
 		virtual void bouger();
 		virtual void arreter();
 		void action(Vaisseau &cible);
-		int directionY;
-		bool isReadyPhase3 = false;
+		int directionY; //DirectionY
+		bool isReadyPhase3 = false; //Si le boss est prêt pour la phase 3
 	};
 }
 

@@ -7,7 +7,5 @@ namespace tp3
 	public:
 		BonusScore(Vector2f position, Texture& texture);
 		~BonusScore();
-	private:
-
 	};
 }

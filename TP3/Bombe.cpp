@@ -8,6 +8,10 @@ Bombe::Bombe(Vector2f position, Texture& texture) :Bonus(position, texture)
 	setScale(getScale().x * 2, getScale().y * 2);
 }
 
+/// <summary>
+/// Choisis une couleur aléatoirement selon rouge, magenta ou jaune
+/// </summary>
+/// <returns></returns>
 Color tp3::Bombe::choixCouleur()
 {
 	Color couleur;
@@ -28,6 +32,10 @@ Color tp3::Bombe::choixCouleur()
 	}
 	return couleur;
 }
+
+/// <summary>
+/// Gère l'animation de la bombe
+/// </summary>
 void tp3::Bombe::anim()
 {
 	if (animation < ANIMATION_MAXIMALE)
@@ -43,10 +51,12 @@ void tp3::Bombe::anim()
 		{
 			animTermine = true;
 		}
-
 	}
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void tp3::Bombe::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;

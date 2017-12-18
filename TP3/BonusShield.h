@@ -7,8 +7,6 @@ namespace tp3
 	public:
 		BonusShield(Vector2f position,Texture& texture);
 		~BonusShield();
-	private:
-
 	};
 }
 

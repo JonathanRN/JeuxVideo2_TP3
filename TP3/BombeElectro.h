@@ -10,13 +10,14 @@ namespace tp3
 		void anim();
 		void initGraphiques();
 		~BombeElectro();
+
 	private:
 		static const int NOMBRES_ANIM = 4;
 		static const int RHYTME_ANIM = 6;
-		int animation;
+		int animation; //Animation présente
 		const int ANIMATION_MAXIMALE = 100;
-		int image;
-		IntRect rectangleAnimation;
+		int image; //Image présente
+		IntRect rectangleAnimation; //Rectange d'animation
 	};
 }
 

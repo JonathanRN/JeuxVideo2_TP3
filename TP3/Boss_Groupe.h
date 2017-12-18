@@ -20,7 +20,7 @@ namespace tp3
 		void vider();
 
 	private:
-		std::vector<IComponant*> groupe;
+		std::vector<IComponant*> groupe; //Vector du composite
 	};
 }
 

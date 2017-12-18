@@ -13,6 +13,10 @@ Projectile_Beam::Projectile_Beam(Vector2f position, float vitesse, Texture& text
 	rectangleAnimation.top = 0;
 }
 
+/// <summary>
+/// Animation du laser
+/// </summary>
+/// <param name="direction">The direction.</param>
 void Projectile_Beam::anim(int direction)
 {
 	    if (animation == 0)
@@ -31,10 +35,11 @@ void Projectile_Beam::anim(int direction)
 		{
 			animTermine = true;
 		}
-	
-
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void Projectile_Beam::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;

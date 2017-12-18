@@ -23,6 +23,7 @@ SceneCombat::~SceneCombat()
 {
 }
 
+
 Scene::scenes SceneCombat::run()
 {
 	while (isRunning)
@@ -31,7 +32,8 @@ Scene::scenes SceneCombat::run()
 		update();
 		draw();
 	}
-
+	
+	//Projectiles
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectiles[i] != nullptr)
@@ -43,6 +45,8 @@ Scene::scenes SceneCombat::run()
 			delete projectilesEnemy[i];
 		}
 	}
+
+	//Bonus
 	for (int i = 0; i < NBR_BONUS; i++)
 	{
 		if (bonus[i] != nullptr)
@@ -50,6 +54,8 @@ Scene::scenes SceneCombat::run()
 			delete bonus[i];
 		}
 	}
+
+	//Enemis
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
@@ -58,6 +64,8 @@ Scene::scenes SceneCombat::run()
 		}
 	}
 	ennemis.clear();
+
+	//Explosions
 	for (int i = 0; i < explosions.size(); i++)
 	{
 		if (explosions[i] != nullptr)
@@ -67,6 +75,7 @@ Scene::scenes SceneCombat::run()
 	}
 	explosions.clear();
 
+	//Ennemissuivants
 	for (int i = 0; i < ennemisSuivants.size(); i++)
 	{
 		if (ennemisSuivants[i] != nullptr)
@@ -76,11 +85,13 @@ Scene::scenes SceneCombat::run()
 	}
 	ennemisSuivants.clear();
 
+	//Portails
 	for (int i = 0; i < NBR_PORTAIL; i++)
 	{
 		delete portail[i];
 	}
 
+	//Barres dans le HUD
 	for (int i = 0; i < NB_BARRES_VIES; i++)
 	{
 		delete barresVie[i];
@@ -93,7 +104,6 @@ Scene::scenes SceneCombat::run()
 	{
 		delete barresArmes[i];
 	}
-
 	for (int i = 0; i < barresEnnemis.size(); i++)
 	{
 		if (barresEnnemis[i] != nullptr)
@@ -102,7 +112,6 @@ Scene::scenes SceneCombat::run()
 		}
 	}
 	barresEnnemis.clear();
-
 	for (int i = 0; i < barresBouclier.size(); i++)
 	{
 		if (barresBouclier[i] != nullptr)
@@ -111,7 +120,9 @@ Scene::scenes SceneCombat::run()
 		}
 	}
 	barresBouclier.clear();
+	//////////////////
 
+	//Fabriques
 	delete fabriqueEnemy1;
 	delete fabriqueEnemy2;
 	delete fabriqueEnemy3;
@@ -123,6 +134,7 @@ Scene::scenes SceneCombat::run()
 
 	return transitionVersScene;
 }
+
 
 bool SceneCombat::init(RenderWindow * const window)
 {
@@ -251,24 +263,24 @@ bool SceneCombat::init(RenderWindow * const window)
 	{
 		return false;
 	}
+
 	//Explosion joueur
 	explosions.push_back(new Explosion({ 100,100 }, explosionT));
 	explosions.front()->initGraphiques();
-
 	explo.setOutlineThickness(1);
 	explo.setFillColor(Color::Transparent);
 	explo.setOrigin(explo.getGlobalBounds().width / 2, explo.getGlobalBounds().height / 2);
 
+	//HUD
 	if (!hudT.loadFromFile("Ressources\\hud.png"))
 	{
 		return false;
 	}
-
 	hud.setTexture(hudT);
 	hud.setOrigin(LARGEUR_ECRAN / 2, HAUTEUR_ECRAN / 2);
 	hud.setPosition(hud.getOrigin());
 
-
+	//Joueur
 	vaisseauJoueur.setTexture(player);
 	vaisseauJoueur.setPosition(LARGEUR_ECRAN/2, HAUTEUR_ECRAN/2);
 	vaisseauJoueur.initGraphiques();
@@ -443,6 +455,7 @@ void SceneCombat::getInputs()
 			}
 		}
 	}
+	//Changer d'arme vers la gauche
 	if (Keyboard::isKeyPressed(Keyboard::Q))
 	{
 		if (peutSwitchWeapon)
@@ -456,6 +469,7 @@ void SceneCombat::getInputs()
 			peutSwitchWeapon = false;
 		}
 	}
+	//Changer d'arme vers la droite
 	if (Keyboard::isKeyPressed(Keyboard::E))
 	{
 		if (peutSwitchWeapon)
@@ -472,7 +486,7 @@ void SceneCombat::getInputs()
 		
 	}
 
-	//Cheat code vies
+	//Mode debug, pour ne pas mourir
 	if (Keyboard::isKeyPressed(Keyboard::F))
 	{
 		debugMode = true;
@@ -536,6 +550,8 @@ void SceneCombat::update()
 	gererProjectiles();
 	gererWeapons();
 	gererFinJeu();
+
+	//Update des explosions
 	for (int i = 0; i < explosions.size(); i++)
 	{
 		if (explosions[i] != nullptr)
@@ -550,22 +566,32 @@ void SceneCombat::update()
 			}
 		}
 	}
+
+	//Pivotement du joueur
 	if (vaisseauJoueur.isPivoting == true)
 	{
 		vaisseauJoueur.pivoter();
 	}
+
+	//Bombe électro
 	if (tempsBombeElectro.getElapsedTime().asSeconds() > 2)
 	{
 		vaisseauJoueur.canShoot = true;
 	}
+
+	//Clock switch weapon
 	if (tempsSwitchWeapon.getElapsedTime().asMilliseconds() > 200)
 	{
 		peutSwitchWeapon = true;
 	}
+
+	//Clock bonus score
 	if (tempsBonusScore.getElapsedTime().asSeconds() > 22)
 	{
 		bonusScoreActif = false;
 	}
+
+	//Couleur du texte de la vie du joueur
 	if (vaisseauJoueur.shields.size() > 0)
 	{
 		ptsVieText.setFillColor(vaisseauJoueur.shields.top()->getColor());
@@ -597,6 +623,8 @@ void SceneCombat::draw()
 			mainWin->draw(*ennemis[i]);
 		}
 	}
+
+	//Explosions
 	for (int i = 0; i < explosions.size(); i++)
 	{
 		if (explosions[i] != nullptr)
@@ -671,6 +699,7 @@ void SceneCombat::draw()
 		}
 	}
 	
+	//Barres d'armes
 	for (int i = 0; i < NB_BARRES_ARMES; i++)
 	{
 		mainWin->draw(*barresArmes[i]);
@@ -704,6 +733,7 @@ void SceneCombat::draw()
 
 	mainWin->draw(explo);
 	mainWin->draw(vaisseauJoueur);
+	//Projectiles
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectiles[i] != nullptr)
@@ -715,6 +745,7 @@ void SceneCombat::draw()
 			mainWin->draw(*projectilesEnemy[i]);
 		}
 	}
+	//HUD et reste
 	mainWin->draw(textNiveau);
 	mainWin->draw(warning);
 	mainWin->draw(scoreHUD);
@@ -729,6 +760,7 @@ void SceneCombat::draw()
 
 void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 {
+	//Base
 	if (vaisseauJoueur.weapon == Base)
 	{
 		for (int i = 0; i < NBR_PROJ; i++)
@@ -743,6 +775,8 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			}
 		}
 	}
+
+	//Scatter
 	if (vaisseauJoueur.weapon == Scatter)
 	{
 		for (size_t j = 0; j < 3; j++)
@@ -765,6 +799,8 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			}
 		}
 	}
+
+	//Missile
 	if (vaisseauJoueur.weapon == Missile)
 	{
 		for (int i = 0; i < NBR_PROJ; i++)
@@ -780,6 +816,8 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 			}
 		}
 	}
+
+	//Laser
 	if (vaisseauJoueur.weapon == FatLaser)
 	{
 		for (int i = 0; i < NBR_PROJ; i++)
@@ -795,6 +833,7 @@ void tp3::SceneCombat::ajouterProjectile(Vector2f position)
 		}
 	}
 }
+
 
 void SceneCombat::ajouterBonus(Vector2f position)
 {
@@ -929,10 +968,12 @@ void tp3::SceneCombat::gererExplo()
 
 void tp3::SceneCombat::collisionProjectilesEnnemis()
 {
+	//Boucle des ennemis
 	for (int i = 0; i < ennemis.size(); i++)
 	{
 		if (ennemis[i] != nullptr)
 		{
+			//Boucle des projectiles
 			for (int j = 0; j < NBR_PROJ; j++)
 			{
 				if (projectiles[j] != nullptr)
@@ -941,11 +982,12 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 					{
 						if (typeid(*ennemis[i]) != typeid(Boss)) //Si ce n'est pas le boss, applique la collision normale
 						{
-							if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
+							if (ennemis[i]->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds())) //S'il y a collision
 							{
-								ennemis[i]->ptsVie--;
+								ennemis[i]->ptsVie--; //Enleve la vie a l'ennemi
 								if (typeid(*projectiles[j]) == typeid(Projectile_Missile))
 								{
+									//Parcourt tous les ennemis pour les missiles
 									for (size_t k = 0; k < ennemis.size(); k++)
 									{
 										if (ennemis[k] != nullptr)
@@ -954,10 +996,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
-												if (ennemis[i] != ennemis[k])
-												  cout << "OUCH ESTI" << endl;
 											}
-											
 										}
 									}
 								}
@@ -967,6 +1006,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 						}
 						else
 						{
+							//Cercle de collision du boss
 							if (cercleCollision->getGlobalBounds().intersects(projectiles[j]->getGlobalBounds()))
 							{
 								ennemis[i]->ptsVie--;
@@ -980,13 +1020,10 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 											if (distance < 200)
 											{
 												ennemis[k]->ptsVie -= 2;
-												if (ennemis[i] != ennemis[k])
-													cout << "OUCH ESTI" << endl;
 											}
 										}
 									}
 								}
-
 								delete projectiles[j];
 								projectiles[j] = nullptr;
 							}
@@ -996,6 +1033,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 			}
 		}
 	}
+	//Gestion des collision boucliers/projectiles
 	for (int i = 0; i < NBR_PROJ; i++)
 	{
 		if (projectilesEnemy[i] != nullptr)
@@ -1011,7 +1049,7 @@ void tp3::SceneCombat::collisionProjectilesEnnemis()
 				}
 				else
 				{
-					vaisseauJoueur.ptsVie -= 1; //A changer, car meme dommage pour chaque type d'ennemis
+					vaisseauJoueur.ptsVie -= 1;
 				}
 				delete projectilesEnemy[i];
 				projectilesEnemy[i] = nullptr;

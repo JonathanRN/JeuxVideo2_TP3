@@ -21,6 +21,9 @@ Boss::~Boss()
 {
 }
 
+/// <summary>
+/// Méthode bouger du composite
+/// </summary>
 void tp3::Boss::bouger()
 {
 	float enemyX = getPosition().x;
@@ -55,11 +58,18 @@ void tp3::Boss::bouger()
 	}
 }
 
+/// <summary>
+/// Méthode arreter du composite
+/// </summary>
 void tp3::Boss::arreter()
 {
 	rotate(0.8 * vitesse);
 }
 
+/// <summary>
+/// Méthode action qui se fait à chaque update 
+/// </summary>
+/// <param name="cible">The cible.</param>
 void Boss::action(Vaisseau & cible)
 {
 	float enemyX = getPosition().x;

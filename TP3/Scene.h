@@ -20,6 +20,7 @@ namespace tp3
 		virtual void update() = 0;
 		virtual void draw() = 0;
 
+		//Score du joueur, ne fonctionne malheureusement pas à la fin de la partie et pas eu le temps de le corriger
 		int scoreJoueur = 0;
 
 
@@ -38,7 +39,5 @@ namespace tp3
 		/// </summary>
 		Scene::scenes transitionVersScene;
 		bool isRunning;
-
-		//Score du joueur
 	};
 }

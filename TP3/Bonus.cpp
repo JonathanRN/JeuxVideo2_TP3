@@ -17,8 +17,6 @@ void tp3::Bonus::initGraphiques()
 {
 }
 
-
-
 Bonus::~Bonus()
 {
 }

@@ -21,7 +21,10 @@ Enemy4::~Enemy4()
 {
 }
 
-
+/// <summary>
+/// Se fait appeler à chaque update
+/// </summary>
+/// <param name="cible">The cible.</param>
 void Enemy4::action(Vaisseau &cible)
 {
 	Vector2f enemyPos = getPosition();
@@ -69,6 +72,11 @@ void Enemy4::action(Vaisseau &cible)
 	}
 }
 
+/// <summary>
+/// Choisis la cible selon la position de la cible et l'enemy
+/// </summary>
+/// <param name="posCible">The position cible.</param>
+/// <param name="enemy">The enemy.</param>
 void Enemy4::choixCible(Vector2f posCible, Vector2f enemy)
 {
 	//Gestion de l'angle

@@ -34,6 +34,7 @@ namespace tp3
 		bool isReady;
 		int phase = 1;
 		float grosseur = 1;
+
 	protected:
 		const int LARGEUR = 1280;
 		const int HAUTEUR = 720;
@@ -41,7 +42,7 @@ namespace tp3
 		int posX; //Position X avant de commencer l'action
 		static const int RHYTME_ANIM = 4;
 		int animation;
-		const int ANIMATION_MAXIMALE = 100; //A MODIFER, NOMBRE DANIMS * 10
+		const int ANIMATION_MAXIMALE = 100;
 		bool actif;
 		int image;
 		IntRect rectangleAnimation;

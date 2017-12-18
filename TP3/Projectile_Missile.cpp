@@ -13,6 +13,10 @@ Projectile_Missile::Projectile_Missile(Vector2f position, float vitesse, Texture
 	rectangleAnimation.top = 0;
 }
 
+/// <summary>
+/// Animation du missile
+/// </summary>
+/// <param name="direction">The direction.</param>
 void Projectile_Missile::anim(int direction)
 {
 	if (actif && animation < ANIMATION_MAXIMALE)
@@ -35,6 +39,9 @@ void Projectile_Missile::anim(int direction)
 	}
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void Projectile_Missile::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;

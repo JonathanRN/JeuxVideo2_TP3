@@ -9,6 +9,10 @@ BombeElectro::BombeElectro(Vector2f position, Texture& texture) :Bonus(position,
 	rectangleAnimation.top = 0;
 }
 
+/// <summary>
+/// Choisis une couleure aléatoirement
+/// </summary>
+/// <returns></returns>
 Color tp3::BombeElectro::choixCouleur()
 {
 	Color couleur;
@@ -30,6 +34,9 @@ Color tp3::BombeElectro::choixCouleur()
 	return couleur;
 }
 
+/// <summary>
+/// Animation de le bombe électro
+/// </summary>
 void tp3::BombeElectro::anim()
 {
 
@@ -62,6 +69,9 @@ void tp3::BombeElectro::anim()
 	}
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void tp3::BombeElectro::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;

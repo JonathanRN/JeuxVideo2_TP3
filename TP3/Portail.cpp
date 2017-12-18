@@ -16,6 +16,9 @@ Portail::~Portail()
 {
 }
 
+/// <summary>
+/// Animation des portails
+/// </summary>
 void tp3::Portail::anim()
 {
 	static int direction = 1;
@@ -60,6 +63,9 @@ void tp3::Portail::anim()
 	}
 }
 
+/// <summary>
+/// Init graphiques
+/// </summary>
 void tp3::Portail::initGraphiques()
 {
 	image = getTexture()->getSize().x / NOMBRES_ANIM;
