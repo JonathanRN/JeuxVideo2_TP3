@@ -8,11 +8,11 @@ Boss::Boss(Vector2f position, Texture &texture, Color color, int num) :Enemy(pos
 	dommageCollision = 4;
 	dommageTir = 1;
 	vitesse = 0.5f;
-	ptsVie = 300;
+	ptsVie = 600;
 	direction = -1;
 	directionY = 1;
 	isReady = false;
-	posX = 70;
+	posX = 60;
 	grosseur = 5;
 }
 
@@ -92,7 +92,7 @@ void Boss::action(Vaisseau & cible)
 			rotate(0.8 * vitesse);
 		}
 		//Si le boss perd le tier de sa vie
-		if (ptsVie <= 200)
+		if (ptsVie <= 400)
 		{
 			phase = 2; //On va a la prochaine phase
 		}
@@ -100,9 +100,7 @@ void Boss::action(Vaisseau & cible)
 	//Phase 2
 	else if (phase == 2)
 	{
-		//arreter();
-
-		if (ptsVie <= 100)
+		if (ptsVie <= 200)
 		{
 			phase = 3;
 			isReady = false;
@@ -110,10 +108,5 @@ void Boss::action(Vaisseau & cible)
 			vitesse = 1.2f; //Il va plus vite
 			direction *= -1; //Change la direction
 		}
-	}
-	//Phase 3
-	else
-	{
-		//bouger();
 	}
 }

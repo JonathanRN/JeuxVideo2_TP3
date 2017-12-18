@@ -13,7 +13,7 @@ Enemy_Boss::Enemy_Boss(Vector2f position, Texture &texture, Color color, int num
 	directionY = 1;
 	direction = -1;
 	isReady = false;
-	posX = 250;
+	posX = 300;
 }
 
 

@@ -104,6 +104,7 @@ namespace tp3
 		Clock tempsBombeElectroEnnemis;
 		Clock tempsBonusScore;
 		Clock tempsSwitchWeapon;
+		Clock animationWarning;
 
 		Vaisseau vaisseauJoueur;
 		Vector2i mouvementJoueur;
@@ -141,6 +142,8 @@ namespace tp3
 		bool readyExplo = false;
 		Font font;
 		Text textNiveau;
+		Text warning;
+		Text textBoss;
 		std::ostringstream text;
 		bool textAfficheTerminer;
 
@@ -154,8 +157,12 @@ namespace tp3
 		Text munitionsHUD;
 		Text ptsVieText;
 		Text ptsBouclier;
+
 		static const int NB_BARRES_VIES = 10;
 		RectangleShape* barresVie[NB_BARRES_VIES];
+
+		static const int NB_BARRES_VIES_BOSS = 12;
+		RectangleShape* barresViesBoss[NB_BARRES_VIES_BOSS];
 
 		static const int NB_BARRES_BOUCLIERS = 5;
 		vector<RectangleShape*> barresBouclier;
